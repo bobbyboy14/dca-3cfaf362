@@ -406,7 +406,7 @@ function render() {
     card([["This week's buy", buyAud ? esc(aud(buyAud, 2)) + sm(buyUsd) : esc(state === "exit" ? "No buy (exit signal)" : "Skip this week")], ["Base", esc(aud(B) + " a week")], ["Multiplier", esc(m.toFixed(2) + "x")]]) +
     card([["Schedule", esc("Weekly, every " + inputs.day)], ["Next buy", esc(nextBuy(inputs.day))]]) +
     card([["BTC price", esc(usd(P))], ["In AUD", esc(aud(P / FX))], ["AUD/USD", esc(FX.toFixed(4))]]) +
-    card([["Portfolio value", esc(aud(valAud))], ["Deposited", esc(aud(D))], ["Profit or loss", '<span class="' + cls(pl) + '">' + esc(aud(pl) + " (" + pc(plPct) + ")") + "</span>"]]);
+    card([["Portfolio value", esc(aud(valAud))], ["Cost at your avg", esc(aud(cost))], ["Profit or loss", '<span class="' + cls(pl) + '">' + esc(aud(pl) + " (" + pc(plPct) + ")") + "</span>"]]);
 
   // Trigger table
   // trigger list removed from the page (Bob asked)
@@ -627,13 +627,13 @@ function renderStock(id) {
   document.getElementById(id + "_heroPx").innerHTML = esc(S.tk + " " + aud(P / FX, 2) + "  (" + usd(P, 2) + ")") + (d.kind === "fallback" ? " " + tag("fallback", "fallback") : "");
   document.getElementById(id + "_heroAmt").textContent = buyAud ? aud(buyAud, 2) : "A$0 (skip)";
   document.getElementById(id + "_heroSt").textContent = word + " " + m.toFixed(2) + "x";
-  const val = Q * P / FX, pl = val - D, plPct = D ? pl / D * 100 : 0;
+  const val = Q * P / FX, cost = A > 0 ? Q * A / FX : D, pl = val - cost, plPct = cost ? pl / cost * 100 : 0;
   const card = (rows) => '<div class="props">' + rows.map(([k, x]) => "<div><span>" + esc(k) + "</span><span>" + x + "</span></div>").join("") + "</div>";
   document.getElementById(id + "_cards").innerHTML =
     card([["This week's buy", buyAud ? esc(aud(buyAud, 2)) + ' <span class="small">(' + esc(usd(buyUsd, 2)) + ")</span>" : "Skip this week"], ["Base", esc(aud(B) + " a week")], ["Multiplier", esc(m.toFixed(2) + "x")]]) +
     card([["Schedule", esc("Weekly, every " + v.day)], ["Next buy", esc(nextBuy(v.day))]]) +
     card([[S.tk + " price", esc(usd(P, 2))], ["In AUD", esc(aud(P / FX, 2))], ["AUD/USD", esc(FX.toFixed(4))]]) +
-    card([["Portfolio value", esc(aud(val))], ["Deposited", esc(aud(D))], ["Profit or loss", '<span class="' + cls(pl) + '">' + esc(aud(pl) + " (" + pc(plPct) + ")") + "</span>"]]);
+    card([["Portfolio value", esc(aud(val))], ["Cost at your avg", esc(aud(cost))], ["Profit or loss", '<span class="' + cls(pl) + '">' + esc(aud(pl) + " (" + pc(plPct) + ")") + "</span>"]]);
   // sell ladder
   const sold = S.ladder.reduce((t, r) => t + r[2], 0);
   document.getElementById(id + "_sellBody").innerHTML = ladderRows(S.ladder, P, A, FX, (u) => u + " sh");
