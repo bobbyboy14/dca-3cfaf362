@@ -406,7 +406,7 @@ function render() {
     card([["This week's buy", buyAud ? esc(aud(buyAud, 2)) + sm(buyUsd) : esc(state === "exit" ? "No buy (exit signal)" : "Skip this week")], ["Base", esc(aud(B) + " a week")], ["Multiplier", esc(m.toFixed(2) + "x")]]) +
     card([["Schedule", esc("Weekly, every " + inputs.day)], ["Next buy", esc(nextBuy(inputs.day))]]) +
     card([["BTC price", esc(usd(P))], ["In AUD", esc(aud(P / FX))], ["AUD/USD", esc(FX.toFixed(4))]]) +
-    card([["Portfolio value", esc(aud(valAud))], ["Cost at your avg", esc(aud(cost))], ["Profit or loss", '<span class="' + cls(pl) + '">' + esc(aud(pl) + " (" + pc(plPct) + ")") + "</span>"]]);
+    card([["Portfolio value", esc(aud(valAud))], ["Deposited", esc(aud(D))], ["Profit or loss", '<span class="' + cls(pl) + '">' + esc(aud(pl) + " (" + pc(plPct) + ")") + "</span>"]]);
 
   // Trigger table
   // trigger list removed from the page (Bob asked)
