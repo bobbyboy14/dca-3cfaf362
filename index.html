@@ -212,7 +212,7 @@
 // ======================= 1. Settings and saved numbers =======================
 const MVRV_MAX_AGE_MS = 6 * 60 * 60 * 1000;  // MVRV Z is daily data, so re-download it every 6 hours
 const FX_FALLBACK = 0.7038, MVRV_FALLBACK = 0.86, DXY_FALLBACK = 101.81;
-const DEFAULTS = { base: "75", sixBase: "", btc: "0.138", shares: "1401", avg: "85469", dep: "17000", day: "Monday", fx: "", z: "", dxy: "" }; // base and sixBase are A$ per week
+const DEFAULTS = { base: "75", sixBase: "", btc: "0.1336", shares: "1356", avg: "85469", dep: "16500", day: "Monday", fx: "", z: "", dxy: "" }; // base and sixBase are A$ per week
 const STORE_KEY = "bobBtcDcaDashboard.v1";
 const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -381,7 +381,7 @@ function render() {
   const FX = fxOv ? num(inputs.fx, mkt.fx) : mkt.fx;
   const Z = zOv ? num(inputs.z, mkt.z) : mkt.z;
   const X = dxOv ? num(inputs.dxy, mkt.dxy) : mkt.dxy;
-  const B = num(inputs.base, 75) /* A$ */, Q = num(inputs.btc, 0.138), A = num(inputs.avg, 85469), D = num(inputs.dep, 17000), SH = num(inputs.shares, 1401);
+  const B = num(inputs.base, 75) /* A$ */, Q = num(inputs.btc, 0.1336), A = num(inputs.avg, 85469), D = num(inputs.dep, 16500), SH = num(inputs.shares, 1356);
 
   const { m, b: baseB, why, trig } = sheetMult(P, S50, S100, S200, R, Z, X);
   const raw = trig.reduce((t, x) => t + x.add, 1);
@@ -681,7 +681,7 @@ function renderTp(P, FX) { // rebuilds the three tables of the "Selling Tesla sh
 }
 function renderBtcSell() {
   const c = mkt.closes; if (!c.length) return;
-  const P = mkt.price, FX = curFx(), avg = num(inputs.avg, 85469), Q = num(inputs.btc, 0.138), SH = num(inputs.shares, 1401) || 1401;
+  const P = mkt.price, FX = curFx(), avg = num(inputs.avg, 85469), Q = num(inputs.btc, 0.1336), SH = num(inputs.shares, 1356) || 1356;
   const perShare = Q / SH, rungs = sIn.btcCap === "half" ? BTC_HALF : BTC_FULL;
   const s200 = sma(c, 200)[c.length - 1], w200 = smk.w200 || W200_FALLBACK;
   document.querySelectorAll("#btc_capSeg button").forEach((b) => b.classList.toggle("on", b.dataset.v === sIn.btcCap));
