@@ -6,6 +6,7 @@ body{margin:0;font-family:-apple-system,system-ui,sans-serif;background:#0f1420;
 .w{max-width:520px;margin:0 auto}h1{font-size:20px;margin:0 0 12px}
 .buy{background:#16304a;border:1px solid #2d5b8a;border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:17px}
 .buy b{color:#ffd84d}
+.tot{display:flex;gap:8px;margin-bottom:12px}.tot div{flex:1;background:#171e2e;border-radius:10px;padding:10px}.tot .k{font-size:12px;color:#9aa6bd}.tot .v{font-size:17px;font-weight:700;margin-top:2px}.up{color:#7ee2a0}.down{color:#ff8080}
 table{width:100%;border-collapse:collapse;background:#171e2e;border-radius:10px;overflow:hidden}
 td,th{padding:10px;text-align:left;border-bottom:1px solid #222b40;vertical-align:top;font-size:15px}
 th{color:#9aa6bd;font-weight:600;font-size:13px}td.p{white-space:nowrap}
@@ -14,6 +15,7 @@ th{color:#9aa6bd;font-weight:600;font-size:13px}td.p{white-space:nowrap}
 .n{font-size:13px;color:#c9d1e0;margin-top:4px}
 </style></head><body><div class="w">
 <h1>Bob's Hub</h1>
+<div class="tot" id="tot"><div><div class="k">Value</div><div class="v">…</div></div></div>
 <div class="buy" id="buy">This week's buy: …</div>
 <table><thead><tr><th>Asset</th><th>Price</th><th>Security</th></tr></thead><tbody id="rows"><tr><td colspan="3">Loading…</td></tr></tbody></table>
 </div>
@@ -25,9 +27,15 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
 (async()=>{
   const t=Date.now();
   const [d,cg,sec,wk]=await Promise.all([get("data.json?t="+t),
-    get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"),
+    get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud,usd"),
     get("security.json?t="+t),get("weekly.json?t="+t)]);
   $("buy").innerHTML=wk?"This week's buy: <b>"+esc(wk.pick)+" A$"+Math.ceil(wk.amount_aud)+"</b>":"This week's buy: not available";
+  const COST={BTC:{units:0.1336,cost:16500},TSLA:{units:41,cost:25595},MSTR:{units:21.56,cost:4990}};
+  const V=d&&d.value_inputs,A=n=>"A$"+Math.round(Math.abs(n)).toLocaleString("en-AU");
+  if(V){let val=0,inn=0;for(const k in COST){const p=k==="BTC"&&cg&&cg.bitcoin&&cg.bitcoin.aud?cg.bitcoin.aud:V[k].price_aud;val+=COST[k].units*p;inn+=COST[k].cost;}
+    const g=val-inn,c=g>=0?"up":"down",s=g>=0?"+":"-";
+    $("tot").innerHTML="<div><div class='k'>Value</div><div class='v'>"+A(val)+"</div></div><div><div class='k'>Put in</div><div class='v'>"+A(inn)+"</div></div><div><div class='k'>Gain/loss</div><div class='v "+c+"'>"+s+A(g)+" ("+s+Math.abs(g/inn*100).toFixed(1)+"%)</div></div>";}
+  else $("tot").innerHTML="<div><div class='k'>Value</div><div class='v'>–</div></div>";
   const T=d&&d.today, f2=v=>v.toFixed(2);
   const btc=cg&&cg.bitcoin&&cg.bitcoin.usd?cg.bitcoin.usd:(T?T.BTC.close:null);
   const P={BTC:btc!=null?"US$"+Math.round(btc).toLocaleString("en-AU"):"–",
