@@ -1,32 +1,32 @@
 {
-  "updated": "2026-11-01T09:05+11:00",
+  "updated": "2026-11-01T09:55+11:00",
   "assets": {
     "BTC": {
       "level": "watch",
-      "note": "Binance hack: an exchange breach, not Bitcoin itself",
-      "detail": "Binance (an exchange) lost about US$6.3-6.4bn on 29-30 Oct through a breach of its own systems, not a flaw in Bitcoin. Binance says no private keys leaked, about US$3bn has been frozen, and it has now restored backing for about 90% of losses, with BTC fully backed. The attacker's 18,270 BTC sit in 19 wallets and have not moved. Withdrawals are due back Sun 1 Nov; proof-of-reserves results are due around 2-3 Nov. Watch for: the attacker selling BTC, or a reserves shortfall. No Bitcoin protocol or wallet bugs with funds at risk, and no new quantum threat (latest estimates are theoretical; hardware expected early 2030s).",
+      "note": "Binance hack: an exchange breach, not Bitcoin itself; 90% now covered",
+      "detail": "Binance (an exchange) lost about US$6.3bn on 29-30 Oct; the FBI says North Korea did it. It was not a flaw in Bitcoin. Binance says it has covered 90% of losses from its own funds (all BTC fully backed), plans to reopen withdrawals Sun 1 Nov, and expects a verifiable reserves proof around 3 Nov. Watch for the attacker selling stolen BTC. Separately, Bitcoin Core disclosed a medium-severity bug (CVE-2026-117350) that can make non-Linux nodes run out of memory; no funds at risk, fixed in 29.5/30.4/31.2/32.1. Quantum: new estimates remain theoretical, hardware expected early 2030s.",
       "sources": [
         "https://www.cnbc.com/2026/10/31/binance-hack-asset-coverage-withdrawals.html",
-        "https://www.coindesk.com/markets/2026/10/30/binance-hacker-splits-usd1-4-billion-of-bitcoin-into-19-wallets-that-no-one-can-freeze",
-        "https://bitcoincore.org/en/security-advisories/"
+        "https://www.bbc.com/news/articles/ckpdg3ql4169o",
+        "https://bitcoincore.org/en/2026/10/28/disclose-tcp-oom/"
       ]
     },
     "TSLA": {
       "level": "none",
-      "note": "",
-      "detail": "No confirmed Tesla breach. A Sept 2026 hacking-forum claim is unverified and Tesla has made no statement; the June 2026 Tata Electronics breach was a supplier, not Tesla.",
+      "note": "Zero threats",
+      "detail": "No confirmed Tesla breach. A Sept 2026 hacking-forum claim is unverified.",
       "sources": []
     },
     "MSTR": {
       "level": "none",
-      "note": "",
+      "note": "Zero threats",
       "detail": "Strategy itself was not hacked. The Binance hack only moved its share price through Bitcoin.",
       "sources": []
     },
     "SEMI": {
       "level": "none",
-      "note": "",
-      "detail": "No breaches at SEMI's top holdings. NVIDIA's July 2026 DCGM software bug (CVE-2026-47483) was patched.",
+      "note": "Zero threats",
+      "detail": "No breaches at SEMI's top holdings. Intel's Israel factory explosion is an operations issue, not a security one.",
       "sources": []
     }
   }
