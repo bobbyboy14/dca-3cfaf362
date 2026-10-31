@@ -15,9 +15,27 @@ th{color:#9aa6bd;font-weight:600;font-size:13px}td.p{white-space:nowrap}
 .du{margin-top:12px;background:#171e2e;border-radius:10px;padding:12px 14px;font-size:14px}.du .d{font-size:12px;color:#9aa6bd}.du .hl{margin:4px 0 6px;font-weight:600}.du div.r{padding:3px 0}.du .t{display:inline-block;width:46px;font-weight:700}.du .m{display:inline-block;width:56px}
 .sc{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.sc>div{background:#171e2e;border-radius:10px;padding:10px;font-size:12px;color:#c9d1e0}.sc .t{font-size:14px;font-weight:700;color:#e8ecf4}.sc .st{font-weight:700}.sc .amber{color:#ffd166}.sc .l{margin:3px 0;color:#e8ecf4}.sc .q{color:#9aa6bd}
 h2{font-size:14px;font-weight:700;color:#9aa6bd;margin:16px 0 6px;text-transform:none}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}nav.tabs a{flex:0 1 auto;padding:7px 11px;border-radius:16px;background:#171e2e;color:#c9d1e0;text-decoration:none;font-size:13px;font-weight:600;line-height:1.25}nav.tabs a.on{background:#2d5b8a;color:#fff}
+.muted{font-size:12px;color:#9aa6bd}h3{font-size:15px;margin:18px 0 6px}a{color:#6ea8ff}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}.stats>div{background:#171e2e;border-radius:10px;padding:10px}.stats .k{font-size:12px;color:#9aa6bd}.stats .v{font-size:18px;font-weight:700;margin-top:2px}.stats small{font-size:13px}
+.tw{overflow-x:auto;margin-top:10px}.tw td,.tw th{font-size:13px;padding:7px 8px}tr.tot td{border-top:2px solid #2d5b8a}
+.cbox{position:relative;height:240px;margin-top:10px;background:#171e2e;border-radius:10px;padding:8px}
+.seg{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.seg button{flex:1;min-width:56px;padding:9px;border:0;border-radius:8px;background:#171e2e;color:#e8ecf4;font-weight:600;font-size:14px}.seg button.on{background:#2d5b8a}
+.amts{display:grid;grid-template-columns:1fr 1fr;gap:6px}.am{display:flex;align-items:center;gap:6px;background:#171e2e;border-radius:8px;padding:6px 8px;font-weight:700;font-size:14px}
+input[type=number],select{width:100%;min-width:0;padding:8px;border-radius:6px;border:1px solid #2a3550;background:#0f1420;color:#e8ecf4;font-size:15px}.am input[type=checkbox],.ck input{width:20px;height:20px}
+.row2{display:flex;gap:8px;margin-top:8px;align-items:end}.row2 label{flex:2;font-size:13px;color:#9aa6bd}.row2 select{flex:1}.ck{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:14px}
+.chip{display:inline-block;padding:2px 7px;border-radius:9px;font-size:11px;font-weight:700;white-space:nowrap}.chip.g{background:#1d3b2a;color:#7ee2a0}.chip.m{background:#4a3b12;color:#ffd166}.chip.b{background:#4a1616;color:#ff8080}.chip.nv{background:#26304a;color:#c9d1e0}
+.ov{background:#171e2e;border-radius:10px;padding:10px 12px;margin-top:10px}.hl{display:flex;flex-direction:column;gap:6px;margin-top:8px}.h1{background:#171e2e;border-radius:10px;padding:9px 11px}.h1 summary{list-style:none;cursor:pointer}.h1 summary::-webkit-details-marker{display:none}
+.h1 .top{display:flex;align-items:center;gap:6px}.wt{margin-left:auto;color:#9aa6bd;font-size:13px}.dd{margin-top:8px;font-size:13px;display:flex;flex-direction:column;gap:5px;border-top:1px solid #222b40;padding-top:8px}
+.callout{border-radius:10px;padding:10px 12px;font-size:14px;margin:6px 0}.callout.b{background:#3a1a1a}.callout.m{background:#3a3014}.callout.g{background:#173022}.callout.nv{background:#1b2740}
+.rws{display:flex;flex-direction:column;gap:6px}.rw{display:flex;gap:8px;justify-content:space-between;align-items:flex-start;background:#171e2e;border-radius:8px;padding:8px 10px;font-size:14px}
+.bars{display:flex;flex-direction:column;gap:5px}.bar{display:flex;align-items:center;gap:6px;font-size:13px}.bl{width:118px;color:#c9d1e0}.bt{flex:1;background:#171e2e;border-radius:4px;height:12px}.bt i{display:block;height:100%;background:#4da3ff;border-radius:4px}.bt i.neg{background:#ff6b6b}.bv{width:52px;text-align:right}
+.pc{display:grid;grid-template-columns:1fr;gap:6px}ol.n,ul.n{padding-left:20px}ol.n li,ul.n li{margin:4px 0}
 .n{font-size:13px;color:#c9d1e0;margin-top:4px}
 </style></head><body><div class="w">
 <h1>Bob's Hub</h1>
+<nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a><a href="#semireview" data-t="semireview">Semi Holdings Latest Earnings Scorecard</a></nav>
+<div id="tab-hub">
 <h2>This Week's Buy</h2>
 <div class="buy" id="buy">This week's buy: …</div>
 <h2>Security</h2>
@@ -28,6 +46,8 @@ h2{font-size:14px;font-weight:700;color:#9aa6bd;margin:16px 0 6px;text-transform
 <div class="tot" id="tot"><div class="h">…</div></div>
 <h2 id="duh" hidden>Daily Update</h2>
 <div class="du" id="du" hidden></div>
+</div>
+<div id="tab-cagr" hidden></div><div id="tab-scorecard" hidden></div><div id="tab-semireview" hidden></div>
 </div>
 <script>
 const $=id=>document.getElementById(id);
@@ -57,4 +77,13 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
   $("rows").innerHTML=["BTC","TSLA","MSTR","SEMI"].map(k=>{const a=sec&&sec.assets[k];const L=a?(LV[a.level]||LV.watch):null;
     return "<tr><td><b>"+k+"</b></td><td class='p'>"+P[k]+"</td><td>"+(L?"<span class='pill "+L[0]+"'>"+L[1]+"</span>"+(a.level!=="none"&&a.note?"<div class='n'>"+esc(a.note)+"</div>":""):"–")+"</td></tr>"}).join("");
 })();
+</script>
+<script>
+(function(){const TABS=["hub","cagr","scorecard","semireview"];let lib=null;
+const need=()=>lib||(lib=new Promise((ok,no)=>{const s=document.createElement("script");s.src="tabs.js?v=1";s.onload=ok;s.onerror=no;document.head.appendChild(s);}));
+async function go(){const t=TABS.includes(location.hash.slice(1))?location.hash.slice(1):"hub";
+ TABS.forEach(k=>{document.getElementById("tab-"+k).hidden=k!==t;});
+ document.querySelectorAll("nav.tabs a").forEach(a=>a.classList.toggle("on",a.dataset.t===t));
+ if(t!=="hub"){try{await need();await HubTabs[t]();}catch(e){document.getElementById("tab-"+t).innerHTML="<div class='muted'>Couldn't load ("+(e.message||e)+"). Pull to refresh.</div>";}}}
+addEventListener("hashchange",go);go();})();
 </script></body></html>
