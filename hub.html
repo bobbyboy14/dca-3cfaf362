@@ -31,19 +31,20 @@ input[type=number],select{width:100%;min-width:0;padding:8px;border-radius:6px;b
 .rws{display:flex;flex-direction:column;gap:6px}.rw{display:flex;gap:8px;justify-content:space-between;align-items:flex-start;background:#171e2e;border-radius:8px;padding:8px 10px;font-size:14px}
 .bars{display:flex;flex-direction:column;gap:5px}.bar{display:flex;align-items:center;gap:6px;font-size:13px}.bl{width:118px;color:#c9d1e0}.bt{flex:1;background:#171e2e;border-radius:4px;height:12px}.bt i{display:block;height:100%;background:#4da3ff;border-radius:4px}.bt i.neg{background:#ff6b6b}.bv{width:52px;text-align:right}
 .pc{display:grid;grid-template-columns:1fr;gap:6px}ol.n,ul.n{padding-left:20px}ol.n li,ul.n li{margin:4px 0}
+.r1{display:flex;flex-wrap:wrap;gap:0 10px}.r1>div{flex:1 1 230px;min-width:0;display:flex;flex-direction:column}.r1 .tot,.r1 .buy{flex:1;margin-bottom:0}.r1 .tot .h{font-size:20px}.r1 .tot .h small{font-size:14px}.tot .r span{white-space:nowrap}.tot .r{gap:8px}
 .n{font-size:13px;color:#c9d1e0;margin-top:4px}
 </style></head><body><div class="w">
 <h1>Bob's Hub</h1>
 <nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a><a href="#semireview" data-t="semireview">Semi Holdings Latest Earnings Scorecard</a></nav>
 <div id="tab-hub">
-<h2>This Week's Buy</h2>
-<div class="buy" id="buy">This week's buy: …</div>
-<h2>Security</h2>
-<table><thead><tr><th>Asset</th><th>Price</th><th>Security</th></tr></thead><tbody id="rows"><tr><td colspan="3">Loading…</td></tr></tbody></table>
+<div class="r1"><div><h2>Portfolio</h2>
+<div class="tot" id="tot"><div class="h">…</div></div></div>
+<div><h2>This Week's Buy</h2>
+<div class="buy" id="buy">This week's buy: …</div></div></div>
 <h2>Trajectory</h2>
 <div class="sc" id="sc"></div>
-<h2>Portfolio</h2>
-<div class="tot" id="tot"><div class="h">…</div></div>
+<h2>Security</h2>
+<table><thead><tr><th>Asset</th><th>Price</th><th>Security</th></tr></thead><tbody id="rows"><tr><td colspan="3">Loading…</td></tr></tbody></table>
 <h2 id="duh" hidden>Daily Update</h2>
 <div class="du" id="du" hidden></div>
 </div>
@@ -60,7 +61,7 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
     get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud,usd"),
     get("security.json?t="+t),get("weekly.json?t="+t),get("market.json?t="+t)]);
   if(mk&&mk.scores){const C={"On track":"up","Mixed":"amber","Off track":"down"};
-    $("sc").innerHTML=["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];return "<div><div class='t'>"+k+" <span class='st "+(C[x.status]||"")+"'>"+esc(x.status)+"</span> "+x.score+"/10</div><div class='l'>"+esc(x.line)+"</div>"+Object.values(x.parts||{}).map(v=>"<div class='q'>"+esc(v)+"</div>").join("")+"</div>"}).join("");}
+    $("sc").innerHTML=["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];return "<div><div class='t'>"+k+" <span class='st "+(C[x.status]||"")+"'>"+esc(x.status)+"</span> "+x.score+"/10</div></div>"}).join("");}
   if(mk){const u=new Date(mk.updated).toLocaleString("en-AU",{timeZone:"Australia/Melbourne",weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
     $("du").innerHTML="<div class='d'>"+u+" AEDT</div><div class='hl'>"+esc(mk.headline)+"</div>"+["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const x=mk.assets[k];return "<div class='r'><span class='t'>"+k+"</span><span class='m "+(String(x.move).startsWith("-")?"down":"up")+"'>"+esc(x.move)+"</span>"+esc(x.note)+"</div>"}).join("");$("du").hidden=false;$("duh").hidden=false;}
   $("buy").innerHTML=wk?"This week's buy: <b>"+esc(wk.pick)+" A$"+Math.ceil(wk.amount_aud)+"</b>":"This week's buy: not available";
