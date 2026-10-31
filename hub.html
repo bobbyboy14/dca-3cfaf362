@@ -91,7 +91,7 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
 </script>
 <script>
 (function(){const TABS=["hub","cagr","scorecard","tsla-score","btc-score","mstr-score"];let lib=null;
-const need=()=>lib||(lib=new Promise((ok,no)=>{const s=document.createElement("script");s.src="tabs.js?v=8";s.onload=ok;s.onerror=no;document.head.appendChild(s);}));
+const need=()=>lib||(lib=new Promise((ok,no)=>{const s=document.createElement("script");s.src="tabs.js?v=9";s.onload=ok;s.onerror=no;document.head.appendChild(s);}));
 async function go(){if(location.hash==="#semireview"){history.replaceState(null,"","#scorecard");}const t=TABS.includes(location.hash.slice(1))?location.hash.slice(1):"hub";
  TABS.forEach(k=>{document.getElementById("tab-"+k).hidden=k!==t;});
  document.querySelectorAll("nav.tabs a").forEach(a=>a.classList.toggle("on",a.dataset.t===t));
