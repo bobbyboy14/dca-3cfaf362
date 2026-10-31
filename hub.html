@@ -6,7 +6,7 @@ body{margin:0;font-family:-apple-system,system-ui,sans-serif;background:#0f1420;
 .w{max-width:520px;margin:0 auto}h1{font-size:20px;margin:0 0 12px}
 .buy{margin-top:0;background:#16304a;border:1px solid #2d5b8a;border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:17px}
 .buy b{color:#ffd84d}
-.tot{background:#171e2e;border-radius:10px;padding:12px 14px;margin-top:12px}.tot .h{font-size:30px;font-weight:800}.tot .h small{font-size:17px;font-weight:600}.tot .s{font-size:13px;color:#9aa6bd;margin-top:4px}.up{color:#7ee2a0}.down{color:#ff8080}
+.tot{background:#171e2e;border-radius:10px;padding:12px 14px}.tot .r{display:flex;justify-content:space-between;align-items:baseline;padding:3px 0;font-size:15px}.tot .r span:first-child{color:#9aa6bd}.tot .h{font-size:26px;font-weight:800}.tot .h small{font-size:17px;font-weight:600}.tot .s{font-size:13px;color:#9aa6bd;margin-top:4px}.up{color:#7ee2a0}.down{color:#ff8080}
 table{width:100%;border-collapse:collapse;background:#171e2e;border-radius:10px;overflow:hidden}
 td,th{padding:10px;text-align:left;border-bottom:1px solid #222b40;vertical-align:top;font-size:15px}
 th{color:#9aa6bd;font-weight:600;font-size:13px}td.p{white-space:nowrap}
@@ -24,6 +24,7 @@ h2{font-size:14px;font-weight:700;color:#9aa6bd;margin:16px 0 6px;text-transform
 <table><thead><tr><th>Asset</th><th>Price</th><th>Security</th></tr></thead><tbody id="rows"><tr><td colspan="3">Loading…</td></tr></tbody></table>
 <h2>Trajectory</h2>
 <div class="sc" id="sc"></div>
+<h2>Portfolio</h2>
 <div class="tot" id="tot"><div class="h">…</div></div>
 <div class="du" id="du" hidden></div>
 </div>
@@ -46,7 +47,7 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
   const V=d&&d.value_inputs,A=n=>"A$"+Math.round(Math.abs(n)).toLocaleString("en-AU");
   if(V){let val=0,inn=0;for(const k in COST){const p=k==="BTC"&&cg&&cg.bitcoin&&cg.bitcoin.aud?cg.bitcoin.aud:V[k].price_aud;val+=COST[k].units*p;inn+=COST[k].cost;}
     const g=val-inn,c=g>=0?"up":"down",s=g>=0?"+":"-";
-    $("tot").innerHTML="<div class='h "+c+"'>"+s+A(g)+" <small>("+s+Math.abs(g/inn*100).toFixed(1)+"%)</small></div><div class='s'>Value "+A(val)+" · Put in "+A(inn)+"</div>";}
+    $("tot").innerHTML="<div class='r'><span>Invested</span><span>"+A(inn)+"</span></div><div class='r'><span>Portfolio Value</span><span>"+A(val)+"</span></div><div class='r'><span>Up / Down</span><span class='h "+c+"'>"+s+A(g)+" <small>("+s+Math.abs(g/inn*100).toFixed(1)+"%)</small></span></div>";}
   else $("tot").innerHTML="<div class='h'>–</div>";
   const T=d&&d.today, f2=v=>v.toFixed(2);
   const btc=cg&&cg.bitcoin&&cg.bitcoin.usd?cg.bitcoin.usd:(T?T.BTC.close:null);
