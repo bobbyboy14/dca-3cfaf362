@@ -23,42 +23,61 @@
     "BTC": {
       "status": "Mixed",
       "score": 6,
-      "line": "Needs +62% to US$125k; 3y pace 31%/yr",
+      "line": "Network strong, fund flows weak",
+      "points": {
+        "fundamentals": 2,
+        "news": 2,
+        "trend": 2
+      },
       "parts": {
-        "growth": "3y CAGR 31% vs 62% needed (2/4)",
-        "trend": "Below 50-day, above 200-day, RSI 52 (2/3)",
-        "news": "Binance hack overhang (2/3)"
+        "fundamentals": "Mixed: US spot ETFs -US$516m in Oct (-US$202m week to 30 Oct); hash rate record ~1,064 EH/s; adoption/regulation not checked (2/4)",
+        "news": "Binance exchange hack overhang, watch (2/3)",
+        "trend": "Below 50-day, above 200-day, weekly RSI 52 (2/3)"
       }
     },
     "TSLA": {
       "status": "On track",
-      "score": 7,
-      "line": "Needs +38% to US$550; 3y pace 27%/yr",
+      "score": 9,
+      "line": "Q3 beat, trend up",
+      "points": {
+        "fundamentals": 3,
+        "news": 3,
+        "trend": 3
+      },
       "parts": {
-        "growth": "3y CAGR 27% vs 38% needed (2/4)",
-        "trend": "Above 50 & 200-day, RSI 56 (3/3)",
-        "earnings": "Q3: EPS beat, revenue in line (2/3)",
-        "news": "No confirmed breach"
+        "fundamentals": "Good: Q3 beat on EPS (48c vs 45c) and revenue (US$28.05bn), positive free cash flow, capex cut; but net income down, energy missed (3/4)",
+        "news": "Nothing material; breach claim unverified (3/3)",
+        "trend": "Above 50 & 200-day, weekly RSI 56 (3/3)"
       }
     },
     "MSTR": {
       "status": "Mixed",
       "score": 5,
-      "line": "Needs +61% to US$210; 3y pace 46%/yr",
+      "line": "Holdings up, premium thin",
+      "points": {
+        "fundamentals": 2,
+        "news": 2,
+        "trend": 1
+      },
       "parts": {
-        "growth": "3y CAGR 46% vs 61% needed (2/4)",
-        "trend": "Below 50 & 200-day, RSI 47 (1/3)",
-        "news": "MSCI exclusion list due 11 Nov (2/3)"
+        "fundamentals": "Mixed: Q3 BTC holdings 848,517 (+26% YTD), US$21bn raised, low leverage; but BTC Yield -3.7% YTD, mNAV ~1.15x (2/4)",
+        "news": "MSCI exclusion list due 11 Nov, watch (2/3)",
+        "trend": "Below 50 & 200-day, weekly RSI 47 (1/3)"
       }
     },
     "SEMI": {
       "status": "On track",
-      "score": 9,
-      "line": "Needs +18% to A$40 (placeholder); 3y pace 53%/yr",
+      "score": 8,
+      "line": "Holdings mostly beat",
+      "points": {
+        "fundamentals": 3,
+        "news": 3,
+        "trend": 2
+      },
       "parts": {
-        "growth": "3y CAGR 53% vs 18% needed (4/4)",
-        "earnings": "Holdings 74% good / 18% mixed / 6% bad (3/3)",
-        "trend": "Below 50-day, above 200-day, RSI 47 (2/3)"
+        "fundamentals": "Good: SEMI Scorecard whole fund 'Mostly good' (73.7% good, 18.3% mixed, 5.7% bad) (3/4)",
+        "news": "Nothing material at top holdings (3/3)",
+        "trend": "Below 50-day, above 200-day, weekly RSI 47 (2/3)"
       }
     }
   },
@@ -92,5 +111,6 @@
         "placeholder": true
       }
     }
-  }
+  },
+  "scores_rule": "Fundamentals 0-4 + News 0-3 + Trend 0-3; no price targets. Trend data 30-31 Oct 2026 (yfinance)."
 }
