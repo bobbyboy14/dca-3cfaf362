@@ -108,7 +108,17 @@ async function scorecard() {
   el.innerHTML = '<div class="muted">Loading…</div>';
   const s = await card();
   el.innerHTML = '<h2>SEMI Scorecard</h2><div class="muted">' + esc(s.as_of) + "</div>" +
-    '<div class="ov"><b>Whole fund ' + chip(s.overall.verdict === "Mostly good" ? "Good" : s.overall.verdict).replace(/>[^<]*</, ">" + esc(s.overall.verdict) + "<") + "</b> " + esc(s.overall.weight) + " · " + esc(s.overall.dates) + '<div class="n">' + esc(s.overall.flag) + "</div></div>" +
+    (() => { const w = { Good: 0, Mixed: 0, Bad: 0, "Not verified": 0 };
+      s.holdings.forEach(h => { const v = parseFloat(String(h.weight)); if (isFinite(v)) w[h.verdict in w ? h.verdict : "Not verified"] += v; });
+      const chk = w.Good + w.Mixed + w.Bad, q = chk ? Math.round((w.Good + 0.5 * w.Mixed) / chk * 100) : null;
+      const g = q == null ? "Not verified" : q >= 90 ? "Excellent" : q >= 75 ? "Very good" : q >= 60 ? "Good" : q >= 40 ? "Mixed" : "Weak";
+      const cl = q == null ? "" : q >= 60 ? "up" : q >= 40 ? "amber" : "down";
+      const f = v => v.toFixed(1) + "%";
+      return '<div class="ov"><div class="muted">Whole fund quality</div><div class="' + cl + '" style="font-size:26px;font-weight:700">' + g + (q == null ? "" : " · " + q + "/100") + "</div>" +
+        '<div class="n">Good ' + f(w.Good) + " · Mixed " + f(w.Mixed) + " · Bad " + f(w.Bad) + " · Not verified " + f(w["Not verified"]) + "</div>" +
+        '<div class="muted">Share of fund checked: ' + esc(s.overall.weight) + " · results " + esc(s.overall.dates) + "</div>" +
+        '<div class="muted">Grade = Good counts 1, Mixed 0.5, Bad 0, by fund weight, ignoring Not verified. 90+ Excellent, 75-89 Very good, 60-74 Good, 40-59 Mixed, under 40 Weak.</div>' +
+        '<div class="n" style="margin-top:6px">' + esc(String(s.overall.flag || "").replace(/^Good .*?Not verified [\d.]+%\.\s*/, "")) + "</div></div>"; })() +
     '<div class="hl">' + s.holdings.map(h => '<div class="h1"><div class="top">' + chip(h.verdict) + " <b>" + esc(h.company) + '</b><span class="wt">' + esc(h.weight) + "</span></div>" +
       '<div class="n">' + esc(h.date) + " · " + esc(h.flag) + ' <span class="muted">(' + esc(h.source) + ")</span></div></div>").join("") + "</div>" +
     (s.watch ? "<h2>What to watch</h2><div class='n'>" + esc(s.watch) + "</div>" : "");
