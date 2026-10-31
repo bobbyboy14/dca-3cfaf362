@@ -19,11 +19,12 @@ jobs:
           python-version: "3.12"
       - run: pip install --quiet yfinance
       - run: python scripts/fetch_data.py
+      - run: python scripts/fetch_holdings.py || echo 'holdings fetch failed'
       - name: Commit data.json if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data.json
+          git add data.json holdings.json
           if git diff --cached --quiet; then echo "No change"; exit 0; fi
           git commit -m "Update growth data.json"
           git pull --rebase origin main
