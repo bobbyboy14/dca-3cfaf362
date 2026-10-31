@@ -36,7 +36,7 @@ input[type=number],select{width:100%;min-width:0;padding:8px;border-radius:6px;b
 #tab-hub h2{margin:28px 0 10px}#tab-hub .r1{gap:0 20px}#tab-hub .sc{gap:14px;margin-top:0}#tab-hub .sc>div{padding:14px}#tab-hub .tot,#tab-hub .buy,#tab-hub .du{padding:16px 18px}#tab-hub .du{margin-top:0}#tab-hub td,#tab-hub th{padding:12px}
 #tab-hub .tot,#tab-hub .buy{box-sizing:border-box;min-width:0;overflow-wrap:anywhere}#tab-hub .tot .h{text-align:right;line-height:1.15}#tab-hub .tot .h small{display:block;font-size:13px}#tab-hub .sc .nd{font-size:12px;margin-top:5px;font-weight:600}#tab-hub .sc .amber,.nd.amber{color:#ffd166}
 tr.need td{font-size:12px;color:#c9d1e0;padding-top:0;border-bottom:1px solid #2a3550}.amber{color:#ffd166}
-#tab-hub .yt{font-size:12px;font-weight:400;margin-left:10px;white-space:nowrap}#tab-hub .yt input{width:52px;padding:2px 4px;font:inherit;background:#0f1626;color:inherit;border:1px solid #2a3550;border-radius:4px}#tab-hub .sc .bt{font-size:12px;margin-top:2px;font-weight:600}
+#tab-hub .sc .yt{display:block;font-size:12px;margin-top:6px;color:#9aa6bd}#tab-hub .yt input{width:52px;padding:2px 4px;font:inherit;background:#0f1626;color:inherit;border:1px solid #2a3550;border-radius:4px}#tab-hub .sc .bt{font-size:12px;margin-top:2px;font-weight:600}
 </style></head><body><div class="w">
 <h1>Bob's Hub</h1>
 <nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a><a href="#semireview" data-t="semireview">Semi Holdings Latest Earnings Scorecard</a></nav>
@@ -45,7 +45,7 @@ tr.need td{font-size:12px;color:#c9d1e0;padding-top:0;border-bottom:1px solid #2
 <div class="tot" id="tot"><div class="h">…</div></div></div>
 <div><h2>This Week's Buy</h2>
 <div class="buy" id="buy">This week's buy: …</div></div></div>
-<h2>Trajectory <label class="yt">Yearly target: <input id="yt" type="number" min="0" max="500" step="1" value="25" inputmode="numeric">%</label></h2>
+<h2>Trajectory</h2>
 <div class="sc" id="sc"></div>
 <h2>Security</h2>
 <table><thead><tr><th>Asset</th><th>Price</th><th>Security</th></tr></thead><tbody id="rows"><tr><td colspan="3">Loading…</td></tr></tbody></table>
@@ -55,8 +55,9 @@ tr.need td{font-size:12px;color:#c9d1e0;padding-top:0;border-bottom:1px solid #2
 <div id="tab-cagr" hidden></div><div id="tab-scorecard" hidden></div><div id="tab-semireview" hidden></div>
 </div>
 <script>
-function ytU(){const i=document.getElementById("yt");if(!i)return;let v=parseFloat(i.value);if(!isFinite(v))v=25;try{localStorage.setItem("hubYT",i.value)}catch(e){}document.querySelectorAll("#sc .bt").forEach(e=>{const b=+e.dataset.r*100>=v;e.className="bt "+(b?"up":"down");e.textContent=(b?"Beating ":"Short of ")+v+"%"})}
-addEventListener("DOMContentLoaded",()=>{const i=document.getElementById("yt");try{const s=localStorage.getItem("hubYT");if(s!==null&&s!=="")i.value=s}catch(e){}i.addEventListener("input",ytU);ytU()});
+function ytG(k){try{const s=localStorage.getItem("hubYT_"+k);if(s!==null&&s!=="")return s}catch(e){}return "25"}
+function ytU(){document.querySelectorAll("#sc input[data-k]").forEach(i=>{const k=i.dataset.k,e=document.querySelector("#sc .bt[data-k='"+k+"']");let v=parseFloat(i.value);if(!isFinite(v))v=25;try{localStorage.setItem("hubYT_"+k,i.value)}catch(x){}const b=+e.dataset.r*100>=v;e.className="bt "+(b?"up":"down");e.textContent=(b?"Beating ":"Short of ")+v+"%"})}
+document.addEventListener("input",e=>{if(e.target.matches&&e.target.matches("#sc input[data-k]"))ytU()});
 
 const $=id=>document.getElementById(id);
 const esc=t=>String(t||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
@@ -68,7 +69,7 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
     get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud,usd"),
     get("security.json?t="+t),get("weekly.json?t="+t),get("market.json?t="+t)]);
   if(mk&&mk.scores){const C={"On track":"up","Mixed":"amber","Off track":"down"},N=(mk.needed&&mk.needed.assets)||{},NC={"On track":"up","Stretch":"amber","Behind":"down"};
-    $("sc").innerHTML=["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];return "<div><div class='t'>"+k+" <span class='st "+(C[x.status]||"")+"'>"+esc(x.status)+"</span> "+x.score+"/10</div>"+(N[k]?"<div class='nd "+NC[N[k].verdict]+"'>Needs "+Math.round(N[k].needed*100)+"%/yr · doing "+Math.round(N[k].recent*100)+"%</div><div class='bt' data-r='"+N[k].recent+"'></div>":"")+"</div>"}).join("");ytU();}
+    $("sc").innerHTML=["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];return "<div><div class='t'>"+k+" <span class='st "+(C[x.status]||"")+"'>"+esc(x.status)+"</span> "+x.score+"/10</div>"+(N[k]?"<div class='nd "+NC[N[k].verdict]+"'>Needs "+Math.round(N[k].needed*100)+"%/yr · doing "+Math.round(N[k].recent*100)+"%</div>":"")+(N[k]?"<label class='yt'>Yearly target <input type='number' min='0' max='500' step='1' inputmode='numeric' data-k='"+k+"' value='"+ytG(k)+"'>%</label><div class='bt' data-k='"+k+"' data-r='"+N[k].recent+"'></div>":"")+"</div>"}).join("");ytU();}
   if(mk){const u=new Date(mk.updated).toLocaleString("en-AU",{timeZone:"Australia/Melbourne",weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
     $("du").innerHTML="<div class='d'>"+u+" AEDT</div><div class='hl'>"+esc(mk.headline)+"</div>"+["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const x=mk.assets[k];return "<div class='r'><span class='t'>"+k+"</span><span class='m "+(String(x.move).startsWith("-")?"down":"up")+"'>"+esc(x.move)+"</span>"+esc(x.note)+"</div>"}).join("");$("du").hidden=false;$("duh").hidden=false;}
   $("buy").innerHTML=wk?"This week's buy: <b>"+esc(wk.pick)+" A$"+Math.ceil(wk.amount_aud)+"</b>":"This week's buy: not available";
