@@ -43,6 +43,7 @@
 </head>
 <body>
 <main>
+  <div class="sub" style="margin:0 0 6px">Pages: <a href="hub.html">Hub</a> · <a href="./">DCA dashboard</a> · <b>Basket growth</b></div>
   <div class="topbar">
     <div>
       <h1>Basket growth</h1>
@@ -78,6 +79,7 @@
     <div class="stats">
       <div class="stat"><div class="k">Worth now</div><div class="v" id="sNow">–</div></div>
       <div class="stat"><div class="k">Total change</div><div class="v" id="sTot">–</div></div>
+      <div class="stat"><div class="k">Multiple of deposit</div><div class="v" id="sMul">–</div></div>
       <div class="stat"><div class="k">Growth per year (CAGR)</div><div class="v" id="sCagr">–</div></div>
       <div class="stat"><div class="k">Period</div><div class="v" id="sPer" style="font-size:1rem">–</div></div>
     </div>
@@ -98,7 +100,7 @@
   <div class="card asof" id="asof">Loading prices…</div>
 
   <footer>
-    Past performance doesn't predict the future. Fees, brokerage, currency conversion costs and tax aren't included.
+    Past performance doesn't predict the future. Fees, brokerage, currency conversion costs and tax aren't included. SEMI figures include reinvested distributions.
     This is general information only, not financial advice.<br>
     Data: Yahoo Finance daily closes (updated by a scheduled job, SEMI includes reinvested distributions), live Bitcoin price from CoinGecko.
     Prices update when you open the page or press Refresh. <a href="./">Back to DCA dashboard</a>
@@ -148,6 +150,7 @@ function render() {
   const r = GrowthCalc.compute(state.daily, state.opt, state.yrs, dep);
   if (r.error) { $("sNow").textContent = "–"; $("sPer").textContent = r.error; return; }
   $("sNow").textContent = aud(r.valueNow);
+  $("sMul").textContent = (r.valueNow / dep).toFixed(2) + "x";
   $("sTot").innerHTML = '<span class="' + cls(r.totalChange) + '">' + pct(r.totalChange) + "</span>";
   $("sCagr").innerHTML = '<span class="' + cls(r.cagr) + '">' + pct(r.cagr) + "</span>";
   $("sPer").textContent = melDate(r.startDate) + " → " + melDate(r.endDate);
