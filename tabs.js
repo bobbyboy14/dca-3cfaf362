@@ -111,8 +111,10 @@ async function scorecard() {
     '<div class="ov"><b>Whole fund ' + chip(s.overall.verdict === "Mostly good" ? "Good" : s.overall.verdict).replace(/>[^<]*</, ">" + esc(s.overall.verdict) + "<") + "</b> " + esc(s.overall.weight) + " · " + esc(s.overall.dates) + '<div class="n">' + esc(s.overall.flag) + "</div></div>" +
     '<div class="hl">' + s.holdings.map(h => '<div class="h1"><div class="top">' + chip(h.verdict) + " <b>" + esc(h.company) + '</b><span class="wt">' + esc(h.weight) + "</span></div>" +
       '<div class="n">' + esc(h.date) + " · " + esc(h.flag) + ' <span class="muted">(' + esc(h.source) + ")</span></div></div>").join("") + "</div>" +
-    (s.watch ? "<h2>What to watch</h2><div class='n'>" + esc(s.watch) + "</div>" : "");
+    (s.watch ? "<h2>What to watch</h2><div class='n'>" + esc(s.watch) + "</div>" : "") +
+    '<div id="semiRev" style="margin-top:36px;border-top:1px solid #2a3550;padding-top:6px"></div>';
   el.dataset.done = 1;
+  try { await review($("semiRev")); } catch (e) { $("semiRev").innerHTML = '<div class="muted">Fund review couldn\'t load (' + esc(e.message || e) + ").</div>"; }
 }
 
 // ---------- Semi Holdings Latest Earnings Scorecard (full SEMI ETF review + live) ----------
@@ -134,8 +136,8 @@ function block(b) {
     default: return kids;
   }
 }
-async function review() {
-  const el = $("tab-semireview"); if (el.dataset.done) return;
+async function review(el) {
+  if (el.dataset.done) return;
   el.innerHTML = '<div class="muted">Loading…</div>';
   const [d, s, rv, hp] = await Promise.all([data(), card(), get("semireview.json?t=" + T), get("holdings.json?t=" + T).catch(() => null)]);
   const sig = d.semi_signals, td = d.today.SEMI;
@@ -143,21 +145,21 @@ async function review() {
   (hs.blocks.find(b => b.type === "Table").rows).forEach(r => revRows[norm(r[0])] = r);
   const HP = (hp && hp.holdings) || {};
   const px = h => { const p = HP[h.company]; return p && p.close != null ? p.close.toLocaleString("en-AU", { maximumFractionDigits: 2 }) + " " + esc(p.currency) + " " + cpct(p.change) : ""; };
-  let html = "<h2>Semi Holdings Latest Earnings Scorecard</h2>" +
+  let html = "<h2>Fund performance and review</h2><div class='muted'>As of: " + esc(rv.as_of) + "</div>" +
     '<div class="stats">' +
     '<div><div class="k">SEMI (ASX)</div><div class="v">A$' + td.close.toFixed(2) + " " + cpct(td.change) + '</div><div class="muted">' + dstr(td.date) + " close</div></div>" +
     '<div><div class="k">vs 50-day</div><div class="v">' + cpct(sig.vs_sma50) + '</div><div class="muted">A$' + sig.sma50.toFixed(2) + "</div></div>" +
     '<div><div class="k">vs 200-day</div><div class="v">' + cpct(sig.vs_sma200) + '</div><div class="muted">A$' + sig.sma200.toFixed(2) + "</div></div>" +
     '<div><div class="k">Weekly RSI</div><div class="v">' + sig.weekly_rsi.toFixed(0) + '</div><div class="muted">From 52w high ' + pct(sig.from_high_52w) + "</div></div></div>" +
     '<div class="ov"><b>Earnings: ' + esc(s.overall.verdict) + '</b><div class="n">' + esc(s.overall.flag) + '</div><div class="muted">' + esc(s.as_of) + "</div></div>" +
-    '<h2>Holdings</h2><div class="muted">Tap a holding for details. Prices: last close' + (hp ? ", saved " + new Date(hp.generated_utc).toLocaleString("en-AU", { timeZone: "Australia/Melbourne", day: "numeric", month: "short", hour: "numeric", minute: "2-digit" }) + " AEDT" : " unavailable") + ".</div><div class='hl'>" +
+    '<h2>Holdings in detail</h2><div class="muted">Tap a holding for details. Prices: last close' + (hp ? ", saved " + new Date(hp.generated_utc).toLocaleString("en-AU", { timeZone: "Australia/Melbourne", day: "numeric", month: "short", hour: "numeric", minute: "2-digit" }) + " AEDT" : " unavailable") + ".</div><div class='hl'>" +
     s.holdings.map(h => { const r = revRows[norm(h.company)] || [], p = HP[h.company] || {};
       return '<details class="h1"><summary><div class="top">' + chip(h.verdict) + " <b>" + esc(h.company) + '</b><span class="wt">' + esc(h.weight) + '</span></div><div class="muted">' + px(h) + "</div></summary>" +
         '<div class="dd"><div><span class="muted">Latest results:</span> ' + esc(h.date) + " · " + esc(h.verdict) + "</div><div>" + esc(h.flag) + "</div>" +
         (r[2] ? '<div><b class="up">Positive</b> ' + esc(r[2]) + "</div>" : "") + (r[3] ? '<div><b class="down">Negative</b> ' + esc(r[3]) + "</div>" : "") +
         (p.close != null ? '<div><span class="muted">Price:</span> ' + px(h) + " · " + esc(p.ticker) + " · " + dstr(p.date) + " close</div>" : "") +
         '<div class="muted">Source: ' + esc(h.source) + " · positives/negatives from the review, as of 30 Oct 2026</div></div></details>"; }).join("") + "</div>" +
-    '<h2>Full SEMI ETF review</h2><div class="muted">' + esc(rv.as_of) + '</div><p class="n">' + esc(rv.summary) + "</p>";
+    '<h2>Detailed write-up</h2><div class="muted">' + esc(rv.as_of) + '</div><p class="n">' + esc(rv.summary) + "</p>";
   for (const sec of rv.sections) {
     html += "<h3>" + esc(sec.heading) + "</h3>";
     if (sec.heading === "Holdings") { html += '<p class="n muted">All 30 holdings with positives and negatives are in the tappable list above.</p>' + sec.blocks.filter(b => b.type !== "Table").map(block).join(""); continue; }
@@ -194,5 +196,5 @@ function assetScore(k) {
       "<p class='muted'>How it's scored: Fundamentals 0-4 + News 0-3 + Growth (price trend) 0-3. Growth gets 1 point each for price above its 50-day average, above its 200-day average, and weekly RSI between 35 and 70. Overall: 7-10 On track, 6 Mixed, 0-5 Behind. No price targets. General information only, not advice.</p>";
   };
 }
-window.HubTabs = { cagr, scorecard, semireview: review, "tsla-score": assetScore("TSLA"), "btc-score": assetScore("BTC"), "mstr-score": assetScore("MSTR") };
+window.HubTabs = { cagr, scorecard, "tsla-score": assetScore("TSLA"), "btc-score": assetScore("BTC"), "mstr-score": assetScore("MSTR") };
 })();
