@@ -12,12 +12,14 @@ td,th{padding:10px;text-align:left;border-bottom:1px solid #222b40;vertical-alig
 th{color:#9aa6bd;font-weight:600;font-size:13px}td.p{white-space:nowrap}
 .pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px;font-weight:600}
 .none{background:#1d3b2a;color:#7ee2a0}.watch{background:#4a3b12;color:#ffd166}.alert{background:#4a1616;color:#ff8080}
+.du{margin-top:12px;background:#171e2e;border-radius:10px;padding:12px 14px;font-size:14px}.du .d{font-size:12px;color:#9aa6bd}.du .hl{margin:4px 0 6px;font-weight:600}.du div.r{padding:3px 0}.du .t{display:inline-block;width:46px;font-weight:700}.du .m{display:inline-block;width:56px}
 .n{font-size:13px;color:#c9d1e0;margin-top:4px}
 </style></head><body><div class="w">
 <h1>Bob's Hub</h1>
 <div class="buy" id="buy">This week's buy: …</div>
 <table><thead><tr><th>Asset</th><th>Price</th><th>Security</th></tr></thead><tbody id="rows"><tr><td colspan="3">Loading…</td></tr></tbody></table>
 <div class="tot" id="tot"><div class="h">…</div></div>
+<div class="du" id="du" hidden></div>
 </div>
 <script>
 const $=id=>document.getElementById(id);
@@ -26,9 +28,11 @@ const LV={none:["none","Zero threats"],watch:["watch","Watch"],alert:["alert","A
 const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>null);
 (async()=>{
   const t=Date.now();
-  const [d,cg,sec,wk]=await Promise.all([get("data.json?t="+t),
+  const [d,cg,sec,wk,mk]=await Promise.all([get("data.json?t="+t),
     get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud,usd"),
-    get("security.json?t="+t),get("weekly.json?t="+t)]);
+    get("security.json?t="+t),get("weekly.json?t="+t),get("market.json?t="+t)]);
+  if(mk){const u=new Date(mk.updated).toLocaleString("en-AU",{timeZone:"Australia/Melbourne",weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
+    $("du").innerHTML="<div class='d'>Daily update · "+u+" AEDT</div><div class='hl'>"+esc(mk.headline)+"</div>"+["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const x=mk.assets[k];return "<div class='r'><span class='t'>"+k+"</span><span class='m "+(String(x.move).startsWith("-")?"down":"up")+"'>"+esc(x.move)+"</span>"+esc(x.note)+"</div>"}).join("");$("du").hidden=false;}
   $("buy").innerHTML=wk?"This week's buy: <b>"+esc(wk.pick)+" A$"+Math.ceil(wk.amount_aud)+"</b>":"This week's buy: not available";
   const COST={BTC:{units:0.1336,cost:16500},TSLA:{units:41,cost:25595},MSTR:{units:21.56,cost:4990}};
   const V=d&&d.value_inputs,A=n=>"A$"+Math.round(Math.abs(n)).toLocaleString("en-AU");
