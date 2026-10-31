@@ -8,7 +8,10 @@
   ];
   const OPTIONS = {
     all:  { label: "All four", weights: { BTC: 0.35, TSLA: 0.30, SEMI: 0.25, MSTR: 0.10 } },
-    tsla: { label: "Tesla only", weights: { TSLA: 1 } },
+    tsla: { label: "Tesla (TSLA)", weights: { TSLA: 1 } },
+    mstr: { label: "Strategy (MSTR)", weights: { MSTR: 1 } },
+    btc:  { label: "Bitcoin (BTC)", weights: { BTC: 1 } },
+    semi: { label: "SEMI", weights: { SEMI: 1 } },
   };
   const DAY = 86400000;
   const iso = d => new Date(d).toISOString().slice(0, 10);
