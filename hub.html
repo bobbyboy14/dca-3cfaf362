@@ -34,6 +34,8 @@ input[type=number],select{width:100%;min-width:0;padding:8px;border-radius:6px;b
 .r1{display:flex;flex-wrap:wrap;gap:0 10px}.r1>div{flex:1 1 230px;min-width:0;display:flex;flex-direction:column}.r1 .tot,.r1 .buy{flex:1;margin-bottom:0}.r1 .tot .h{font-size:20px}.r1 .tot .h small{font-size:14px}.tot .r span{white-space:nowrap}.tot .r{gap:8px}
 .n{font-size:13px;color:#c9d1e0;margin-top:4px}
 #tab-hub h2{margin:28px 0 10px}#tab-hub .r1{gap:0 20px}#tab-hub .sc{gap:14px;margin-top:0}#tab-hub .sc>div{padding:14px}#tab-hub .tot,#tab-hub .buy,#tab-hub .du{padding:16px 18px}#tab-hub .du{margin-top:0}#tab-hub td,#tab-hub th{padding:12px}
+#tab-hub .tot,#tab-hub .buy{box-sizing:border-box;min-width:0;overflow-wrap:anywhere}#tab-hub .tot .h{text-align:right;line-height:1.15}#tab-hub .tot .h small{display:block;font-size:13px}#tab-hub .sc .nd{font-size:12px;margin-top:5px;font-weight:600}#tab-hub .sc .amber,.nd.amber{color:#ffd166}
+tr.need td{font-size:12px;color:#c9d1e0;padding-top:0;border-bottom:1px solid #2a3550}.amber{color:#ffd166}
 </style></head><body><div class="w">
 <h1>Bob's Hub</h1>
 <nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a><a href="#semireview" data-t="semireview">Semi Holdings Latest Earnings Scorecard</a></nav>
@@ -61,8 +63,8 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
   const [d,cg,sec,wk,mk]=await Promise.all([get("data.json?t="+t),
     get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud,usd"),
     get("security.json?t="+t),get("weekly.json?t="+t),get("market.json?t="+t)]);
-  if(mk&&mk.scores){const C={"On track":"up","Mixed":"amber","Off track":"down"};
-    $("sc").innerHTML=["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];return "<div><div class='t'>"+k+" <span class='st "+(C[x.status]||"")+"'>"+esc(x.status)+"</span> "+x.score+"/10</div></div>"}).join("");}
+  if(mk&&mk.scores){const C={"On track":"up","Mixed":"amber","Off track":"down"},N=(mk.needed&&mk.needed.assets)||{},NC={"On track":"up","Stretch":"amber","Behind":"down"};
+    $("sc").innerHTML=["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];return "<div><div class='t'>"+k+" <span class='st "+(C[x.status]||"")+"'>"+esc(x.status)+"</span> "+x.score+"/10</div>"+(N[k]?"<div class='nd "+NC[N[k].verdict]+"'>Needs "+Math.round(N[k].needed*100)+"%/yr · doing "+Math.round(N[k].recent*100)+"%</div>":"")+"</div>"}).join("");}
   if(mk){const u=new Date(mk.updated).toLocaleString("en-AU",{timeZone:"Australia/Melbourne",weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
     $("du").innerHTML="<div class='d'>"+u+" AEDT</div><div class='hl'>"+esc(mk.headline)+"</div>"+["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const x=mk.assets[k];return "<div class='r'><span class='t'>"+k+"</span><span class='m "+(String(x.move).startsWith("-")?"down":"up")+"'>"+esc(x.move)+"</span>"+esc(x.note)+"</div>"}).join("");$("du").hidden=false;$("duh").hidden=false;}
   $("buy").innerHTML=wk?"This week's buy: <b>"+esc(wk.pick)+" A$"+Math.ceil(wk.amount_aud)+"</b>":"This week's buy: not available";
@@ -70,7 +72,7 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
   const V=d&&d.value_inputs,A=n=>"A$"+Math.round(Math.abs(n)).toLocaleString("en-AU");
   if(V){let val=0,inn=0;for(const k in COST){const p=k==="BTC"&&cg&&cg.bitcoin&&cg.bitcoin.aud?cg.bitcoin.aud:V[k].price_aud;val+=COST[k].units*p;inn+=COST[k].cost;}
     const g=val-inn,c=g>=0?"up":"down",s=g>=0?"+":"-";
-    $("tot").innerHTML="<div class='r'><span>Invested</span><span>"+A(inn)+"</span></div><div class='r'><span>Portfolio Value</span><span>"+A(val)+"</span></div><div class='r'><span>Up / Down</span><span class='h "+c+"'>"+s+A(g)+" <small>("+s+Math.abs(g/inn*100).toFixed(1)+"%)</small></span></div>";}
+    $("tot").innerHTML="<div class='r'><span>Invested</span><span>"+A(inn)+"</span></div><div class='r'><span>Portfolio Value</span><span>"+A(val)+"</span></div><div class='r'><span>Up / Down</span><span class='h "+c+"'>"+s+A(g)+"<small>"+s+Math.abs(g/inn*100).toFixed(1)+"%</small></span></div>";}
   else $("tot").innerHTML="<div class='h'>–</div>";
   const T=d&&d.today, f2=v=>v.toFixed(2);
   const btc=cg&&cg.bitcoin&&cg.bitcoin.usd?cg.bitcoin.usd:(T?T.BTC.close:null);
