@@ -1,0 +1,37 @@
+{
+  "updated": "2026-10-31T17:55:00+11:00",
+  "earnings": [
+    {
+      "name": "NVIDIA",
+      "date": "2026-11-18",
+      "time_melbourne": "about 9:00am (results Tue 17 Nov, after the US close)",
+      "confirmed": true,
+      "label": "Q3 FY2027 results",
+      "source": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Sets-Conference-Call-for-Third-Quarter-Financial-Results/default.aspx"
+    },
+    {
+      "name": "TSMC",
+      "date": "2027-01-14",
+      "time_melbourne": "about 5:00pm (estimated)",
+      "confirmed": false,
+      "label": "Q4 2026 results (date not announced yet, estimated from TSMC's usual mid-January pattern)",
+      "source": "https://days.to/tsmc-earnings/q4-2026"
+    }
+  ],
+  "export_controls": "No new US rule this week. The US now lets NVIDIA sell H200 chips to approved Chinese buyers with a 25% fee, while its top Blackwell chips stay banned. The White House is reportedly drafting a rule to stop China using US AI chips remotely through overseas cloud data centres, but nothing is published yet. China has proposed its own curbs on exporting AI and chip-design technology, expected to be adopted by year end.",
+  "export_controls_sources": [
+    "https://chipdispatch.com/articles/white-house-drafts-rule-to-block-china-s-remote-access-to-us-ai-chips-d905ba7f",
+    "https://money.usnews.com/investing/news/articles/2026-10-28/analysis-chinas-new-export-curbs-draw-a-line-around-its-ai-crown-jewels",
+    "https://www.investing.com/news/stock-market-news/exclusivebytedance-alibaba-tencent-place-over-35-billion-worth-of-nvidia-chip-orders-4959231"
+  ],
+  "chip_security": "Nothing material. Background only: Analog Devices confirmed hackers got into its corporate systems (no detail on scope), Advantest confirmed data was stolen in its February ransomware attack, and a ransomware gang claims to have hit onsemi (unconfirmed). None has been reported as affecting chip production.",
+  "chip_security_sources": [
+    "https://theinference.org/article/analog-devices-confirmed-a-breach-counted-no-one-and-filed-nothing",
+    "https://www.securityweek.com/advantest-discloses-data-breach-months-after-ransomware-attack/"
+  ],
+  "notes": "US chip stocks fell 7.2% (Philadelphia Semiconductor Index) on Fri 30 Oct, the biggest drop since June, after the ASX had closed. Intel fell about 29% on a weak outlook, and AMD, Qualcomm and Arm fell 9 to 11%. NVIDIA, TSMC and Broadcom fell about 5%. SEMI's last price (A$33.78, Fri ASX close) doesn't include this yet, so expect a weak open on Monday.",
+  "notes_sources": [
+    "https://www.tokenpost.com/news/investing/45242",
+    "https://www.streetinsider.com/Reuters/Intel+on+course+for+worst+day+ever%2C+triggers+global+chip+rout/27261808.html"
+  ]
+}
