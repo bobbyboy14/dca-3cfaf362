@@ -1,0 +1,22 @@
+{
+  "updated": "2026-10-31T21:40+11:00",
+  "headline": "All four down on Friday; Binance hack still weighing on crypto",
+  "assets": {
+    "BTC": {
+      "move": "-0.1%",
+      "note": "Binance hack overhang; withdrawals due back ~Sun 1 Nov"
+    },
+    "TSLA": {
+      "move": "-0.9%",
+      "note": "Fri close US$399.81"
+    },
+    "MSTR": {
+      "move": "-7.8%",
+      "note": "MSCI index exclusion list due 11 Nov"
+    },
+    "SEMI": {
+      "move": "-3.4%",
+      "note": "Fri close A$33.78"
+    }
+  }
+}
