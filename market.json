@@ -170,13 +170,13 @@
         "trend": 2
       },
       "parts": {
-        "fundamentals": "Good: SEMI Scorecard whole fund 'Mostly good' (73.7% good, 18.3% mixed, 5.7% bad) (3/4)",
+        "fundamentals": "Good: SEMI Scorecard whole fund Very good (85/100): 73.7% good, 18.3% mixed, 5.7% bad (3/4)",
         "news": "Nothing material at top holdings (3/3)",
         "trend": "Below 50-day, above 200-day, weekly RSI 47 (2/3)"
       },
       "as_of": "2026-10-31",
       "reasons": {
-        "fundamentals": "Good (3/4). The SEMI Scorecard rates the whole fund 'Mostly good': 73.7% of holdings by weight were Good, 18.3% Mixed, 5.7% Bad and 2.3% Not verified. AI demand is strong almost everywhere. Weak spots were the Intel and Kioxia guidance and the Broadcom and Qualcomm outlooks.",
+        "fundamentals": "Good (3/4). The SEMI Scorecard grades the whole fund's latest results Very good (85/100): 73.7% of holdings by weight were Good, 18.3% Mixed, 5.7% Bad and 2.3% Not verified. AI demand is strong almost everywhere. Weak spots were the Intel and Kioxia guidance and the Broadcom and Qualcomm outlooks.",
         "news": "Nothing material (3/3). No breaches at the top holdings; NVIDIA's July software bug was patched.",
         "growth": "Mixed (2/3). Price is below its 50-day average but above its 200-day average. Weekly RSI is in the normal range."
       },
