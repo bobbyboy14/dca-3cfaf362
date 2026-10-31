@@ -167,6 +167,9 @@
   <!-- DCA allocation indicator -->
   <section class="card" id="dca">
     <h2>DCA allocation indicator: where this week's buy is best value</h2>
+    <div class="flag" id="wkBuy" style="margin:6px 0 10px" hidden><div class="k">This week's buy (fixed each Wednesday)</div>
+      <div id="wkHead" style="font-size:1.35rem;font-weight:800;line-height:1.3"></div>
+      <div class="sub" id="wkSub" style="margin-top:4px"></div></div>
     <div class="sub" id="dcaWeek"></div>
     <div class="sub" id="dcaSheet" style="margin-top:4px">Your full records are in <a class="sheetTab" data-gid="1024844697" href="#" target="_blank" rel="noopener">My portfolio spreadsheet (Portfolio tab)</a>.</div>
     <div id="dcaHead" style="font-size:1.6rem;font-weight:800;line-height:1.25;margin:6px 0 10px">Working it out…</div>
@@ -337,6 +340,15 @@ if (!SHEET_URL) { document.getElementById("sheetLi").hidden = true; document.get
 const COST = { BTC: { units: 0.1336, cost: 16500 }, TSLA: { units: 41, cost: 25595 }, MSTR: { units: 21.56, cost: 4990 } };
 const NAMES = { BTC: "Bitcoin", TSLA: "Tesla", MSTR: "Strategy (MSTR)", SEMI: "SEMI" };
 
+async function renderWeekly() {
+  try {
+    const w = await getJSON("weekly.json?x=" + Date.now());
+    $("wkHead").innerHTML = '<span class="up">' + w.pick_name + "</span> · " + w.multiplier.toFixed(2) + "x · " + aud(w.amount_aud, 2);
+    $("wkSub").textContent = "Week of " + w.week + ". " + w.calculated_line + " Amount = A$" + w.base_aud.toFixed(0) + " base × " + w.multiplier.toFixed(2) +
+      " (multiplier capped at 4x). Your spreadsheet's DCA Workings tab has the full workings and an editable base. The live table below can move during the week.";
+    $("wkBuy").hidden = false;
+  } catch (e) { /* weekly.json not there yet */ }
+}
 function renderDCA() {
   const V = st.data.value_inputs; if (!V) return;
   const melToday = new Date(new Date().toLocaleDateString("en-CA", { timeZone: "Australia/Melbourne" }) + "T00:00:00Z");
@@ -520,7 +532,7 @@ $("fcCrash").addEventListener("change", () => { $("fcCrashBox").style.display = 
 $("fcReset").addEventListener("click", fcReset);
 fcReset();
 
-function render() { if (st.data) { renderCalc(); fcRenderRef(); renderDCA(); renderToday(); renderSemi(); renderYearly(); } renderFlags(); }
+function render() { renderWeekly(); if (st.data) { renderCalc(); fcRenderRef(); renderDCA(); renderToday(); renderSemi(); renderYearly(); } renderFlags(); }
 
 function renderCalc() {
   const dep = Math.max(0, parseFloat($("dep").value) || 0) || 10000;
