@@ -343,9 +343,9 @@ const NAMES = { BTC: "Bitcoin", TSLA: "Tesla", MSTR: "Strategy (MSTR)", SEMI: "S
 async function renderWeekly() {
   try {
     const w = await getJSON("weekly.json?x=" + Date.now());
-    $("wkHead").innerHTML = '<span class="up">' + w.pick_name + "</span> · " + w.multiplier.toFixed(2) + "x · " + aud(w.amount_aud, 2);
+    $("wkHead").innerHTML = '<span class="up">' + w.pick_name + "</span> · " + w.multiplier.toFixed(2) + "x · " + aud(w.amount_aud, 0);
     $("wkSub").textContent = "Week of " + w.week + ". " + w.calculated_line + " Amount = A$" + w.base_aud.toFixed(0) + " base × " + w.multiplier.toFixed(2) +
-      " (multiplier capped at 4x). Your spreadsheet's DCA Workings tab has the full workings and an editable base. The live table below can move during the week.";
+      ", rounded up to a whole dollar (multiplier capped at 4x). Your spreadsheet's DCA Workings tab has the full workings and an editable base. The live table below can move during the week.";
     $("wkBuy").hidden = false;
   } catch (e) { /* weekly.json not there yet */ }
 }
