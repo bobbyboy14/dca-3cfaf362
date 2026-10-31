@@ -4,7 +4,7 @@
 Usage:  python3 update_market.py path/to/market.json [--message "Daily update 1 Nov"] [--no-push]
 Format: {"updated": "2026-11-01T09:30+11:00", "headline": "one short line",
          "assets": {"BTC": {"move": "+1.2%", "note": "one short line"}, "TSLA": {...}, "MSTR": {...}, "SEMI": {...}}}
-        "scores": {"BTC": {"status": "On track|Mixed|Off track", "score": 0-10, "line": "one line",
+        "scores": {"BTC": {"status": "On track|Mixed|Behind", "score": 0-10, "line": "one line",
                            "points": {"fundamentals": 0-4, "news": 0-3, "trend": 0-3},
                            "parts": {"fundamentals": "why", "news": "why", "trend": "why"},
                            "as_of": "YYYY-MM-DD", "reasons": {"fundamentals": "plain English", "news": "...", "growth": "..."},
@@ -22,7 +22,7 @@ SCORING RULE (same for all four; total 0-10; no price targets):
   News and risks 0-3: nothing material 3; watch item 2; alert 1; serious damage 0.
   Trend 0-3 (shown on the hub as "Growth"): +1 price above 50-day avg, +1 above 200-day avg,
      +1 weekly RSI (14-wk Wilder) between 35 and 70.  Hub label: 3 On track, 2 Mixed, 0-1 Behind.
-  Status: >=7 On track, 4-6 Mixed, <=3 Off track.  score must equal the sum of points.
+  Status: 7-10 On track, 6 Mixed, 0-5 Behind.  score must equal the sum of points.
 """
 import argparse, base64, json, subprocess, sys
 from datetime import datetime
@@ -47,10 +47,10 @@ if not isinstance(sc, dict): sys.exit("needs 'scores'")
 for k in ASSETS:
     x = sc.get(k)
     if not x: sys.exit(f"scores: missing {k}")
-    if x.get("status") not in ("On track", "Mixed", "Off track"): sys.exit(f"scores.{k}: bad status")
+    if x.get("status") not in ("On track", "Mixed", "Behind"): sys.exit(f"scores.{k}: bad status")
     n = x.get("score")
     if not isinstance(n, (int, float)) or not 0 <= n <= 10: sys.exit(f"scores.{k}: score must be 0-10")
-    want = "On track" if n >= 7 else "Mixed" if n >= 4 else "Off track"
+    want = "On track" if n >= 7 else "Mixed" if n >= 6 else "Behind"
     if x["status"] != want: sys.exit(f"scores.{k}: score {n} means '{want}'")
     pts = x.get("points", {})
     for p, mx in PARTS.items():
