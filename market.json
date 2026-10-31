@@ -117,7 +117,7 @@
       ]
     },
     "MSTR": {
-      "status": "Mixed",
+      "status": "Behind",
       "score": 5,
       "line": "Holdings up, premium thin",
       "points": {
@@ -228,5 +228,5 @@
       }
     }
   },
-  "scores_rule": "Fundamentals 0-4 + News 0-3 + Trend 0-3; no price targets. Trend data 30-31 Oct 2026 (yfinance)."
+  "scores_rule": "Fundamentals 0-4 + News 0-3 + Trend 0-3; no price targets. Status 7-10 On track, 6 Mixed, 0-5 Behind. Trend data 30-31 Oct 2026 (yfinance)."
 }
