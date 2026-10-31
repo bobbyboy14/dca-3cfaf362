@@ -37,6 +37,7 @@
   .asof { color: var(--muted); font-size: .82rem; line-height:1.45; }
   .warn { color:#ffcc66; font-size:.85rem; }
   .chartbox { position:relative; height: 300px; }
+  #opt button { font-size:.9rem; padding:9px 2px; }
   footer { color: var(--muted); font-size: .8rem; line-height:1.5; padding: 4px 2px 30px; }
   a { color: var(--accent); }
 </style>
@@ -56,12 +57,9 @@
     <label for="dep">Deposit (A$)</label>
     <input id="dep" type="number" inputmode="decimal" min="0" step="100" value="10000">
     <div class="row">
-      <div>
+      <div style="flex-basis:100%">
         <label>What to buy</label>
-        <div class="seg" id="opt">
-          <button data-v="all" class="on">All four</button>
-          <button data-v="tsla">Tesla only</button>
-        </div>
+        <div class="seg" id="opt"><button data-v="all" class="on">All four</button><button data-v="tsla">Tesla</button><button data-v="mstr">MSTR</button><button data-v="btc">Bitcoin</button><button data-v="semi">SEMI</button></div>
       </div>
       <div>
         <label>How long ago</label>
@@ -72,7 +70,7 @@
         </div>
       </div>
     </div>
-    <div class="sub" style="margin:10px 0 0">All four = 35% Bitcoin, 30% Tesla, 25% SEMI, 10% Strategy (MSTR), bought on the start date and held.</div>
+    <div class="sub" style="margin:10px 0 0">Pick one asset, or All four = 35% Bitcoin, 30% Tesla, 25% SEMI, 10% Strategy (MSTR). Bought on the start date and held.</div>
   </div>
 
   <div class="card">
