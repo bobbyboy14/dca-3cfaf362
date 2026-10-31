@@ -41,7 +41,7 @@ tr.need td{font-size:12px;color:#c9d1e0;padding-top:0;border-bottom:1px solid #2
 .box{background:#171e2e;border-radius:10px;padding:16px 18px}table.parts{width:100%;border-collapse:collapse;margin-top:12px}table.parts td,table.parts th{padding:10px;vertical-align:top;text-align:left;border-bottom:1px solid #2a3550;font-size:13px}table.parts td:first-child{white-space:nowrap}.gd{margin-top:6px;font-size:12px;color:#9aa6bd}ul.src{padding-left:18px;font-size:13px}ul.src a{color:#8ab4ff;overflow-wrap:anywhere}
 </style></head><body><div class="w">
 <h1>Bob's Hub</h1>
-<nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#tsla-score" data-t="tsla-score">Tesla Scorecard</a><a href="#btc-score" data-t="btc-score">Bitcoin Scorecard</a><a href="#mstr-score" data-t="mstr-score">MSTR Scorecard</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a><a href="#semireview" data-t="semireview">Semi Holdings Latest Earnings Scorecard</a></nav>
+<nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#tsla-score" data-t="tsla-score">Tesla Scorecard</a><a href="#btc-score" data-t="btc-score">Bitcoin Scorecard</a><a href="#mstr-score" data-t="mstr-score">MSTR Scorecard</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a></nav>
 <div id="tab-hub">
 <div class="r1"><div><h2>Portfolio</h2>
 <div class="tot" id="tot"><div class="h">…</div></div></div>
@@ -54,7 +54,7 @@ tr.need td{font-size:12px;color:#c9d1e0;padding-top:0;border-bottom:1px solid #2
 <h2 id="duh" hidden>Daily Update</h2>
 <div class="du" id="du" hidden></div>
 </div>
-<div id="tab-cagr" hidden></div><div id="tab-scorecard" hidden></div><div id="tab-semireview" hidden></div><div id="tab-tsla-score" hidden></div><div id="tab-btc-score" hidden></div><div id="tab-mstr-score" hidden></div>
+<div id="tab-cagr" hidden></div><div id="tab-scorecard" hidden></div><div id="tab-tsla-score" hidden></div><div id="tab-btc-score" hidden></div><div id="tab-mstr-score" hidden></div>
 </div>
 <script>
 function ytG(k){try{const s=localStorage.getItem("hubYT_"+k);if(s!==null&&s!=="")return s}catch(e){}return "25"}
@@ -90,9 +90,9 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
 })();
 </script>
 <script>
-(function(){const TABS=["hub","cagr","scorecard","semireview","tsla-score","btc-score","mstr-score"];let lib=null;
-const need=()=>lib||(lib=new Promise((ok,no)=>{const s=document.createElement("script");s.src="tabs.js?v=6";s.onload=ok;s.onerror=no;document.head.appendChild(s);}));
-async function go(){const t=TABS.includes(location.hash.slice(1))?location.hash.slice(1):"hub";
+(function(){const TABS=["hub","cagr","scorecard","tsla-score","btc-score","mstr-score"];let lib=null;
+const need=()=>lib||(lib=new Promise((ok,no)=>{const s=document.createElement("script");s.src="tabs.js?v=7";s.onload=ok;s.onerror=no;document.head.appendChild(s);}));
+async function go(){if(location.hash==="#semireview"){history.replaceState(null,"","#scorecard");}const t=TABS.includes(location.hash.slice(1))?location.hash.slice(1):"hub";
  TABS.forEach(k=>{document.getElementById("tab-"+k).hidden=k!==t;});
  document.querySelectorAll("nav.tabs a").forEach(a=>a.classList.toggle("on",a.dataset.t===t));
  if(t!=="hub"){try{await need();await HubTabs[t]();}catch(e){document.getElementById("tab-"+t).innerHTML="<div class='muted'>Couldn't load ("+(e.message||e)+"). Pull to refresh.</div>";}}}
