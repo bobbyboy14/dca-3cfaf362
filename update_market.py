@@ -6,7 +6,10 @@ Format: {"updated": "2026-11-01T09:30+11:00", "headline": "one short line",
          "assets": {"BTC": {"move": "+1.2%", "note": "one short line"}, "TSLA": {...}, "MSTR": {...}, "SEMI": {...}}}
         "scores": {"BTC": {"status": "On track|Mixed|Off track", "score": 0-10, "line": "one line",
                            "points": {"fundamentals": 0-4, "news": 0-3, "trend": 0-3},
-                           "parts": {"fundamentals": "why", "news": "why", "trend": "why"}}, "TSLA": {...}, "MSTR": {...}, "SEMI": {...}}
+                           "parts": {"fundamentals": "why", "news": "why", "trend": "why"},
+                           "as_of": "YYYY-MM-DD", "reasons": {"fundamentals": "plain English", "news": "...", "growth": "..."},
+                           "growth_detail": {"price": n, "ma50": n, "ma200": n, "rsi_week": n, "currency": "US$|A$", "price_date": "YYYY-MM-DD"},
+                           "sources": [{"label": "...", "url": "https://..."}]}, "TSLA": {...}, "MSTR": {...}, "SEMI": {...}}
 "needed" (optional): copy of sheet CAGR!H1:Q8 - per asset target, needed, recent (fraction/yr), verdict.
         Data only: "recent" feeds the hub CAGR yearly target boxes. It does NOT feed the score.
 "move" must start with + or - (shown green/red). Needs the box's `gh` login.
@@ -54,6 +57,20 @@ for k in ASSETS:
         if not x.get("parts", {}).get(p): sys.exit(f"scores.{k}: missing part '{p}'")
         if not isinstance(pts.get(p), int) or not 0 <= pts[p] <= mx: sys.exit(f"scores.{k}: points.{p} must be 0-{mx}")
     if sum(pts[p] for p in PARTS) != n: sys.exit(f"scores.{k}: score {n} must equal points total {sum(pts[p] for p in PARTS)}")
+    rs = x.get("reasons", {})
+    for p in ("fundamentals", "news", "growth"):
+        if not str(rs.get(p, "")).strip(): sys.exit(f"scores.{k}: missing reasons.{p}")
+    gd = x.get("growth_detail", {})
+    for f in ("price", "ma50", "ma200", "rsi_week"):
+        if not isinstance(gd.get(f), (int, float)): sys.exit(f"scores.{k}: growth_detail.{f} must be a number")
+    if not isinstance(gd.get("currency"), str): sys.exit(f"scores.{k}: growth_detail.currency needed")
+    want_t = (gd["price"] > gd["ma50"]) + (gd["price"] > gd["ma200"]) + (35 <= gd["rsi_week"] <= 70)
+    if pts["trend"] != want_t: sys.exit(f"scores.{k}: points.trend {pts['trend']} but growth_detail gives {want_t}")
+    try: datetime.fromisoformat(x.get("as_of", ""))
+    except ValueError: sys.exit(f"scores.{k}: as_of must be YYYY-MM-DD")
+    src = x.get("sources")
+    if not isinstance(src, list) or not src or not all(str(z.get("url", "")).startswith("http") and z.get("label") for z in src):
+        sys.exit(f"scores.{k}: sources must be a non-empty list of {{label, url}}")
     x.setdefault("line", "")
 nd = data.get("needed")  # optional: {"as_of","source","assets":{K:{"target","needed","recent","verdict"[,"placeholder"]}}}
 if nd is not None:
