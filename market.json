@@ -33,7 +33,44 @@
         "fundamentals": "Mixed: US spot ETFs -US$516m in Oct (-US$202m week to 30 Oct); hash rate record ~1,064 EH/s; adoption/regulation not checked (2/4)",
         "news": "Binance exchange hack overhang, watch (2/3)",
         "trend": "Below 50-day, above 200-day, weekly RSI 52 (2/3)"
-      }
+      },
+      "as_of": "2026-10-31",
+      "reasons": {
+        "fundamentals": "Mixed (2/4). Money into US spot Bitcoin ETFs turned negative: about US$515m out in October and US$202m out in the week to 30 Oct, including US$643m out on Fri 30 Oct, the biggest one-day exit since June. The network itself is healthy: hash rate hit a record of about 1,064 EH/s (24 Oct), and miners kept adding capacity while the price fell. Adoption and regulation news: Not verified this round.",
+        "news": "Watch (2/3). Binance, an exchange, lost about US$6.3bn in a hack on 29-30 Oct. It was not a flaw in Bitcoin. Withdrawals are due back around Sun 1 Nov and proof-of-reserves results on Mon 2 Nov. The risk is the attacker selling the stolen BTC.",
+        "growth": "Mixed (2/3). Price is below its 50-day average but above its 200-day average. Weekly RSI is in the normal 35-70 range."
+      },
+      "growth_detail": {
+        "price": 77351.42,
+        "ma50": 81894.69,
+        "ma200": 73131.26,
+        "rsi_week": 51.7,
+        "currency": "US$",
+        "price_date": "2026-10-31",
+        "source": "yfinance daily closes"
+      },
+      "sources": [
+        {
+          "label": "US spot Bitcoin ETF flows, Oct 2026 (TFTC / Farside)",
+          "url": "https://www.tftc.io/bitcoin-etf-flows/october-2026"
+        },
+        {
+          "label": "Week of 26-30 Oct ETF flows",
+          "url": "https://basecamp.markets/bitcoin-etf-flows-this-week-643m/"
+        },
+        {
+          "label": "Hash rate weekly, 18-24 Oct",
+          "url": "https://btcmining.markets/assets/insights/bmm-market-pulse-weekly-2026-10-24.pdf"
+        },
+        {
+          "label": "Binance hack (Decrypt)",
+          "url": "https://decrypt.co/382203/binance-finds-additional-points-of-breach-in-6-3b-hack"
+        },
+        {
+          "label": "Binance hacker wallets (CoinDesk)",
+          "url": "https://www.coindesk.com/markets/2026/10/30/binance-hacker-splits-usd1-4-billion-of-bitcoin-into-19-wallets-that-no-one-can-freeze"
+        }
+      ]
     },
     "TSLA": {
       "status": "On track",
@@ -48,7 +85,36 @@
         "fundamentals": "Good: Q3 beat on EPS (48c vs 45c) and revenue (US$28.05bn), positive free cash flow, capex cut; but net income down, energy missed (3/4)",
         "news": "Nothing material; breach claim unverified (3/3)",
         "trend": "Above 50 & 200-day, weekly RSI 56 (3/3)"
-      }
+      },
+      "as_of": "2026-10-31",
+      "reasons": {
+        "fundamentals": "Good (3/4). Q3 2026 (reported 21 Oct) beat forecasts: adjusted EPS 48c vs about 45c expected, and revenue US$28.05bn vs about US$27.9bn. Free cash flow was positive at US$1.53bn and the 2026 capex plan was cut to about US$20bn. Car margins beat estimates and the order backlog is the biggest in four years. Weak spots: net income fell about 29-43% (sources differ on basis), car revenue fell 3%, and energy revenue missed. Not Strong because profit fell.",
+        "news": "Nothing material (3/3). No confirmed Tesla breach; a September forum claim is unverified.",
+        "growth": "On track (3/3). Price is above both its 50-day and 200-day averages, and weekly RSI is in the normal 35-70 range."
+      },
+      "growth_detail": {
+        "price": 399.81,
+        "ma50": 369.6,
+        "ma200": 385.3,
+        "rsi_week": 55.9,
+        "currency": "US$",
+        "price_date": "2026-10-30",
+        "source": "yfinance daily closes"
+      },
+      "sources": [
+        {
+          "label": "Tesla Q3 2026 results (CNBC)",
+          "url": "https://www.cnbc.com/2026/10/21/tesla-tsla-q3-2026-earnings-report.html"
+        },
+        {
+          "label": "Tesla Q3 call and capex (Reuters via Investing.com)",
+          "url": "https://www.investing.com/news/stock-market-news/musks-tesla-revenue-beats-estimates-as-deliveries-rebound-energy-storage-grows-4963934"
+        },
+        {
+          "label": "Q3 metrics vs estimates (Yahoo Finance)",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/tesla-tsla-reports-q3-earnings-210001951.html"
+        }
+      ]
     },
     "MSTR": {
       "status": "Mixed",
@@ -63,7 +129,36 @@
         "fundamentals": "Mixed: Q3 BTC holdings 848,517 (+26% YTD), US$21bn raised, low leverage; but BTC Yield -3.7% YTD, mNAV ~1.15x (2/4)",
         "news": "MSCI exclusion list due 11 Nov, watch (2/3)",
         "trend": "Below 50 & 200-day, weekly RSI 47 (1/3)"
-      }
+      },
+      "as_of": "2026-10-31",
+      "reasons": {
+        "fundamentals": "Mixed (2/4). Q3 2026 (reported 29 Oct): holds 848,517 BTC, up 26% this year, after raising US$21.2bn this year (US$5.4bn in Q3 from share sales). Net leverage fell to about 2.4%, with US$5.07bn of cash reserves covering 3.4 years of dividends and interest. But BTC Yield, the bitcoin per share, is -3.7% this year, meaning new shares diluted holders faster than bitcoin was added. The premium to its bitcoin (mNAV) is thin at about 1.15x. The record US$19.5bn profit is mostly a paper gain on bitcoin's price.",
+        "news": "Watch (2/3). The MSCI index exclusion list is due 11 Nov and could force some funds to sell. No breach at Strategy itself.",
+        "growth": "Behind (1/3). Price is below both its 50-day and 200-day averages. Weekly RSI is in the normal range."
+      },
+      "growth_detail": {
+        "price": 130.51,
+        "ma50": 143.67,
+        "ma200": 134.56,
+        "rsi_week": 47.4,
+        "currency": "US$",
+        "price_date": "2026-10-30",
+        "source": "yfinance daily closes"
+      },
+      "sources": [
+        {
+          "label": "Strategy Q3 2026 results",
+          "url": "https://www.strategy.com/press/strategy-announces-third-quarter-2026-financial-results_10-29-2026"
+        },
+        {
+          "label": "Q3 2026 call transcript (Motley Fool)",
+          "url": "https://www.fool.com/earnings/call-transcripts/2026/10/30/strategy-mstr-q3-2026-earnings-call-transcript/"
+        },
+        {
+          "label": "Q3 2026 call, NAV 1.15x (StockAnalysis)",
+          "url": "https://stockanalysis.com/stocks/mstr/transcripts/662581-q3-2026/"
+        }
+      ]
     },
     "SEMI": {
       "status": "On track",
@@ -78,7 +173,28 @@
         "fundamentals": "Good: SEMI Scorecard whole fund 'Mostly good' (73.7% good, 18.3% mixed, 5.7% bad) (3/4)",
         "news": "Nothing material at top holdings (3/3)",
         "trend": "Below 50-day, above 200-day, weekly RSI 47 (2/3)"
-      }
+      },
+      "as_of": "2026-10-31",
+      "reasons": {
+        "fundamentals": "Good (3/4). The SEMI Scorecard rates the whole fund 'Mostly good': 73.7% of holdings by weight were Good, 18.3% Mixed, 5.7% Bad and 2.3% Not verified. AI demand is strong almost everywhere. Weak spots were the Intel and Kioxia guidance and the Broadcom and Qualcomm outlooks.",
+        "news": "Nothing material (3/3). No breaches at the top holdings; NVIDIA's July software bug was patched.",
+        "growth": "Mixed (2/3). Price is below its 50-day average but above its 200-day average. Weekly RSI is in the normal range."
+      },
+      "growth_detail": {
+        "price": 33.78,
+        "ma50": 36.4,
+        "ma200": 32.86,
+        "rsi_week": 47.2,
+        "currency": "A$",
+        "price_date": "2026-10-30",
+        "source": "yfinance daily closes"
+      },
+      "sources": [
+        {
+          "label": "SEMI Scorecard tab",
+          "url": "https://bobbyboy14.github.io/dca-3cfaf362/hub.html#scorecard"
+        }
+      ]
     }
   },
   "needed": {
