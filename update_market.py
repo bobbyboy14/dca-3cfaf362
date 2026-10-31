@@ -5,21 +5,21 @@ Usage:  python3 update_market.py path/to/market.json [--message "Daily update 1 
 Format: {"updated": "2026-11-01T09:30+11:00", "headline": "one short line",
          "assets": {"BTC": {"move": "+1.2%", "note": "one short line"}, "TSLA": {...}, "MSTR": {...}, "SEMI": {...}}}
         "scores": {"BTC": {"status": "On track|Mixed|Off track", "score": 0-10, "line": "one line",
-                           "parts": {"growth": "...", "trend": "...", "news": "..."}},
-                   "TSLA": {... parts: growth, trend, earnings, news}, "MSTR": {... growth, trend, news},
-                   "SEMI": {... growth, earnings, trend}}
-"needed" (optional): copy of sheet CAGR!H1:Q8 - per asset target, needed (fraction/yr), recent (fraction/yr), verdict.
+                           "points": {"fundamentals": 0-4, "news": 0-3, "trend": 0-3},
+                           "parts": {"fundamentals": "why", "news": "why", "trend": "why"}}, "TSLA": {...}, "MSTR": {...}, "SEMI": {...}}
+"needed" (optional): copy of sheet CAGR!H1:Q8 - per asset target, needed, recent (fraction/yr), verdict.
+        Data only: "recent" feeds the hub CAGR yearly target boxes. It does NOT feed the score.
 "move" must start with + or - (shown green/red). Needs the box's `gh` login.
 
-SCORING RULE (same for all four; total 0-10):
-  Growth 0-4: r = 3y CAGR (yfinance adjusted close; 1y if <3y history) / growth needed to reach target in 1 year.
-              Already at/above target = 4; r>=1.5: 4; r>=1: 3; r>=0.5: 2; r>0: 1; else 0.
-              Targets: BTC US$125,000, TSLA US$550, MSTR US$210 (sheet Portfolio J8:J10), SEMI A$40 (placeholder).
-  Trend 0-3:  +1 price above 50-day avg, +1 above 200-day avg, +1 weekly RSI (14-wk Wilder) between 35 and 70.
-  Third 0-3:  earnings where the asset has them (TSLA latest quarter; SEMI holdings scorecard), else news.
-              Earnings: Good (beat revenue+EPS, outlook ok, or SEMI >=60% good) 3; Mixed/in line 2; Not verified 1; Bad 0.
-              News: nothing material 3; watch item/pending risk 2; alert 1; serious damage 0.
-  Status: >=7 On track, 4-6 Mixed, <=3 Off track.
+SCORING RULE (same for all four; total 0-10; no price targets):
+  Fundamentals 0-4: Strong 4, Good 3, Mixed 2, Weak or Not verified 1, Bad 0.
+     TSLA: latest quarterly report and call.  MSTR: latest quarterly report and call, plus BTC holdings growth,
+     financing and mNAV.  SEMI: 'SEMI Scorecard' Whole fund row ("Mostly good" = Good or better).
+     BTC: recent US spot-ETF/fund flows, hash rate and network health, adoption and regulation.
+  News and risks 0-3: nothing material 3; watch item 2; alert 1; serious damage 0.
+  Trend 0-3 (shown on the hub as "Growth"): +1 price above 50-day avg, +1 above 200-day avg,
+     +1 weekly RSI (14-wk Wilder) between 35 and 70.  Hub label: 3 On track, 2 Mixed, 0-1 Behind.
+  Status: >=7 On track, 4-6 Mixed, <=3 Off track.  score must equal the sum of points.
 """
 import argparse, base64, json, subprocess, sys
 from datetime import datetime
@@ -38,8 +38,7 @@ for k in ASSETS:
     if not x: sys.exit(f"missing asset {k}")
     if not str(x.get("move", "")).startswith(("+", "-")): sys.exit(f"{k}: move must start with + or -, e.g. +1.2%")
     x.setdefault("note", "")
-PARTS = {"BTC": ["growth", "trend", "news"], "TSLA": ["growth", "trend", "earnings", "news"],
-         "MSTR": ["growth", "trend", "news"], "SEMI": ["growth", "earnings", "trend"]}
+PARTS = {"fundamentals": 4, "news": 3, "trend": 3}  # part -> max points
 sc = data.get("scores")
 if not isinstance(sc, dict): sys.exit("needs 'scores'")
 for k in ASSETS:
@@ -50,8 +49,11 @@ for k in ASSETS:
     if not isinstance(n, (int, float)) or not 0 <= n <= 10: sys.exit(f"scores.{k}: score must be 0-10")
     want = "On track" if n >= 7 else "Mixed" if n >= 4 else "Off track"
     if x["status"] != want: sys.exit(f"scores.{k}: score {n} means '{want}'")
-    for p in PARTS[k]:
+    pts = x.get("points", {})
+    for p, mx in PARTS.items():
         if not x.get("parts", {}).get(p): sys.exit(f"scores.{k}: missing part '{p}'")
+        if not isinstance(pts.get(p), int) or not 0 <= pts[p] <= mx: sys.exit(f"scores.{k}: points.{p} must be 0-{mx}")
+    if sum(pts[p] for p in PARTS) != n: sys.exit(f"scores.{k}: score {n} must equal points total {sum(pts[p] for p in PARTS)}")
     x.setdefault("line", "")
 nd = data.get("needed")  # optional: {"as_of","source","assets":{K:{"target","needed","recent","verdict"[,"placeholder"]}}}
 if nd is not None:
