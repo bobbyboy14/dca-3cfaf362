@@ -65,7 +65,7 @@
   .fgrid3 input[type=number] { font-size:1.1rem; padding:8px; }
   input.fdate { width:100%; font-size:1.05rem; padding:9px 10px; border-radius:10px; border:1px solid #2c3854; background:var(--inner); color:var(--text); color-scheme:dark; }
   .ghost { margin-top:10px; border:1px solid #2c3854; background:transparent; color:var(--text); padding:9px 14px; border-radius:10px; font-size:.95rem; cursor:pointer; }
-  #fcAsset button { font-size:.9rem; padding:9px 2px; }
+  #opt button, #fcAsset button { font-size:.9rem; padding:9px 2px; }
   footer { color:var(--muted); font-size:.8rem; line-height:1.5; padding:4px 2px 30px; }
 </style>
 </head>
@@ -92,12 +92,12 @@
     <label for="dep">Deposit (A$)</label>
     <input id="dep" type="number" inputmode="decimal" min="0" step="100" value="10000">
     <div class="row">
-      <div><label>What to buy</label>
-        <div class="seg" id="opt"><button data-v="all" class="on">All four</button><button data-v="tsla">Tesla only</button></div></div>
+      <div style="flex-basis:100%"><label>What to buy</label>
+        <div class="seg" id="opt"><button data-v="all" class="on">All four</button><button data-v="tsla">Tesla</button><button data-v="mstr">MSTR</button><button data-v="btc">Bitcoin</button><button data-v="semi">SEMI</button></div></div>
       <div><label>How long ago</label>
         <div class="seg" id="yrs"><button data-v="1" class="on">1 year</button><button data-v="3">3 years</button><button data-v="5">5 years</button></div></div>
     </div>
-    <div class="sub" style="margin-top:8px">All four = 35% Bitcoin, 30% Tesla, 25% SEMI, 10% Strategy (MSTR), bought on the start date and held.</div>
+    <div class="sub" style="margin-top:8px">Pick one asset, or All four = 35% Bitcoin, 30% Tesla, 25% SEMI, 10% Strategy (MSTR). Bought on the start date and held.</div>
     <div class="stats">
       <div class="stat"><div class="k">Worth now</div><div class="v" id="sNow">–</div></div>
       <div class="stat"><div class="k">Multiple of deposit</div><div class="v" id="sMul">–</div></div>
@@ -445,7 +445,7 @@ function renderCalc() {
   $("sMul").textContent = (r.valueNow / dep).toFixed(2) + "x";
   $("sTot").innerHTML = cpct(r.totalChange);
   $("sCagr").innerHTML = cpct(r.cagr);
-  $("sPer").textContent = "From " + dstr(r.startDate) + " to " + dstr(r.endDate) + ".";
+  $("sPer").textContent = GrowthCalc.OPTIONS[st.opt].label + ", from " + dstr(r.startDate) + " to " + dstr(r.endDate) + ".";
   $("calcBody").innerHTML = r.holdings.map(h => '<tr class="' + (h.inBasket ? "" : "out") + '"><td>' + h.name + "</td><td>" + (h.inBasket ? Math.round(h.weight * 100) + "%" : "–") +
     "</td><td>" + cpct(h.change) + "</td><td>" + cpct(h.cagr) + "</td><td>" + (h.inBasket ? aud(h.valueNow) : "–") + "</td></tr>").join("");
   const labels = r.series.map(p => p.date), vals = r.series.map(p => Math.round(p.value));
