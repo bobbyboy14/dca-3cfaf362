@@ -178,7 +178,7 @@ function assetScore(k) {
     const mk = await mkt(); const x = mk && mk.scores && mk.scores[k];
     if (!x) { el.innerHTML = '<div class="muted">No score yet.</div>'; return; }
     const P = x.points || {}, R = x.reasons || {}, g = x.growth_detail || {}, c = g.currency || "";
-    const st = { "On track": "up", Mixed: "amber", Behind: "down", "Off track": "down" }[x.status] || "";
+    const st = { "On track": "up", Mixed: "amber", Behind: "down" }[x.status] || "";
     const G = P.trend >= 3 ? ["On track", "up"] : P.trend == 2 ? ["Mixed", "amber"] : ["Behind", "down"];
     const n = v => c + Number(v).toLocaleString("en-AU", { maximumFractionDigits: 2 });
     const ab = (p, a) => (p > a ? "above" : "below");
