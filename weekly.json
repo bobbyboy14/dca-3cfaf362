@@ -1,0 +1,113 @@
+{
+ "week": "Mon 26 Oct 2026 to Sun 1 Nov 2026",
+ "week_start": "2026-10-26",
+ "week_end": "2026-11-01",
+ "calculated": "2026-10-31T20:40+11:00",
+ "calculated_line": "Calculated on Saturday 31 Oct 2026, 8:40 PM AEDT. Normally recalculated every Wednesday.",
+ "pick": "MSTR",
+ "pick_name": "Strategy (MSTR)",
+ "pick_score": 25.74,
+ "runner_up": "Bitcoin",
+ "runner_up_score": 13.04,
+ "base_aud": 75.0,
+ "multiplier": 2.27,
+ "amount_aud": 170.25,
+ "cap": 4.0,
+ "scores": [
+  {
+   "key": "MSTR",
+   "name": "Strategy (MSTR)",
+   "price_aud": 185.73,
+   "price_source": "2026-10-30 close",
+   "from_high_52w": -0.548,
+   "vs_cost": -0.1975,
+   "mayer": 0.973,
+   "pts_high": 54.8,
+   "pts_cost": 19.8,
+   "pts_mayer": 2.7,
+   "score": 25.74,
+   "weekly_rsi": 47.3,
+   "multiplier": 2.27,
+   "multiplier_detail": {
+    "base": 1.27,
+    "base_why": "price is 2.7% below its 200-day average: 1 + 0.1 per 1% below",
+    "extras": [
+     {
+      "add": 1.0,
+      "why": "55% below its 52-week high (50%+)"
+     }
+    ]
+   }
+  },
+  {
+   "key": "BTC",
+   "name": "Bitcoin",
+   "price_aud": 110086.0,
+   "price_source": "live (CoinGecko)",
+   "from_high_52w": -0.3474,
+   "vs_cost": -0.1086,
+   "mayer": 1.065,
+   "pts_high": 34.7,
+   "pts_cost": 10.9,
+   "pts_mayer": -6.5,
+   "score": 13.04,
+   "weekly_rsi": 51.5,
+   "multiplier": 1.26,
+   "multiplier_detail": {
+    "rule": "BTC DCA sheet (dca_sheet.mult, as daily_test.py)",
+    "raw": 1.264,
+    "inputs_usd": {
+     "p": 77299.7969,
+     "s50": 81893.6534,
+     "s100": 76269.5805,
+     "s200": 73131.0014,
+     "rsi": 34.853,
+     "mvrv": 0.7489,
+     "dxy": 101.88,
+     "mayer": 1.057,
+     "date": "2026-10-31"
+    }
+   }
+  },
+  {
+   "key": "SEMI",
+   "name": "SEMI",
+   "price_aud": 33.78,
+   "price_source": "2026-10-30 close",
+   "from_high_52w": -0.2365,
+   "vs_cost": null,
+   "mayer": 1.028,
+   "pts_high": 23.7,
+   "pts_cost": null,
+   "pts_mayer": -2.8,
+   "score": 10.43,
+   "weekly_rsi": 47.2,
+   "multiplier": 1.0,
+   "multiplier_detail": {
+    "base": 1.0,
+    "base_why": "price is at or above its 200-day average: normal",
+    "extras": []
+   }
+  },
+  {
+   "key": "TSLA",
+   "name": "Tesla",
+   "price_aud": 568.96,
+   "price_source": "2026-10-30 close",
+   "from_high_52w": -0.2305,
+   "vs_cost": -0.0886,
+   "mayer": 1.04,
+   "pts_high": 23.0,
+   "pts_cost": 8.9,
+   "pts_mayer": -4.0,
+   "score": 9.29,
+   "weekly_rsi": 55.9,
+   "multiplier": 1.0,
+   "multiplier_detail": {
+    "base": 1.0,
+    "base_why": "price is at or above its 200-day average: normal",
+    "extras": []
+   }
+  }
+ ]
+}
