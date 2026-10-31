@@ -46,7 +46,7 @@ tr.need td{font-size:12px;color:#c9d1e0;padding-top:0;border-bottom:1px solid #2
 <div class="r1"><div><h2>Portfolio</h2>
 <div class="tot" id="tot"><div class="h">…</div></div></div>
 <div><h2>This Week's Buy</h2>
-<div class="buy" id="buy">This week's buy: …</div></div></div>
+<div class="buy" id="buy">…</div></div></div>
 <h2>Trajectory</h2>
 <div class="sc" id="sc"></div>
 <h2>Security</h2>
@@ -74,7 +74,7 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
     $("sc").innerHTML=["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];const P=x.points||{},g=P.trend,G=g==null?null:g>=3?["On track","up"]:g==2?["Mixed","amber"]:["Behind","down"];return "<div><div class='t'>"+k+"</div>"+(G?"<div class='gr "+G[1]+"'>Growth: "+G[0]+"</div>":"")+"<div class='sv'>"+"<span class='st "+(C[x.status]||"")+"' title='"+esc(x.status)+"'>"+x.score+"/10</span>"+"</div>"+(x.points?"<div class='bd'>Fundamentals "+P.fundamentals+"/4 · News "+P.news+"/3 · Growth "+P.trend+"/3</div>":"")+(N[k]?"<label class='yt'>CAGR yearly target <input type='number' min='0' max='500' step='1' inputmode='numeric' data-k='"+k+"' value='"+ytG(k)+"'>%</label><div class='bt' data-k='"+k+"' data-r='"+N[k].recent+"'></div>":"")+"</div>"}).join("");ytU();}
   if(mk){const u=new Date(mk.updated).toLocaleString("en-AU",{timeZone:"Australia/Melbourne",weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
     $("du").innerHTML="<div class='d'>"+u+" AEDT</div><div class='hl'>"+esc(mk.headline)+"</div>"+["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const x=mk.assets[k];return "<div class='r'><span class='t'>"+k+"</span><span class='m "+(String(x.move).startsWith("-")?"down":"up")+"'>"+esc(x.move)+"</span>"+esc(x.note)+"</div>"}).join("");$("du").hidden=false;$("duh").hidden=false;}
-  $("buy").innerHTML=wk?"This week's buy: <b>"+esc(wk.pick)+" A$"+Math.ceil(wk.amount_aud)+"</b>":"This week's buy: not available";
+  $("buy").innerHTML=wk?"<b>"+esc(wk.pick)+"</b><div style='margin-top:10px'><b>A$"+Math.ceil(wk.amount_aud)+"</b></div>":"Not available";
   const COST={BTC:{units:0.1336,cost:16500},TSLA:{units:41,cost:25595},MSTR:{units:21.56,cost:4990}};
   const V=d&&d.value_inputs,A=n=>"A$"+Math.round(Math.abs(n)).toLocaleString("en-AU");
   if(V){let val=0,inn=0;for(const k in COST){const p=k==="BTC"&&cg&&cg.bitcoin&&cg.bitcoin.aud?cg.bitcoin.aud:V[k].price_aud;val+=COST[k].units*p;inn+=COST[k].cost;}
