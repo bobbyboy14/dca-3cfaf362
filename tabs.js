@@ -13,6 +13,7 @@ const once = (k, f) => cache[k] || (cache[k] = f());
 const T = Date.now();
 const data = () => once("data", () => get("data.json?t=" + T));
 const live = () => once("live", () => get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud").catch(() => null));
+const mkt = () => once("mkt", () => get("market.json?t=" + T).catch(() => null));
 const card = () => once("card", () => get("scorecard.json?t=" + T));
 const chip = v => '<span class="chip ' + ({ Good: "g", Mixed: "m", Bad: "b" }[v] || "nv") + '">' + esc(v) + "</span>";
 
@@ -23,9 +24,9 @@ async function cagr() {
   const el = $("tab-cagr");
   if (!C) {
     el.innerHTML = '<div class="muted">Loading…</div>';
-    const [d, cg] = await Promise.all([data(), live(), once("chartjs", () => loadScript("https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js")), once("gc", () => loadScript("growth-calc.js"))]);
+    const [d, cg, , , mk] = await Promise.all([data(), live(), once("chartjs", () => loadScript("https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js")), once("gc", () => loadScript("growth-calc.js")), mkt()]);
     const lv = cg && cg.bitcoin && cg.bitcoin.aud ? { BTC_AUD: cg.bitcoin.aud, date: new Date().toISOString().slice(0, 10) } : null;
-    C = { daily: GrowthCalc.buildDaily(d, lv), yrs: 3, live: !!lv };
+    C = { daily: GrowthCalc.buildDaily(d, lv), yrs: 3, live: !!lv, need: (mk && mk.needed) || null };
     el.innerHTML =
       '<h2>Results</h2><div class="stats" id="cStats"></div><div class="muted" id="cPer"></div>' +
       '<div class="tw"><table><thead><tr><th>Asset</th><th>Put in</th><th>Worth</th><th>Price</th><th>CAGR</th></tr></thead><tbody id="cBody"></tbody></table></div>' +
@@ -75,6 +76,11 @@ function simulate() {
   const rows = on.map(k => ({ k, put: put[k], worth: last[k] * f, chg: D[e][k] / D[s][k] - 1, cagr: Math.pow(D[e][k] / D[s][k], 1 / Ty) - 1 }));
   return { start: D[s].date, end, Ty, on, putIn, endV, todayV: last.total, rate: (lo + hi) / 2, rows, series, crash, top };
 }
+function needRow(k) {
+  const n = C.need && C.need.assets[k]; if (!n) return "";
+  const cl = { "On track": "up", Stretch: "amber", Behind: "down" }[n.verdict] || "";
+  return '<tr class="need"><td colspan="5"><span class="' + cl + '"><b>' + esc(n.verdict) + "</b></span> · Needed per year: <b>" + pct(n.needed) + "</b> to " + esc(n.target) + (n.placeholder ? " (placeholder)" : "") + " · recent growth " + pct(n.recent) + "</td></tr>";
+}
 function run() {
   const r = simulate();
   if (r.error) { $("cStats").innerHTML = ""; $("cBody").innerHTML = ""; $("cPer").textContent = r.error; return; }
@@ -85,7 +91,7 @@ function run() {
     '<div><div class="k">Up / Down</div><div class="v ' + (g >= 0 ? "up" : "down") + '">' + (g >= 0 ? "+" : "") + aud(g) + " <small>(" + pct(g / r.putIn) + ")</small></div></div>" +
     '<div><div class="k">Per year</div><div class="v ' + (r.rate >= 0 ? "up" : "down") + '">' + pct(r.rate) + "</div></div>";
   $("cPer").textContent = dstr(r.start) + " to " + dstr(r.end) + (r.top ? ", topping up " + aud(r.top) + " " + ($("cFreq").value === "week" ? "weekly" : "monthly") : "") + (r.crash ? ", then −25%" : "") + (C.live ? " · BTC live" : "");
-  $("cBody").innerHTML = r.rows.map(x => "<tr><td><b>" + x.k + "</b></td><td>" + aud(x.put) + "</td><td>" + aud(x.worth) + "</td><td>" + cpct(x.chg, 0) + "</td><td>" + cpct(x.cagr) + "</td></tr>").join("") +
+  $("cBody").innerHTML = r.rows.map(x => "<tr><td><b>" + x.k + "</b></td><td>" + aud(x.put) + "</td><td>" + aud(x.worth) + "</td><td>" + cpct(x.chg, 0) + "</td><td>" + cpct(x.cagr) + "</td></tr>" + needRow(x.k)).join("") +
     (r.rows.length > 1 ? "<tr class='tot'><td><b>Total</b></td><td>" + aud(r.putIn) + "</td><td><b>" + aud(r.endV) + "</b></td><td>" + cpct(r.endV / r.putIn - 1, 0) + "</td><td>" + cpct(r.rate) + "</td></tr>" : "");
   const col = { BTC: "#f7931a", TSLA: "#e8ecf4", MSTR: "#b388ff", SEMI: "#4dd0e1", total: "#4da3ff" };
   const S = r.series.filter((_, i) => i % 3 === 0 || i === r.series.length - 1), L = S.map(x => x.date);
