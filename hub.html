@@ -72,55 +72,143 @@
   table.fcin td { padding:5px 3px; }
   input:disabled { opacity:.6; }
   #opt button { font-size:.9rem; padding:9px 2px; }
+  details.more { margin-top:10px; border:1px solid var(--line); border-radius:10px; }
+  details.more > summary { cursor:pointer; list-style:none; padding:12px 14px; min-height:44px; display:flex; align-items:center; justify-content:space-between; gap:10px; color:var(--accent); font-weight:600; font-size:.95rem; -webkit-tap-highlight-color:transparent; }
+  details.more > summary::-webkit-details-marker { display:none; }
+  details.more > summary::after { content:"▸"; color:var(--muted); transition:transform .15s; }
+  details.more[open] > summary::after { transform:rotate(90deg); }
+  details.more > .in { padding:0 12px 12px; }
+  .glance { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:10px; }
+  .glance .stat .v { font-size:1.25rem; }
+  .olist { margin:6px 0 0; padding:0; list-style:none; }
+  .olist li { padding:9px 0; border-bottom:1px solid var(--line); line-height:1.45; font-size:.93rem; }
+  .olist li:last-child { border-bottom:0; }
+  .olist .tk { display:inline-block; min-width:52px; font-weight:700; }
+  .pill.bad { background:#4a1f24; color:var(--down); }
+  .pill.sm { font-size:.75rem; padding:2px 8px; font-weight:600; }
+  .headline { font-size:1.05rem; line-height:1.45; margin:4px 0 2px; }
   footer { color:var(--muted); font-size:.8rem; line-height:1.5; padding:4px 2px 30px; }
 </style>
 </head>
 <body>
 <main>
-  <nav><b>Hub</b><a href="./">DCA dashboard</a><a href="growth.html">Basket growth</a></nav>
+<main>
+  <nav><b>Hub</b><a href="./">DCA dashboard</a><a href="#calculator">Portfolio calculator</a></nav>
   <div class="topbar">
     <div>
       <h1>Market hub</h1>
-      <div class="sub">Everything in one place. Prices load fresh every time you open this page or press Refresh. All money figures in Australian dollars unless marked US$.</div>
+      <div class="sub">Results first; tap any "Show" line for the workings. Prices load fresh every time you open this page or press Refresh. All money figures in Australian dollars unless marked US$.</div>
     </div>
     <button id="refresh" type="button">Refresh</button>
   </div>
   <div class="jump">
-    <a href="#calc">Calculator</a><a href="#forecast">Forecast</a><a href="#dca">This week&rsquo;s buy</a><a href="#today">Today</a><a href="#semi">SEMI signals</a><a href="#flags">Daily flags</a>
-    <a href="#tsla">Tesla</a><a href="#mstr">MSTR</a><a href="#semiyr">SEMI by year</a><a href="#btc">My Bitcoin</a><a href="#links">Links</a>
+    <a href="#summary">Summary</a><a href="#security">Security</a><a href="#calculator">Calculator</a><a href="#dca">This week&rsquo;s buy</a><a href="#today">Today</a><a href="#forecast">Forecast</a><a href="#semi">SEMI signals</a><a href="#flags">Daily flags</a>
+    <a href="#yearly">Year by year</a><a href="#btc">My Bitcoin</a><a href="#links">Links</a>
   </div>
   <div id="loadmsg" class="warn"></div>
 
-  <!-- 1. Calculator -->
-  <section class="card" id="calc">
-    <h2>1. Portfolio calculator</h2>
-    <div class="sub">What a one-off deposit would be worth today if you'd bought and held.</div>
-    <label for="dep">Deposit (A$)</label>
-    <input id="dep" type="number" inputmode="decimal" min="0" step="100" value="10000">
+  <!-- Summary -->
+  <section class="card" id="summary">
+    <h2>At a glance</h2>
+    <div class="glance">
+      <div class="stat" id="wkBuy"><div class="k">This week&rsquo;s buy (fixed each Wednesday)</div><div class="v" id="wkHead">Loading…</div><div class="s" id="wkSub"></div></div>
+      <div class="stat"><div class="k">Portfolio value vs money put in</div><div class="v" id="pfHead">Loading…</div><div class="s" id="pfSub"></div></div>
+    </div>
+    <h3>Outlook by holding</h3>
+    <ul class="olist" id="outlook"><li class="sub">Loading…</li></ul>
+    <details class="more"><summary>How these lines are worked out</summary><div class="in"><div class="sub" style="margin:0">
+      Direction comes from the Middle-case yearly rate in Forecast scenarios (made-up, editable assumptions, not predictions).
+      The "why" uses the live signals on this page: the price against its 200-day average (Mayer multiple), the drop from the 52-week high,
+      the weekly RSI (over 70 stretched, under 30 sold off) and the value score from the DCA allocation indicator (higher = more beaten down).
+      General information only.</div></div></details>
+  </section>
+
+  <!-- Security flags -->
+  <section class="card" id="security">
+    <h2>Security flags</h2>
+    <div class="sub" id="secUpdated">Loading…</div>
+    <ul class="olist" id="secRows"></ul>
+    <details class="more"><summary>Details and sources</summary><div class="in" id="secDetail"></div></details>
+  </section>
+
+  <!-- Portfolio calculator -->
+  <section class="card" id="calculator">
+    <h2>Portfolio calculator</h2>
+    <div class="sub">What your money would be worth today if you'd bought on the start date and held, with optional regular top-ups (DCA).</div>
+    <div class="fgrid">
+      <div><label for="dep">Starting deposit (A$)</label><input id="dep" type="number" inputmode="decimal" min="0" step="100" value="10000"></div>
+      <div><label for="cTop">Regular top-up (A$, optional)</label>
+        <div style="display:flex;gap:6px"><input id="cTop" type="number" inputmode="decimal" min="0" step="25" value="0" style="flex:1">
+        <div class="seg" id="cFreq" style="flex:0 0 auto"><button data-v="week" class="on">Weekly</button><button data-v="month">Monthly</button></div></div></div>
+    </div>
     <div class="row">
       <div style="flex-basis:100%"><label>What to buy</label>
         <div class="seg" id="opt"><button data-v="all" class="on">All four</button><button data-v="tsla">Tesla</button><button data-v="mstr">MSTR</button><button data-v="btc">Bitcoin</button><button data-v="semi">SEMI</button></div></div>
       <div><label>How long ago</label>
         <div class="seg" id="yrs"><button data-v="1" class="on">1 year</button><button data-v="3">3 years</button><button data-v="5">5 years</button></div></div>
     </div>
-    <div class="sub" style="margin-top:8px">Pick one asset, or All four = 35% Bitcoin, 30% Tesla, 25% SEMI, 10% Strategy (MSTR). Bought on the start date and held.</div>
+    <label style="display:flex;align-items:center;gap:8px;margin:12px 0 0;color:var(--text);min-height:44px"><input id="cCrash" type="checkbox" style="width:22px;height:22px"> What if it crashed 25% from here?</label>
     <div class="stats">
-      <div class="stat"><div class="k">Worth now</div><div class="v" id="sNow">–</div></div>
-      <div class="stat"><div class="k">Multiple of deposit</div><div class="v" id="sMul">–</div></div>
-      <div class="stat"><div class="k">Total change</div><div class="v" id="sTot">–</div></div>
-      <div class="stat"><div class="k">Growth per year (CAGR)</div><div class="v" id="sCagr">–</div></div>
+      <div class="stat"><div class="k" id="sNowK">Worth now</div><div class="v" id="sNow">–</div><div class="s" id="sMul"></div></div>
+      <div class="stat"><div class="k">Money put in</div><div class="v" id="sIn">–</div><div class="s" id="sInSub"></div></div>
+      <div class="stat"><div class="k">Gain or loss</div><div class="v" id="sGain">–</div><div class="s" id="sTot"></div></div>
+      <div class="stat"><div class="k">Growth per year</div><div class="v" id="sCagr">–</div><div class="s" id="sCagrSub"></div></div>
     </div>
     <div class="sub" id="sPer" style="margin-top:8px"></div>
     <div class="chartbox"><canvas id="chart"></canvas></div>
-    <div class="tbl" style="margin-top:10px"><table>
-      <thead><tr><th>Holding</th><th>Share</th><th>Price change</th><th>Per year</th><th>Worth now</th></tr></thead>
-      <tbody id="calcBody"></tbody></table></div>
-    <div class="sub" style="margin-top:6px">Price changes are in A$, so they include moves in the Aussie dollar. Faded rows aren't in your chosen option.</div>
+    <details class="more"><summary>Assumptions and each holding</summary><div class="in">
+      <div class="tbl"><table>
+        <thead><tr><th>Holding</th><th>Share</th><th>Price change</th><th>Per year</th><th>Worth now</th></tr></thead>
+        <tbody id="calcBody"></tbody></table></div>
+      <div class="math" style="margin-top:10px;font-size:.85rem">
+        <span class="step">All four = 35% Bitcoin, 30% Tesla, 25% SEMI, 10% Strategy (MSTR), bought on the start date and held (no rebalancing). A single asset puts everything in that one.</span>
+        <span class="step">Top-ups are bought every 7 days (Weekly) or about every 30 days (Monthly) after the start, split the same way, at that day's price. No fees or tax.</span>
+        <span class="step">Growth per year: with no top-ups it's the plain CAGR. With top-ups it's the money-weighted yearly return, because later dollars had less time to grow.</span>
+        <span class="step">The 25% crash is a what-if: every holding drops 25% from today's value. It isn't a forecast.</span>
+        <span class="step">Prices are daily closes in A$ (US prices converted at each day's exchange rate, so the Aussie dollar's moves are included). Bitcoin's last point uses the live CoinGecko price. Faded rows aren't in your chosen option.</span>
+      </div>
+      <div class="sub" id="calcAsof" style="margin-top:6px"></div>
+    </div></details>
   </section>
 
-  <!-- Forecast scenarios -->
+  <!-- DCA allocation indicator -->
+  <section class="card" id="dca">
+    <h2>DCA allocation indicator</h2>
+    <div class="sub" id="dcaWeek"></div>
+    <div id="dcaHead" style="font-size:1.35rem;font-weight:800;line-height:1.3;margin:6px 0 4px">Working it out…</div>
+    <div class="sub" id="dcaSheet" style="margin-top:4px">The Wednesday pick and amount are in <a class="sheetTab" data-gid="1024844697" href="#" target="_blank" rel="noopener">your spreadsheet (Portfolio tab)</a>, with the workings on <a class="sheetTab" data-gid="384549472" href="#" target="_blank" rel="noopener">DCA Workings</a>.</div>
+    <details class="more"><summary>Show the scores and how they work</summary><div class="in">
+    <div class="tbl"><table>
+      <thead><tr><th>Rank</th><th>From 52-week high</th><th>vs your cost</th><th>Mayer (price ÷ 200-day)</th><th>Score</th></tr></thead>
+      <tbody id="dcaBody"></tbody></table></div>
+    <div class="math" style="margin-top:10px;font-size:.85rem">
+      <b>How the score works</b> (all in A$, higher = more beaten down):
+      <span class="step">(a) Fall from 52-week high: a 30% fall scores 30 points.</span>
+      <span class="step">(b) Below your own average cost: 10% under your cost scores 10 points, 10% over scores −10. SEMI isn't held, so it has no (b).</span>
+      <span class="step">(c) Value check: a Mayer multiple of 0.90 (10% under the 200-day average) scores 10 points, 1.10 scores −10.</span>
+      <span class="step">Score = the average of the parts each asset has. Recalculated every time you open the page or press Refresh, with Bitcoin live from CoinGecko.</span>
+    </div>
+    <div class="flag" style="margin-top:10px"><div class="k">Keep in mind</div>
+      This is a mechanical value indicator, not advice. The most beaten-down holding isn't always the best buy, because prices often fall for a reason.
+      MSTR is a leveraged Bitcoin proxy, so it falls harder than Bitcoin and will often top this list when Bitcoin is weak.</div>
+    </div></details>
+  </section>
+
+  <!-- Today -->
+  <section class="card" id="today">
+    <h2>Today&rsquo;s numbers</h2>
+    <div class="sub">Last price and move since the previous close, in each market's own currency.</div>
+    <div class="tbl"><table>
+      <thead><tr><th>Market</th><th>Last</th><th>Daily move</th><th>Price date</th></tr></thead>
+      <tbody id="todayBody"></tbody></table></div>
+    <div class="asof" id="todayAsof"></div>
+  </section>
+
   <section class="card" id="forecast">
-    <h2>Forecast scenarios: play with the numbers</h2>
+    <h2>Forecast scenarios</h2>
+    <div class="sub" id="fcHeadSub">A$10,000 split equally across all four, 4 years, made-up Bad / Middle / Good yearly rates.</div>
+    <div class="stats" id="fcSummary"></div>
+    <details class="more"><summary>Change the numbers, see each asset and the chart</summary><div class="in">
     <div class="sub">Tick the assets you want, split your money between them, set made-up yearly growth rates, and see where each path could end up.</div>
     <div class="fgrid">
       <div><label for="fcStart">Starting amount (A$)</label><input id="fcStart" type="number" inputmode="decimal" min="0" step="500" value="10000"></div>
@@ -151,8 +239,6 @@
       </div>
     </div>
     <button id="fcReset" type="button" class="ghost">Reset defaults</button>
-    <h3>Combined result</h3>
-    <div class="stats" id="fcSummary"></div>
     <h3>By asset</h3>
     <div class="seg" id="fcScen"><button data-v="0">Bad</button><button data-v="1" class="on">Middle</button><button data-v="2">Good</button></div>
     <div class="tbl" style="margin-top:8px"><table>
@@ -161,48 +247,17 @@
     <div class="sub" id="fcNote" style="margin-top:6px"></div>
     <label style="display:flex;align-items:center;gap:8px;margin:10px 0 0;color:var(--text)"><input id="fcShowEach" type="checkbox" style="width:18px;height:18px"> Show each asset's middle path on the chart</label>
     <div class="chartbox"><canvas id="fcChart"></canvas></div>
+    </div></details>
     <div class="flag" style="margin-top:10px">These are made-up scenarios to explore, not forecasts. Past returns don't predict the future. Fees, brokerage, currency costs and tax aren't included.</div>
   </section>
 
-  <!-- DCA allocation indicator -->
-  <section class="card" id="dca">
-    <h2>DCA allocation indicator: where this week's buy is best value</h2>
-    <div class="flag" id="wkBuy" style="margin:6px 0 10px" hidden><div class="k">This week's buy (fixed each Wednesday)</div>
-      <div id="wkHead" style="font-size:1.35rem;font-weight:800;line-height:1.3"></div>
-      <div class="sub" id="wkSub" style="margin-top:4px"></div></div>
-    <div class="sub" id="dcaWeek"></div>
-    <div class="sub" id="dcaSheet" style="margin-top:4px">Your full records are in <a class="sheetTab" data-gid="1024844697" href="#" target="_blank" rel="noopener">My portfolio spreadsheet (Portfolio tab)</a>.</div>
-    <div id="dcaHead" style="font-size:1.6rem;font-weight:800;line-height:1.25;margin:6px 0 10px">Working it out…</div>
-    <div class="tbl"><table>
-      <thead><tr><th>Rank</th><th>From 52-week high</th><th>vs your cost</th><th>Mayer (price ÷ 200-day)</th><th>Score</th></tr></thead>
-      <tbody id="dcaBody"></tbody></table></div>
-    <div class="math" style="margin-top:10px;font-size:.85rem">
-      <b>How the score works</b> (all in A$, higher = more beaten down):
-      <span class="step">(a) Fall from 52-week high: a 30% fall scores 30 points.</span>
-      <span class="step">(b) Below your own average cost: 10% under your cost scores 10 points, 10% over scores −10. SEMI isn't held, so it has no (b).</span>
-      <span class="step">(c) Value check: a Mayer multiple of 0.90 (10% under the 200-day average) scores 10 points, 1.10 scores −10.</span>
-      <span class="step">Score = the average of the parts each asset has. Recalculated every time you open the page or press Refresh, with Bitcoin live from CoinGecko.</span>
-    </div>
-    <div class="flag" style="margin-top:10px"><div class="k">Keep in mind</div>
-      This is a mechanical value indicator, not advice. The most beaten-down holding isn't always the best buy, because prices often fall for a reason.
-      MSTR is a leveraged Bitcoin proxy, so it falls harder than Bitcoin and will often top this list when Bitcoin is weak.</div>
-  </section>
-
-  <!-- 2. Today -->
-  <section class="card" id="today">
-    <h2>2. Today's numbers</h2>
-    <div class="sub">Last price and move since the previous close, in each market's own currency.</div>
-    <div class="tbl"><table>
-      <thead><tr><th>Market</th><th>Last</th><th>Daily move</th><th>Price date</th></tr></thead>
-      <tbody id="todayBody"></tbody></table></div>
-    <div class="asof" id="todayAsof"></div>
-  </section>
-
-  <!-- 3. SEMI signals -->
+  <!-- SEMI signals -->
   <section class="card" id="semi">
-    <h2>3. SEMI signals and currency</h2>
-    <div class="sub">Worked out automatically by the data job from SEMI's daily closes.</div>
+    <h2>SEMI signals and currency</h2>
     <div id="semiStatus"></div>
+    <div class="headline" id="semiHead"></div>
+    <details class="more"><summary>Show SEMI's signals, links to your holdings and the Aussie dollar</summary><div class="in">
+    <div class="sub">Worked out automatically by the data job from SEMI's daily closes.</div>
     <div class="stats" style="margin-top:10px" id="semiStats"></div>
     <h3>SEMI compared with your other holdings (in A$)</h3>
     <div class="tbl"><table>
@@ -211,35 +266,32 @@
     <div class="sub" style="margin-top:6px">*Correlation of daily moves over the last 90 trading days: 1 = always move together, 0 = no link, −1 = opposite. Because US markets and Bitcoin trade overnight after the ASX shuts, this compares each SEMI day with the overseas session just before it. Same-day figure in brackets.</div>
     <h3>Aussie dollar</h3>
     <div class="flag" id="fxLine"></div>
+    </div></details>
   </section>
 
-  <!-- 4. Flags -->
+  <!-- Flags -->
   <section class="card" id="flags">
-    <h2>4. Daily flags</h2>
+    <h2>Daily flags</h2>
     <div class="sub" id="flagsUpdated">Loading…</div>
-    <div id="flagsBody"></div>
+    <div class="headline" id="flagsHead"></div>
+    <details class="more"><summary>Show all flags: earnings, export controls, chip security, notes</summary><div class="in"><div id="flagsBody"></div></div></details>
   </section>
 
-  <!-- Holdings year by year -->
-  <section class="card" id="tsla">
-    <h2>Tesla (TSLA), year by year</h2>
-    <div data-yearly="TSLA"></div>
-    <div data-mine="TSLA"></div>
-  </section>
-  <section class="card" id="mstr">
-    <h2>Strategy (MSTR), year by year</h2>
-    <div data-yearly="MSTR"></div>
-    <div data-mine="MSTR"></div>
-  </section>
-  <section class="card" id="semiyr">
-    <h2>SEMI (Global X Semiconductor ETF), year by year</h2>
-    <div data-yearly="SEMI"></div>
-    <div data-mine="SEMI"></div>
+  <!-- Year by year -->
+  <section class="card" id="yearly">
+    <h2>Year by year</h2>
+    <div class="sub">Your holding today, with each asset's own 5-year history tucked away.</div>
+    <div id="tsla"><h3>Tesla (TSLA)</h3><div class="headline" data-head="TSLA"></div>
+      <details class="more"><summary>Show Tesla year by year and your holding</summary><div class="in"><div data-yearly="TSLA"></div><div data-mine="TSLA"></div></div></details></div>
+    <div id="mstr"><h3>Strategy (MSTR)</h3><div class="headline" data-head="MSTR"></div>
+      <details class="more"><summary>Show MSTR year by year and your holding</summary><div class="in"><div data-yearly="MSTR"></div><div data-mine="MSTR"></div></div></details></div>
+    <div id="semiyr"><h3>SEMI (Global X Semiconductor ETF)</h3><div class="headline" data-head="SEMI"></div>
+      <details class="more"><summary>Show SEMI year by year</summary><div class="in"><div data-yearly="SEMI"></div><div data-mine="SEMI"></div></div></details></div>
   </section>
 
   <!-- Direct Bitcoin -->
   <section class="card" id="btc">
-    <h2>My direct Bitcoin: CAGR, 18 Jul 2022 to 20 Nov 2025</h2>
+    <h2>My direct Bitcoin: 18 Jul 2022 to 20 Nov 2025</h2>
     <div class="sub">A fixed record of the Bitcoin you held directly, from your transaction history. It doesn't change with prices.</div>
     <div class="stats">
       <div class="stat"><div class="k">Money in</div><div class="v">A$17,511.50</div></div>
@@ -247,7 +299,7 @@
       <div class="stat"><div class="k">Multiple</div><div class="v up">3.48x</div></div>
       <div class="stat"><div class="k">Fairer yearly return (XIRR)</div><div class="v up">≈ 62.8%</div></div>
     </div>
-    <h3>The maths, step by step</h3>
+    <details class="more"><summary>Show the maths and the open question</summary><div class="in">
     <div class="math">
       <span class="step">Step 1: money in</span>
       A$3,393 received on 18 Jul 2022 + A$14,118.50 across 45 buys = <b>A$17,511.50</b>
@@ -264,21 +316,25 @@
     </div>
     <div class="flag" style="margin-top:10px"><div class="k">Open question</div>
       0.0345 BTC (about A$2,999) was withdrawn in Sep 2024. If you still hold it, the result rises to about <b>3.65x</b>, or about <b>47.3% a year</b> on the simple measure.</div>
+    </div></details>
   </section>
 
-  <!-- 5. Links -->
+  <!-- Links -->
   <section class="card" id="links">
-    <h2>5. Research links</h2>
+    <h2>Research links</h2>
     <ul class="links">
       <li><a href="https://cursor.com/canvas/store-2c8e28a2-2189-4444-acf5-b2f3c670f021/cd448d1e-ff2d-4c45-a418-67169a336b09" target="_blank" rel="noopener">SEMI ETF review</a> <span class="sub">(opens in your Grok Bot app or library, you may need to be signed in)</span></li>
       <li><a href="https://cursor.com/canvas/store-2c8e28a2-2189-4444-acf5-b2f3c670f021/ae79b3cf-060f-4658-8abd-0c6a5ae02b02" target="_blank" rel="noopener">SEMI holdings: latest earnings scorecard</a> <span class="sub">(checked 31 Oct 2026; opens in your Grok Bot app or library)</span></li>
       <li><a href="https://www.globalxetfs.com.au/funds/semi/" target="_blank" rel="noopener">Global X SEMI fund page</a></li>
       <li><a href="./">DCA dashboard</a></li>
-      <li><a href="growth.html">Basket growth page</a></li>
+      <li><a href="#calculator">Portfolio calculator</a> <span class="sub">(on this page: 1/3/5-year growth graph with top-ups and a crash what-if; the old Basket growth page now points here)</span></li>
+      <li><a href="flags.json" target="_blank" rel="noopener">flags.json</a> · <a href="security.json" target="_blank" rel="noopener">security.json</a> · <a href="weekly.json" target="_blank" rel="noopener">weekly.json</a> <span class="sub">(raw data behind the flags, security and weekly buy)</span></li>
       <li id="sheetLi"><b>My portfolio spreadsheet</b> (Google Sheets):
         <a class="sheetTab" data-gid="1024844697" href="#" target="_blank" rel="noopener">Portfolio</a> ·
         <a class="sheetTab" data-gid="441131293" href="#" target="_blank" rel="noopener">Transactions</a> ·
-        <a class="sheetTab" data-gid="2062487040" href="#" target="_blank" rel="noopener">Dividends</a>
+        <a class="sheetTab" data-gid="2062487040" href="#" target="_blank" rel="noopener">Dividends</a> ·
+        <a class="sheetTab" data-gid="384549472" href="#" target="_blank" rel="noopener">DCA Workings</a> ·
+        <a class="sheetTab" data-gid="517063769" href="#" target="_blank" rel="noopener">Links</a>
         <br><span class="sub">Opens in Bob's Google account, so you need to be signed in to Google as Bob.</span></li>
     </ul>
   </section>
@@ -291,7 +347,7 @@
 </main>
 <script>
 const $ = id => document.getElementById(id);
-const st = { opt: "all", yrs: 1, daily: null, data: null, live: null, flags: null, chart: null };
+const st = { opt: "all", yrs: 1, freq: "week", chart: null, daily: null, data: null, live: null, flags: null, sec: null, weekly: null, dcaRows: null };
 const BOB = { TSLA: { shares: 41, cost: 25595, note: "26 buys, 15 Nov 2025 to 28 Jul 2026, no sells" },
               MSTR: { shares: 21.56, cost: 4990, note: "bought 21 to 30 Sep 2026" } };
 const aud = (v, dp = 0) => "A$" + v.toLocaleString("en-AU", { minimumFractionDigits: dp, maximumFractionDigits: dp });
@@ -315,11 +371,13 @@ async function getJSON(url, ms = 12000) {
 async function load() {
   const b = $("refresh"); b.disabled = true; b.textContent = "Loading…"; $("loadmsg").textContent = "";
   const msgs = [];
-  const [data, flags, cg] = await Promise.all([
+  const [data, flags, cg, sec, wk] = await Promise.all([
     getJSON("data.json?t=" + Date.now()).catch(e => { msgs.push("Market data didn't load (" + e.message + ")."); return null; }),
     getJSON("flags.json?t=" + Date.now()).catch(e => { msgs.push("Daily flags didn't load (" + e.message + ")."); return null; }),
     getJSON("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud,usd&include_24hr_change=true&include_last_updated_at=true")
-      .catch(e => { msgs.push("Live Bitcoin price unavailable, using the last saved price."); return null; })
+      .catch(e => { msgs.push("Live Bitcoin price unavailable, using the last saved price."); return null; }),
+    getJSON("security.json?t=" + Date.now()).catch(e => { msgs.push("Security flags didn't load (" + e.message + ")."); return null; }),
+    getJSON("weekly.json?t=" + Date.now()).catch(e => null)
   ]);
   st.live = null;
   if (cg && cg.bitcoin && cg.bitcoin.aud) {
@@ -328,6 +386,8 @@ async function load() {
   }
   if (data) { st.data = data; st.daily = GrowthCalc.buildDaily(data, st.live); }
   if (flags) st.flags = flags;
+  if (sec) st.sec = sec;
+  if (wk) st.weekly = wk;
   $("loadmsg").textContent = msgs.join(" ");
   try { render(); } catch (e) { $("loadmsg").textContent += " Display error: " + e.message; }
   b.disabled = false; b.textContent = "Refresh";
@@ -340,14 +400,55 @@ if (!SHEET_URL) { document.getElementById("sheetLi").hidden = true; document.get
 const COST = { BTC: { units: 0.1336, cost: 16500 }, TSLA: { units: 41, cost: 25595 }, MSTR: { units: 21.56, cost: 4990 } };
 const NAMES = { BTC: "Bitcoin", TSLA: "Tesla", MSTR: "Strategy (MSTR)", SEMI: "SEMI" };
 
-async function renderWeekly() {
-  try {
-    const w = await getJSON("weekly.json?x=" + Date.now());
-    $("wkHead").innerHTML = '<span class="up">' + w.pick_name + "</span> · " + w.multiplier.toFixed(2) + "x · " + aud(w.amount_aud, 0);
-    $("wkSub").textContent = "Week of " + w.week + ". " + w.calculated_line + " Amount = A$" + w.base_aud.toFixed(0) + " base × " + w.multiplier.toFixed(2) +
-      ", rounded up to a whole dollar (multiplier capped at 4x). Your spreadsheet's DCA Workings tab has the full workings and an editable base. The live table below can move during the week.";
-    $("wkBuy").hidden = false;
-  } catch (e) { /* weekly.json not there yet */ }
+function renderWeekly() {
+  const w = st.weekly;
+  if (!w) { $("wkHead").textContent = "Not calculated yet"; $("wkSub").textContent = "Worked out each Wednesday."; return; }
+  $("wkHead").innerHTML = '<span class="up">' + w.pick + "</span> · " + aud(w.amount_aud, 0) + ' <span style="font-size:.85rem;color:var(--muted);font-weight:600">(' + w.multiplier.toFixed(2) + "x)</span>";
+  $("wkSub").textContent = w.pick_name + ". Week of " + w.week + ". A$" + w.base_aud.toFixed(0) + " base × " + w.multiplier.toFixed(2) +
+    ", rounded up (capped at 4x). Workings on your DCA Workings tab; the live indicator below can move during the week.";
+}
+function renderPortfolio() {
+  const V = st.data.value_inputs; if (!V) return;
+  let val = 0, inn = 0;
+  for (const k of Object.keys(COST)) {
+    const price = k === "BTC" && st.live ? st.live.BTC_AUD : V[k].price_aud;
+    val += COST[k].units * price; inn += COST[k].cost;
+  }
+  const g = val - inn;
+  $("pfHead").innerHTML = aud(val) + ' <span style="font-size:.85rem;color:var(--muted);font-weight:600">vs ' + aud(inn) + " in</span>";
+  $("pfSub").innerHTML = '<span class="' + cls(g) + '">' + (g >= 0 ? "+" : "−") + aud(Math.abs(g)) + " (" + pct(g / inn) + ")</span> gross gain/loss on BTC, TSLA and MSTR (SEMI not held). Live estimate; your sheet's Portfolio tab is the record.";
+}
+function renderOutlook() {
+  const V = st.data.value_inputs; if (!V) return;
+  const rank = {}; (st.dcaRows || []).forEach((r, i) => rank[r.k] = { i: i + 1, score: r.score, mayer: r.mayer, dd: r.dd });
+  const wr = {}; ((st.weekly && st.weekly.scores) || []).forEach(s => wr[s.key] = s.weekly_rsi);
+  if (st.data.semi_signals) wr.SEMI = st.data.semi_signals.weekly_rsi;
+  const ord = ["", "1st", "2nd", "3rd", "4th"];
+  $("outlook").innerHTML = ["BTC", "TSLA", "MSTR", "SEMI"].map(k => {
+    const mid = parseFloat(fcEl(k, "r1").value); const r = rank[k] || {}; const rsi = wr[k];
+    const dir = mid > 0 ? ['<b class="up">↗ Up</b>', "up"] : mid < 0 ? ['<b class="down">↘ Down</b>', "down"] : ["<b>→ Flat</b>", ""];
+    let tone = "";
+    if (r.mayer < 1 && r.dd < -0.3) tone = ", from a beaten-down level";
+    else if (r.mayer > 1.3 || rsi > 70) tone = ", but looking stretched";
+    else if (rsi < 30) tone = ", but selling pressure is heavy";
+    const m = r.mayer == null ? "" : Math.abs(r.mayer - 1) < 0.01 ? "right at its 200-day average" : Math.abs((r.mayer - 1) * 100).toFixed(0) + "% " + (r.mayer > 1 ? "above" : "below") + " its 200-day average";
+    const rsiTxt = rsi == null ? "" : "weekly RSI " + rsi.toFixed(0) + (rsi > 70 ? " (stretched)" : rsi < 30 ? " (sold off)" : " (neutral)");
+    const why = [m, r.dd == null ? "" : Math.abs(r.dd * 100).toFixed(0) + "% below its 52-week high", rsiTxt].filter(Boolean).join(", ");
+    return '<li><span class="tk">' + k + "</span>" + dir[0] + tone + ' <span class="sub">· Middle case ' + (mid > 0 ? "+" : "") + mid + "% a year</span><br>" +
+      '<span class="sub" style="margin:0">Why: ' + why + (r.i ? "; value score " + r.score.toFixed(1) + ", " + ord[r.i] + " of 4 this week" : "") + ".</span></li>";
+  }).join("");
+}
+const SEC_LVL = { none: ["ok", "Zero threats"], watch: ["note", "Watch"], alert: ["bad", "Alert"] };
+function renderSecurity() {
+  const S = st.sec; if (!S) { $("secUpdated").textContent = "Security flags not available."; return; }
+  $("secUpdated").textContent = "Checked " + mel(S.updated) + ". Covers hacks, breaches and protocol threats that touch each holding.";
+  const esc = t => String(t || "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+  const keys = ["BTC", "TSLA", "MSTR", "SEMI"].filter(k => S.assets[k]);
+  $("secRows").innerHTML = keys.map(k => { const a = S.assets[k], L = SEC_LVL[a.level] || SEC_LVL.watch;
+    return '<li><span class="tk">' + k + '</span><span class="pill sm ' + L[0] + '">' + L[1] + "</span>" + (a.level !== "none" && a.note ? " " + esc(a.note) : "") + "</li>"; }).join("");
+  $("secDetail").innerHTML = keys.map(k => { const a = S.assets[k];
+    return '<div class="flag"><div class="k">' + k + "</div>" + (esc(a.detail) || "Nothing found.") +
+      ((a.sources || []).length ? '<div class="src">Sources: ' + a.sources.map((u, i) => '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + (i + 1) + "</a>").join(" · ") + "</div>" : "") + "</div>"; }).join("");
 }
 function renderDCA() {
   const V = st.data.value_inputs; if (!V) return;
@@ -367,6 +468,7 @@ function renderDCA() {
     const parts = [pa, pb, pc].filter(x => x != null);
     return { k, price, src, dd, vsCost, mayer, pa, pb, pc, score: parts.reduce((a, b) => a + b, 0) / parts.length };
   }).sort((a, b) => b.score - a.score);
+  st.dcaRows = rows;
   $("dcaWeek").textContent = "For the week of " + f(mon) + " to " + f(sun) + " (Melbourne). Worked out " + mel(Date.now()) + ".";
   const top = rows[0];
   $("dcaHead").innerHTML = '<span class="up">' + NAMES[top.k] + " is the best value this week</span>" +
@@ -474,6 +576,8 @@ function fcRender() {
     return '<div class="stat"><div class="k" style="color:' + FC_SC[i][1] + '">' + FC_SC[i][0] + '</div><div class="v">' + aud(x.end) + '</div><div class="s"><span class="' + cls(g) + '">' + (g >= 0 ? "+" : "−") + aud(Math.abs(g)) + " (" + pct(invEnd ? g / invEnd : 0) + ")</span><br>" +
       (invEnd ? (x.end / invEnd).toFixed(2) + "x" : "–") + " · " + (x.irr == null ? "–" : pct(x.irr)) + " a year</div></div>"; };
   $("fcSummary").innerHTML = combo.map((x, i) => statCell(i, x)).join("");
+  $("fcHeadSub").textContent = aud(start) + (top ? " plus " + aud(top) + (fc.freq === "week" ? " a week" : " a month") : "") + " in " + ticked.join(", ") + " over " + (Math.round(T * 10) / 10) +
+    " years" + (crash ? ", with a " + $("fcCrashPct").value + "% crash" : "") + ", using made-up Bad / Middle / Good yearly rates. Combined result:";
   // per-asset table for the chosen scenario
   const i = fc.scen;
   const row = (name, inv, end, irr, rateTxt, bold) => { const g = end - inv;
@@ -532,27 +636,68 @@ $("fcCrash").addEventListener("change", () => { $("fcCrashBox").style.display = 
 $("fcReset").addEventListener("click", fcReset);
 fcReset();
 
-function render() { renderWeekly(); if (st.data) { renderCalc(); fcRenderRef(); renderDCA(); renderToday(); renderSemi(); renderYearly(); } renderFlags(); }
+function render() { renderWeekly(); renderSecurity(); if (st.data) { renderCalc(); fcRenderRef(); renderDCA(); renderPortfolio(); renderOutlook(); renderToday(); renderSemi(); renderYearly(); } renderFlags(); }
 
+function calcRun(daily, opt, years, dep, top, freq) {
+  const base = GrowthCalc.compute(daily, opt, years, dep || 1);
+  if (base.error) return base;
+  let s = daily.findIndex(r => r.date === base.startDate), e = daily.findIndex(r => r.date === base.endDate);
+  const w = GrowthCalc.OPTIONS[opt].weights, units = {}, cfs = [], series = [];
+  for (const k in w) units[k] = dep * w[k] / daily[s][k];
+  if (dep) cfs.push([0, dep]);
+  let putIn = dep, buys = 0; const step = freq === "week" ? 7 : 30.4375;
+  for (let i = s; i <= e; i++) {
+    const n = i - s;
+    if (top > 0 && n > 0 && Math.floor(n / step) > Math.floor((n - 1) / step)) {
+      for (const k in w) units[k] += top * w[k] / daily[i][k];
+      putIn += top; buys++; cfs.push([n / 365.25, top]);
+    }
+    let v = 0; for (const k in units) v += units[k] * daily[i][k];
+    series.push({ date: daily[i].date, value: v, putIn });
+  }
+  const T = (e - s) / 365.25, valueNow = series[series.length - 1].value;
+  const fv = r => cfs.reduce((a, [t, c]) => a + c * Math.pow(1 + r, T - t), 0);
+  let lo = -0.99, hi = 20; for (let j = 0; j < 100; j++) { const m = (lo + hi) / 2; if (fv(m) > valueNow) hi = m; else lo = m; }
+  const holdings = GrowthCalc.HOLDINGS.map(h => { const p0 = daily[s][h.key], p1 = daily[e][h.key];
+    return { name: h.name, inBasket: !!w[h.key], weight: w[h.key] || 0, change: p1 / p0 - 1, cagr: Math.pow(p1 / p0, 1 / T) - 1, valueNow: w[h.key] ? units[h.key] * p1 : 0 }; });
+  return { startDate: base.startDate, endDate: base.endDate, T, putIn, buys, valueNow, rate: (lo + hi) / 2, series, holdings };
+}
 function renderCalc() {
-  const dep = Math.max(0, parseFloat($("dep").value) || 0) || 10000;
-  const r = GrowthCalc.compute(st.daily, st.opt, st.yrs, dep);
+  if (!st.daily) return;
+  const dep = Math.max(0, parseFloat($("dep").value) || 0), top = Math.max(0, parseFloat($("cTop").value) || 0);
+  if (!dep && !top) { $("sPer").textContent = "Enter a deposit or a top-up."; return; }
+  const r = calcRun(st.daily, st.opt, st.yrs, dep, top, st.freq);
   if (r.error) { $("sPer").textContent = r.error; return; }
-  $("sNow").textContent = aud(r.valueNow);
-  $("sMul").textContent = (r.valueNow / dep).toFixed(2) + "x";
-  $("sTot").innerHTML = cpct(r.totalChange);
-  $("sCagr").innerHTML = cpct(r.cagr);
-  $("sPer").textContent = GrowthCalc.OPTIONS[st.opt].label + ", from " + dstr(r.startDate) + " to " + dstr(r.endDate) + ".";
+  const crash = $("cCrash").checked, now = crash ? r.valueNow * 0.75 : r.valueNow, g = now - r.putIn;
+  $("sNowK").textContent = crash ? "Worth after a 25% crash" : "Worth now";
+  $("sNow").innerHTML = '<span class="' + cls(g) + '">' + aud(now) + "</span>";
+  $("sMul").textContent = (now / r.putIn).toFixed(2) + "x your money" + (crash ? " (today " + aud(r.valueNow) + ")" : "");
+  $("sIn").textContent = aud(r.putIn);
+  $("sInSub").textContent = r.buys ? aud(dep) + " + " + r.buys + " top-ups of " + aud(top) : "one deposit";
+  $("sGain").innerHTML = '<span class="' + cls(g) + '">' + (g >= 0 ? "+" : "−") + aud(Math.abs(g)) + "</span>";
+  $("sTot").innerHTML = cpct(g / r.putIn) + " overall";
+  let rate = r.rate;
+  if (crash) { const cf = [[0, dep]]; /* recompute money-weighted with crashed end value */
+    const T = r.T, flows = []; if (dep) flows.push([0, dep]);
+    const step = st.freq === "week" ? 7 : 30.4375, days = Math.round(T * 365.25);
+    if (top > 0) for (let n = 1; n <= days; n++) if (Math.floor(n / step) > Math.floor((n - 1) / step)) flows.push([n / 365.25, top]);
+    const fv = x => flows.reduce((a, [t, c]) => a + c * Math.pow(1 + x, T - t), 0);
+    let lo = -0.99, hi = 20; for (let j = 0; j < 100; j++) { const m = (lo + hi) / 2; if (fv(m) > now) hi = m; else lo = m; } rate = (lo + hi) / 2; }
+  $("sCagr").innerHTML = cpct(rate);
+  $("sCagrSub").textContent = r.buys ? "money-weighted" : "CAGR";
+  $("sPer").textContent = GrowthCalc.OPTIONS[st.opt].label + ", " + dstr(r.startDate) + " to " + dstr(r.endDate) + (r.buys ? ", topping up " + aud(top) + (st.freq === "week" ? " weekly" : " monthly") : "") + (crash ? ", then a 25% crash" : "") + ".";
   $("calcBody").innerHTML = r.holdings.map(h => '<tr class="' + (h.inBasket ? "" : "out") + '"><td>' + h.name + "</td><td>" + (h.inBasket ? Math.round(h.weight * 100) + "%" : "–") +
-    "</td><td>" + cpct(h.change) + "</td><td>" + cpct(h.cagr) + "</td><td>" + (h.inBasket ? aud(h.valueNow) : "–") + "</td></tr>").join("");
+    "</td><td>" + cpct(h.change) + "</td><td>" + cpct(h.cagr) + "</td><td>" + (h.inBasket ? aud(h.valueNow * (crash ? 0.75 : 1)) : "–") + "</td></tr>").join("");
+  $("calcAsof").textContent = "Share and currency data saved " + mel(st.data.generated_utc) + (st.live ? "; Bitcoin live " + mel(st.live.time) : "") + ".";
   const labels = r.series.map(p => p.date), vals = r.series.map(p => Math.round(p.value));
-  const color = r.valueNow >= dep ? "#2ecc71" : "#ff6b6b";
+  const color = now >= r.putIn ? "#2ecc71" : "#ff6b6b";
   const ds = [{ label: GrowthCalc.OPTIONS[st.opt].label, data: vals, borderColor: color, backgroundColor: color + "22", fill: true, pointRadius: 0, borderWidth: 2, tension: .1 },
-              { label: "Deposit", data: labels.map(() => dep), borderColor: "#9aa6bd", borderDash: [6, 5], pointRadius: 0, borderWidth: 1 }];
+              { label: "Money put in", data: r.series.map(p => Math.round(p.putIn)), borderColor: "#9aa6bd", borderDash: [6, 5], pointRadius: 0, borderWidth: 1, stepped: true }];
+  if (crash) ds.push({ label: "After a 25% crash", data: labels.map((_, i) => i === labels.length - 1 ? Math.round(now) : null), borderColor: "#ff6b6b", backgroundColor: "#ff6b6b", pointRadius: labels.map((_, i) => i === labels.length - 1 ? 6 : 0), pointStyle: "triangle", showLine: false });
   if (st.chart) { st.chart.data.labels = labels; st.chart.data.datasets = ds; st.chart.update(); return; }
   if (!window.Chart) { $("sPer").textContent += " (Chart library didn't load.)"; return; }
   st.chart = new Chart($("chart"), { type: "line", data: { labels, datasets: ds }, options: { responsive: true, maintainAspectRatio: false, interaction: { mode: "index", intersect: false },
-    plugins: { legend: { labels: { color: "#e8ecf4" } }, tooltip: { callbacks: { title: i => dstr(i[0].label), label: c => c.dataset.label + ": " + aud(c.parsed.y) } } },
+    plugins: { legend: { labels: { color: "#e8ecf4" } }, tooltip: { callbacks: { title: i => dstr(i[0].label), label: c => c.parsed.y == null ? "" : c.dataset.label + ": " + aud(c.parsed.y) } } },
     scales: { x: { ticks: { color: "#9aa6bd", maxTicksLimit: 6, callback: function (v) { return new Date(this.getLabelForValue(v) + "T12:00:00Z").toLocaleDateString("en-AU", { month: "short", year: "2-digit" }); } }, grid: { color: "#222b40" } },
               y: { ticks: { color: "#9aa6bd", callback: v => "A$" + (v / 1000).toFixed(0) + "k" }, grid: { color: "#222b40" } } } } });
 }
@@ -592,6 +737,8 @@ function renderSemi() {
   $("cmpBody").innerHTML = '<tr><td><b>SEMI</b></td><td>' + cpct(C.SEMI.d1) + "</td><td>" + cpct(C.SEMI.m1) + "</td><td>–</td></tr>" +
     ["TSLA", "BTC", "MSTR"].map(k => "<tr><td>" + nm[k] + "</td><td>" + cpct(C[k].d1) + "</td><td>" + cpct(C[k].m1) + "</td><td>" +
       C[k].corr90_next_day.toFixed(2) + " " + corrTxt(C[k].corr90_next_day) + ' <span class="sub">(' + C[k].corr90.toFixed(2) + ")</span></td></tr>").join("");
+  $("semiHead").innerHTML = "A$" + s.price.toFixed(2) + " · " + Math.abs(s.vs_sma200 * 100).toFixed(0) + "% " + (s.vs_sma200 >= 0 ? "above" : "below") + " its 200-day average · weekly RSI " + s.weekly_rsi.toFixed(0) +
+    " · " + Math.abs(s.from_high_52w * 100).toFixed(0) + "% below its 52-week high · Aussie dollar " + s.audusd.effect_on_semi + " SEMI over the past month.";
   const f = s.audusd;
   const eff = f.effect_on_semi === "helping" ? '<b class="up">helping</b> SEMI in A$ (a weaker Aussie makes its overseas chip shares worth more in A$)'
             : f.effect_on_semi === "hurting" ? '<b class="down">hurting</b> SEMI in A$ (a stronger Aussie makes its overseas chip shares worth less in A$)'
@@ -623,6 +770,13 @@ function renderYearly() {
     }
     html += '<div class="sub" style="margin-top:8px">You haven\'t held any of these for a full year yet, so your own year-by-year figures will build up over time.</div>';
     mine.innerHTML = html;
+    const last = rows[rows.length - 1], head = document.querySelector('[data-head="' + k + '"]');
+    let h = "";
+    if (BOB[k]) { const b = BOB[k], val = b.shares * L[k].price / fx, g = val - b.cost;
+      h = "Your " + b.shares + " shares: " + aud(val) + " now vs " + aud(b.cost) + " put in (" + cpct(g / b.cost) + ")."; }
+    else h = "Not held.";
+    if (last) h += ' <span class="sub">Last 12 months: ' + cpct(last.change) + " in A$.</span>";
+    head.innerHTML = h;
   }
 }
 
@@ -645,13 +799,17 @@ function renderFlags() {
           box("Chip-sector security", F.chip_security, F.chip_security_sources) +
           box("Notes", F.notes, F.notes_sources);
   $("flagsBody").innerHTML = html;
+  const up = (F.earnings || []).map(e => ({ e, d: Math.round((new Date(e.date + "T00:00:00Z") - now) / 86400000) })).filter(x => x.d >= 0).sort((a, b) => a.d - b.d)[0];
+  $("flagsHead").innerHTML = up ? "Next: <b>" + up.e.name + (up.e.label ? " " + up.e.label : "") + "</b>, " + dstr(up.e.date) + " (" + (up.d === 0 ? "today" : up.d === 1 ? "tomorrow" : "in " + up.d + " days") + ")" +
+    (up.e.confirmed === false ? ' <span class="amber">· not confirmed</span>' : "") + "." : "No upcoming earnings listed.";
 }
 
-for (const [gid, key, num] of [["opt", "opt", false], ["yrs", "yrs", true]]) {
+for (const [gid, key, num] of [["opt", "opt", false], ["yrs", "yrs", true], ["cFreq", "freq", false]]) {
   $(gid).addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
-    [...$(gid).children].forEach(x => x.classList.toggle("on", x === b)); st[key] = num ? +b.dataset.v : b.dataset.v; if (st.daily) renderCalc(); });
+    [...$(gid).children].forEach(x => x.classList.toggle("on", x === b)); st[key] = num ? +b.dataset.v : b.dataset.v; if (st.data) renderCalc(); });
 }
-$("dep").addEventListener("input", () => st.daily && renderCalc());
+for (const id of ["dep", "cTop"]) $(id).addEventListener("input", () => { if (st.data) renderCalc(); });
+$("cCrash").addEventListener("change", () => { if (st.data) renderCalc(); });
 $("refresh").addEventListener("click", load);
 load();
 </script>
