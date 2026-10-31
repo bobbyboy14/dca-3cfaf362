@@ -178,7 +178,7 @@ function assetScore(k) {
     const mk = await mkt(); const x = mk && mk.scores && mk.scores[k];
     if (!x) { el.innerHTML = '<div class="muted">No score yet.</div>'; return; }
     const P = x.points || {}, R = x.reasons || {}, g = x.growth_detail || {}, c = g.currency || "";
-    const st = { "On track": "up", Mixed: "amber", "Off track": "down" }[x.status] || "";
+    const st = { "On track": "up", Mixed: "amber", Behind: "down", "Off track": "down" }[x.status] || "";
     const G = P.trend >= 3 ? ["On track", "up"] : P.trend == 2 ? ["Mixed", "amber"] : ["Behind", "down"];
     const n = v => c + Number(v).toLocaleString("en-AU", { maximumFractionDigits: 2 });
     const ab = (p, a) => (p > a ? "above" : "below");
@@ -191,7 +191,7 @@ function assetScore(k) {
       "<table class='parts'><thead><tr><th>Part</th><th>Why</th></tr></thead><tbody>" +
       row("Fundamentals", P.fundamentals, 4, R.fundamentals) + row("News", P.news, 3, R.news) + row("Growth", P.trend, 3, R.growth, num) + "</tbody></table>" +
       "<h3>Sources</h3><ul class='src'>" + (x.sources || []).map(s => "<li><a href='" + esc(s.url) + "' target='_blank' rel='noopener'>" + esc(s.label) + "</a></li>").join("") + "</ul>" +
-      "<p class='muted'>How it's scored: Fundamentals 0-4 + News 0-3 + Growth (price trend) 0-3. Growth gets 1 point each for price above its 50-day average, above its 200-day average, and weekly RSI between 35 and 70. 7+ On track, 4-6 Mixed, 3 or less Off track. No price targets. General information only, not advice.</p>";
+      "<p class='muted'>How it's scored: Fundamentals 0-4 + News 0-3 + Growth (price trend) 0-3. Growth gets 1 point each for price above its 50-day average, above its 200-day average, and weekly RSI between 35 and 70. Overall: 7-10 On track, 6 Mixed, 0-5 Behind. No price targets. General information only, not advice.</p>";
   };
 }
 window.HubTabs = { cagr, scorecard, semireview: review, "tsla-score": assetScore("TSLA"), "btc-score": assetScore("BTC"), "mstr-score": assetScore("MSTR") };
