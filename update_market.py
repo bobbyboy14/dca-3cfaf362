@@ -8,6 +8,7 @@ Format: {"updated": "2026-11-01T09:30+11:00", "headline": "one short line",
                            "parts": {"growth": "...", "trend": "...", "news": "..."}},
                    "TSLA": {... parts: growth, trend, earnings, news}, "MSTR": {... growth, trend, news},
                    "SEMI": {... growth, earnings, trend}}
+"needed" (optional): copy of sheet CAGR!H1:Q8 - per asset target, needed (fraction/yr), recent (fraction/yr), verdict.
 "move" must start with + or - (shown green/red). Needs the box's `gh` login.
 
 SCORING RULE (same for all four; total 0-10):
@@ -52,6 +53,13 @@ for k in ASSETS:
     for p in PARTS[k]:
         if not x.get("parts", {}).get(p): sys.exit(f"scores.{k}: missing part '{p}'")
     x.setdefault("line", "")
+nd = data.get("needed")  # optional: {"as_of","source","assets":{K:{"target","needed","recent","verdict"[,"placeholder"]}}}
+if nd is not None:
+    for k in ASSETS:
+        x = nd.get("assets", {}).get(k)
+        if not x: sys.exit(f"needed: missing {k}")
+        if x.get("verdict") not in ("On track", "Stretch", "Behind"): sys.exit(f"needed.{k}: verdict must be On track, Stretch or Behind")
+        if not all(isinstance(x.get(f), (int, float)) for f in ("needed", "recent")): sys.exit(f"needed.{k}: needed/recent must be fractions, e.g. 0.376")
 commit = None
 if not a.no_push:
     sha = subprocess.run(["gh", "api", f"repos/{REPO}/contents/{PATH}?ref={BRANCH}", "--jq", ".sha"], capture_output=True, text=True).stdout.strip()
