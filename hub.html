@@ -168,6 +168,7 @@
   <section class="card" id="dca">
     <h2>DCA allocation indicator: where this week's buy is best value</h2>
     <div class="sub" id="dcaWeek"></div>
+    <div class="sub" id="dcaSheet" style="margin-top:4px">Cost bases come from <a class="sheetTab" data-gid="1024844697" href="#" target="_blank" rel="noopener">My portfolio spreadsheet (Portfolio tab)</a>, which opens in Bob's Google account.</div>
     <div id="dcaHead" style="font-size:1.6rem;font-weight:800;line-height:1.25;margin:6px 0 10px">Working it out…</div>
     <div class="tbl"><table>
       <thead><tr><th>Rank</th><th>From 52-week high</th><th>vs your cost</th><th>Mayer (price ÷ 200-day)</th><th>Score</th></tr></thead>
@@ -271,7 +272,11 @@
       <li><a href="https://www.globalxetfs.com.au/funds/semi/" target="_blank" rel="noopener">Global X SEMI fund page</a></li>
       <li><a href="./">DCA dashboard</a></li>
       <li><a href="growth.html">Basket growth page</a></li>
-      <li id="sheetLi" hidden><a id="sheetLink" href="#" target="_blank" rel="noopener">My portfolio spreadsheet (Google Sheets)</a></li>
+      <li id="sheetLi"><b>My portfolio spreadsheet</b> (Google Sheets):
+        <a class="sheetTab" data-gid="1024844697" href="#" target="_blank" rel="noopener">Portfolio</a> ·
+        <a class="sheetTab" data-gid="441131293" href="#" target="_blank" rel="noopener">Transactions</a> ·
+        <a class="sheetTab" data-gid="2062487040" href="#" target="_blank" rel="noopener">Dividends</a>
+        <br><span class="sub">Opens in Bob's Google account, so you need to be signed in to Google as Bob.</span></li>
     </ul>
   </section>
 
@@ -325,9 +330,10 @@ async function load() {
   b.disabled = false; b.textContent = "Refresh";
 }
 
-// ---- Settings: paste the Google Sheets link between the quotes to show it in Research links.
-const SHEET_URL = "";
-if (SHEET_URL) { document.getElementById("sheetLink").href = SHEET_URL; document.getElementById("sheetLi").hidden = false; }
+// ---- Settings: Bob's Google Sheet. Each link adds its tab's #gid to this address.
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1W7DVERD6sZYiozCwFvM9jsiaSefbZuiadeKEyMek_KU/edit";
+document.querySelectorAll("a.sheetTab").forEach(a => { a.href = SHEET_URL + "#gid=" + a.dataset.gid; });
+if (!SHEET_URL) { document.getElementById("sheetLi").hidden = true; document.getElementById("dcaSheet").hidden = true; }
 const COST = { BTC: { units: 0.1336, cost: 16500 }, TSLA: { units: 41, cost: 25595 }, MSTR: { units: 21.56, cost: 4990 } };
 const NAMES = { BTC: "Bitcoin", TSLA: "Tesla", MSTR: "Strategy (MSTR)", SEMI: "SEMI" };
 
