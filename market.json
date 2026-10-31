@@ -61,5 +61,36 @@
         "trend": "Below 50-day, above 200-day, RSI 47 (2/3)"
       }
     }
+  },
+  "needed": {
+    "as_of": "2026-10-30",
+    "source": "Sheet CAGR!H1:Q8 (Years = 1; recent growth = 3-year)",
+    "assets": {
+      "BTC": {
+        "target": "US$125,000",
+        "needed": 0.617,
+        "recent": 0.297,
+        "verdict": "Behind"
+      },
+      "TSLA": {
+        "target": "US$550",
+        "needed": 0.376,
+        "recent": 0.258,
+        "verdict": "Behind"
+      },
+      "MSTR": {
+        "target": "US$210",
+        "needed": 0.609,
+        "recent": 0.455,
+        "verdict": "Stretch"
+      },
+      "SEMI": {
+        "target": "A$40",
+        "needed": 0.184,
+        "recent": 0.54,
+        "verdict": "On track",
+        "placeholder": true
+      }
+    }
   }
 }
