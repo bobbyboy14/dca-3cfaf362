@@ -1,0 +1,847 @@
+{
+ "title": "Semi Holdings Latest Earnings Scorecard",
+ "source_page": "https://cursor.com/canvas/store-2c8e28a2-2189-4444-acf5-b2f3c670f021/cd448d1e-ff2d-4c45-a418-67169a336b09",
+ "original_title": "SEMI ETF review",
+ "as_of": "Figures as of 29–30 Oct 2026 unless marked live",
+ "summary": "What the Global X Semiconductor ETF has done, what forecasters expect, what it holds, and the risks for a pension-age investor already heavy in TSLA, BTC and MSTR. General information only, not personal advice.",
+ "sources": [
+  "https://www.globalxetfs.com.au/funds/semi/",
+  "https://www.wsts.org/76/103/Global-Semiconductor-Market-Surges-Beyond-15T-2026",
+  "https://www.gartner.com/en/newsroom/press-releases/2026-08-24-gartner-forecasts-worldwide-semiconductor-revenue-to-reach-1-trillion-dollars-in-2026",
+  "https://historyofmarket.com/semi/semi-fwdpe/",
+  "https://ocean-capital.uk/insights/oc-insight-semiconductors-funding-risk-2026-10-14/"
+ ],
+ "sections": [
+  {
+   "heading": "Overall rating",
+   "blocks": [
+    {
+     "type": "Callout",
+     "lead": "Risky",
+     "tone": "warning",
+     "children": [
+      "SEMI is a well-run, low-cost fund, but it is a single-sector, high-swing bet on the AI chip boom. It fell into a sharp sell-off in October, and it would add more of the same tech risk Bob already carries in TSLA, BTC and MSTR. General information only, not advice."
+     ]
+    },
+    {
+     "type": "Rows",
+     "rows": [
+      {
+       "title": "Concentration",
+       "detail": "Top 5 holdings are 51% of the fund, top 10 are 76%, all one sector",
+       "status": {
+        "label": "Risky",
+        "tone": "danger"
+       }
+      },
+      {
+       "title": "AI spending cycle",
+       "detail": "Results depend on big-tech capex, which investors are now questioning",
+       "status": {
+        "label": "Risky",
+        "tone": "danger"
+       }
+      },
+      {
+       "title": "Taiwan, China, export controls",
+       "detail": "TSMC and Taiwan supply are central; US tariffs and China rules in flux",
+       "status": {
+        "label": "Risky",
+        "tone": "danger"
+       }
+      },
+      {
+       "title": "Overlap with TSLA, BTC, MSTR",
+       "detail": "All four fell together on 30 Oct; little diversification",
+       "status": {
+        "label": "Risky",
+        "tone": "danger"
+       }
+      },
+      {
+       "title": "Valuation",
+       "detail": "Sector forward P/E 17.3x, near its long-run average, but on possibly peak earnings",
+       "status": {
+        "label": "Sort of safe",
+        "tone": "warning"
+       }
+      },
+      {
+       "title": "Currency (unhedged)",
+       "detail": "A rising Aussie dollar cuts returns; a falling one helps",
+       "status": {
+        "label": "Sort of safe",
+        "tone": "warning"
+       }
+      },
+      {
+       "title": "Age Pension / deeming",
+       "detail": "Big price swings move assessed assets and deemed income",
+       "status": {
+        "label": "Sort of safe",
+        "tone": "warning"
+       }
+      },
+      {
+       "title": "Fund quality, fees, tracking",
+       "detail": "0.45% fee, A$995m size, tracks its index within about 0.6% a year",
+       "status": {
+        "label": "Good",
+        "tone": "success"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "heading": "Fund facts",
+   "blocks": [
+    {
+     "type": "Properties",
+     "items": [
+      {
+       "label": "Name and ticker",
+       "value": "Global X Semiconductor ETF, ASX: SEMI"
+      },
+      {
+       "label": "Tracks",
+       "value": "Solactive Global Semiconductor 30 Index (30 largest chip companies)"
+      },
+      {
+       "label": "Fee",
+       "value": "0.45% a year"
+      },
+      {
+       "label": "Size",
+       "value": "A$994.7m (29 Oct 2026)"
+      },
+      {
+       "label": "NAV per unit",
+       "value": "A$35.2462 (29 Oct); ASX close A$33.78 (30 Oct)"
+      },
+      {
+       "label": "Currency hedged",
+       "value": "No"
+      },
+      {
+       "label": "Distributions",
+       "value": "Twice a year; last 285.35c (ex 2 Jul 2026); 12-month yield 7.35%"
+      },
+      {
+       "label": "Custodian",
+       "value": "Citigroup Pty Limited"
+      },
+      {
+       "label": "Inception",
+       "value": "27 Aug 2021"
+      }
+     ]
+    },
+    {
+     "type": "Text",
+     "children": [
+      "The 7.35% yield is not a steady income figure. It is driven by the large July 2026 payout (about 8% of the unit price), which looks like a one-off capital-gains distribution after a big year. Earlier half-year payouts were mostly 3–4 cents."
+     ]
+    }
+   ]
+  },
+  {
+   "heading": "Performance so far",
+   "blocks": [
+    {
+     "type": "Bars",
+     "bars": [
+      {
+       "label": "YTD",
+       "value": 62.48,
+       "display": "62.5%"
+      },
+      {
+       "label": "1 year",
+       "value": 59.19,
+       "display": "59.2%"
+      },
+      {
+       "label": "3 years p.a.",
+       "value": 55.86,
+       "display": "55.9%"
+      },
+      {
+       "label": "5 years p.a.",
+       "value": 34.08,
+       "display": "34.1%"
+      },
+      {
+       "label": "Since inception p.a.",
+       "value": 32.32,
+       "display": "32.3%"
+      },
+      {
+       "label": "3 months",
+       "value": 10.57,
+       "display": "10.6%"
+      },
+      {
+       "label": "1 month",
+       "value": -9.59,
+       "display": "−9.6%"
+      }
+     ],
+     "emphasis": 1
+    },
+    {
+     "type": "Text",
+     "children": [
+      "Global X figures to 29 Oct 2026, NAV total return in A$ after fees. The index did 0.6–0.7 points a year better, which is about the fee plus costs. These numbers don't yet include the US sell-off of Friday 30 Oct, when the US chip index fell 7.2% after the ASX had closed."
+     ]
+    }
+   ]
+  },
+  {
+   "heading": "CAGR check: site vs calculated",
+   "blocks": [
+    {
+     "type": "Table",
+     "columns": [
+      "Period",
+      "Site (NAV, distr. incl.)",
+      "Calc price only",
+      "Calc distr. reinvested",
+      "Calc reinvested, ending at NAV",
+      "Gap vs site (pts)"
+     ],
+     "rows": [
+      [
+       "YTD",
+       "62.48",
+       "50.13",
+       "59.81",
+       "61.03",
+       "−1.5 ⚑"
+      ],
+      [
+       "1 month",
+       "−9.59",
+       "−8.91",
+       "−8.91",
+       "−8.22",
+       "+1.4 ⚑"
+      ],
+      [
+       "3 months",
+       "10.57",
+       "7.47",
+       "7.47",
+       "8.29",
+       "−2.3 ⚑"
+      ],
+      [
+       "1 year",
+       "59.19",
+       "46.79",
+       "56.49",
+       "57.68",
+       "−1.5 ⚑"
+      ],
+      [
+       "3 years p.a.",
+       "55.86",
+       "46.38",
+       "54.86",
+       "55.25",
+       "−0.6 ⚑"
+      ],
+      [
+       "5 years p.a.",
+       "34.08",
+       "29.14",
+       "33.92",
+       "34.12",
+       "0.0"
+      ],
+      [
+       "Since inception p.a.",
+       "32.32",
+       "27.38",
+       "31.93",
+       "32.12",
+       "−0.2"
+      ]
+     ]
+    },
+    {
+     "type": "Text",
+     "children": [
+      "Calculated from SEMI.AX daily prices (yfinance) to 29 Oct 2026, using the same start dates. Gap column compares the last calculation to the site; ⚑ marks gaps over 0.5 points."
+     ]
+    },
+    {
+     "type": "NumberedList",
+     "items": [
+      "Price only is far below the site for 1 year and longer because it leaves out the big 2025 and 2026 payouts. That is expected, not an error.",
+      "The site uses NAV, not the ASX price. On 29 Oct the ASX close was A$34.98 against NAV of A$35.25, so ending at NAV adds about 0.8 points.",
+      "The 1-month, 3-month, YTD and 1-year gaps remain because the start-date ASX price also sat above or below NAV that day. Short periods magnify this.",
+      "The 3-year, 5-year and since-inception figures match within about 0.6 points, so the site's long-run CAGR figures check out."
+     ]
+    }
+   ]
+  },
+  {
+   "heading": "Current news",
+   "blocks": [
+    {
+     "type": "NumberedList",
+     "items": [
+      "30 Oct: US chip index (SOX) fell 7.2% and ended October down more than 15%. The Nasdaq fell 2.9% and the Nasdaq 100 fell 3.5%.",
+      "Intel fell 28.6%, its worst day since the 1970s, on weak Q4 guidance and a PC slump it expects to last through the first half of 2027.",
+      "AMD fell 10.9%, Qualcomm about 11%, Broadcom more than 5%, Micron 5.3% and Nvidia 4.2%.",
+      "Alphabet, Amazon, Meta and Microsoft plan more than US$740bn of capex this year. Alphabet (−US$9.1bn) and Amazon reported negative free cash flow.",
+      "The iShares Semiconductor ETF is 29% off its high, which puts it in a bear market. BTIG's technical analyst recommended fading chip bounces.",
+      "Coming up: AMD results 3 Nov, the end of the US 'affiliates rule' suspension on 9 Nov, Nvidia results 17 Nov, and the WSTS autumn forecast on 1 Dec."
+     ]
+    },
+    {
+     "type": "Text",
+     "children": [
+      "Because the ASX closed before Friday's US trading, SEMI may open lower on Monday 2 Nov."
+     ]
+    }
+   ]
+  },
+  {
+   "heading": "Outlook and forecasts",
+   "blocks": [
+    {
+     "type": "Metrics",
+     "metrics": [
+      {
+       "value": "US$1.91tn",
+       "label": "WSTS 2027 chip sales",
+       "detail": "+26.6% after +89.9% in 2026"
+      },
+      {
+       "value": "US$1.94tn",
+       "label": "Gartner 2027 chip sales",
+       "detail": "Memory passes US$1tn"
+      },
+      {
+       "value": "17.3x",
+       "label": "SOX forward P/E",
+       "detail": "29 Oct; long-run average 17.5x"
+      },
+      {
+       "value": "+5.4%",
+       "label": "Ocean Capital 12-month weighted view",
+       "detail": "Bear case −21% to −32%"
+      }
+     ]
+    },
+    {
+     "type": "ProsCons",
+     "prosHeading": "Still on track",
+     "consHeading": "Warning signs",
+     "pros": [
+      "Nvidia, Broadcom, TSMC, Micron and SK Hynix all guided higher for the next quarter.",
+      "Micron and SK Hynix say memory stays tight through 2027–28, with most supply already contracted.",
+      "ASML, Lam and KLA expect 2027 equipment spending above US$200bn.",
+      "Gartner expects AI data centres to grow from 36.5% of chip revenue to 53% by 2030."
+     ],
+     "cons": [
+      "Hyperscaler capex now partly relies on borrowing, and investors want to see returns.",
+      "Memory is about 54% of 2026 chip revenue, and it is the most boom-and-bust segment.",
+      "The low forward P/E rests on peak margins. Micron at about 6x shows investors don't trust those margins.",
+      "PC and phone demand is falling as memory costs rise. Intel expects PCs to drop 12% in 2026 and 10% in 2027."
+     ]
+    }
+   ]
+  },
+  {
+   "heading": "Is a high CAGR likely over 2 years?",
+   "blocks": [
+    {
+     "type": "Callout",
+     "lead": "Judgement: possible, but not the likely case",
+     "tone": "info",
+     "children": [
+      "A repeat of the 56% a year of the last three years is unlikely. A more realistic range over 2 years runs from a loss to a moderate gain. The sourced forecasts point to modest positive returns on average, with a real chance of a 20–30% fall along the way."
+     ]
+    },
+    {
+     "type": "NumberedList",
+     "items": [
+      "Assumption: share prices follow earnings, and earnings follow industry revenue. WSTS and Gartner see about 25–27% revenue growth in 2027, after roughly doubling in 2026, so growth is slowing.",
+      "Assumption: valuations stay around today's 17x forward P/E. If they do, returns roughly track earnings growth. If investors treat this as a memory-cycle peak, multiples shrink, as they did from 21.7x in August.",
+      "Ocean Capital's 12-month SOX scenarios: base case +8% to +20% (55% chance), bull +31% to +45% (15%), bear −21% to −32% (30%). These are one firm's estimates, not consensus, and were made before the 30 Oct drop.",
+      "Unhedged A$ returns also depend on the exchange rate, which no one can forecast reliably.",
+      "Nothing here is a promise. Past performance is not a reliable guide to future returns."
+     ]
+    }
+   ]
+  },
+  {
+   "heading": "Holdings",
+   "blocks": [
+    {
+     "type": "Table",
+     "columns": [
+      "Holding",
+      "Weight",
+      "Positive",
+      "Negative"
+     ],
+     "rows": [
+      [
+       "NVIDIA",
+       "11.23%",
+       "Q2 FY27 revenue US$96.2bn (+106%); Q3 guided to US$108bn; about +70% guided for FY28",
+       "Margin guided down to 71–72% in Q4 on memory costs; no China in guidance; −4.2% on 30 Oct; results 17 Nov"
+      ],
+      [
+       "Micron",
+       "10.56%",
+       "Q4 revenue US$54.2bn, next quarter guided US$60–63bn at 86% gross margin; most 2027 HBM sold at higher prices",
+       "Memory is the most cyclical part of chips; market prices it at about 6x forward earnings because it doubts these margins last; −5.3% on 30 Oct"
+      ],
+      [
+       "TSMC",
+       "10.36%",
+       "Q3 revenue US$46.7bn (+41%); Q4 guided US$52.3–54.3bn; 2026 growth about 44%",
+       "Taiwan risk; overseas fabs to dilute margin by 3–4% in coming years; cautious on 2027 consumer demand"
+      ],
+      [
+       "AMD",
+       "9.64%",
+       "Passed US$1tn market value in October; expects data-centre revenue to more than double by 2027; Jefferies target US$650",
+       "−10.9% on 30 Oct after Intel's PC warning; reports 3 Nov with a high bar"
+      ],
+      [
+       "Broadcom",
+       "9.52%",
+       "AI chip revenue US$16.7bn (+221%); sees US$115bn in FY27 and US$230bn in FY28",
+       "Q4 guide a touch under forecasts; gross margin easing to 73%; relies on a few giant customers; −5% on 30 Oct"
+      ],
+      [
+       "SK Hynix",
+       "6.75%",
+       "Record Q3 revenue KRW104.6tn (+328%), 80% operating margin; long-term deals cover over half of 2027–28 output",
+       "Priced at about 6x trailing earnings, a sign investors see a cyclical peak"
+      ],
+      [
+       "ASML",
+       "6.71%",
+       "Record Q3 sales €11.7bn; says 2027–28 supply won't meet demand",
+       "Restricted from selling advanced tools to China; no 2027 sales figure given"
+      ],
+      [
+       "Intel",
+       "4.15%",
+       "Data-centre revenue +78%; US government and Nvidia are shareholders",
+       "−28.6% on 30 Oct: Q4 guide US$15–16bn vs US$17.1bn expected, Israel fab explosion costs about US$600m, PC slump into 2027"
+      ],
+      [
+       "Applied Materials",
+       "3.51%",
+       "Q4 guided to US$10.25bn; sees chip-equipment spending growing to 2030",
+       "Fell 21% over 8 sessions; China is 26% of sales and blocked at the leading edge"
+      ],
+      [
+       "Lam Research",
+       "3.34%",
+       "Revenue US$8.22bn, guided US$8.6bn; sees 2027 equipment spending above US$200bn",
+       "Shares fell after results; cleanroom and parts shortages cap deliveries"
+      ],
+      [
+       "Texas Instruments",
+       "2.97%",
+       "Q3 beat at US$6.06bn",
+       "Q4 guide flat at the midpoint; shares slipped"
+      ],
+      [
+       "KLA",
+       "2.30%",
+       "Beat with US$4.14bn; guided US$4.7bn",
+       "Same equipment-cycle and China limits as peers"
+      ],
+      [
+       "Analog Devices",
+       "2.21%",
+       "Record quarter US$4.02bn (+40%)",
+       "Industrial and car demand swings with the economy"
+      ],
+      [
+       "Qualcomm",
+       "2.05%",
+       "Forward P/E under 20, below the S&P 500",
+       "−11% on 30 Oct; Huawei licence costs, Arm legal fight, phone demand worries"
+      ],
+      [
+       "Marvell",
+       "2.01%",
+       "Raised 2028 revenue target to US$20bn",
+       "−13% on 29 Oct on reported talks to buy Lumentum"
+      ],
+      [
+       "MediaTek",
+       "1.91%",
+       "Q4 guided up 25–32% on AI accelerators",
+       "Q3 growth only 18%; phone exposure as memory costs rise"
+      ],
+      [
+       "Advantest",
+       "1.79%",
+       "Record results; full-year forecast raised to ¥1.863tn sales",
+       "Depends heavily on AI chip testing demand"
+      ],
+      [
+       "Tokyo Electron",
+       "1.50%",
+       "Q2 profit +27%; ¥150bn buyback",
+       "Tied to the same equipment spending cycle"
+      ],
+      [
+       "Kioxia",
+       "1.11%",
+       "Q3 met estimates in a NAND price boom",
+       "Q4 guidance missed forecasts"
+      ],
+      [
+       "Infineon",
+       "0.83%",
+       "Record €4.17bn quarter on AI power chips",
+       "Car chips only +6%"
+      ],
+      [
+       "ASE Technology",
+       "0.83%",
+       "Q3 revenue +44.8%; Q4 +6–8% guided",
+       "Thin 23–24% gross margin"
+      ],
+      [
+       "NXP",
+       "0.71%",
+       "Q3 US$3.79bn (+19%)",
+       "Heavy car exposure"
+      ],
+      [
+       "TE Connectivity",
+       "0.69%",
+       "Sales +12%, EPS +21%",
+       "Mostly connectors, slower growth than chip peers"
+      ],
+      [
+       "Monolithic Power",
+       "0.59%",
+       "Power chips for AI data centres",
+       "Q3 results came out 29 Oct; not verified here"
+      ],
+      [
+       "Samsung Electro-Mech.",
+       "0.56%",
+       "Q3 operating profit +165%; shortages seen to 2028",
+       "Component maker, cyclical"
+      ],
+      [
+       "Coherent",
+       "0.49%",
+       "Gains from the shift to optical links",
+       "Weak cash conversion, negative free cash flow"
+      ],
+      [
+       "Teradyne",
+       "0.49%",
+       "Q3 revenue +70%",
+       "Q4 guide roughly flat"
+      ],
+      [
+       "UMC",
+       "0.43%",
+       "92% factory use; revenue +25.6%",
+       "Older chip nodes; Q4 shipments only low single-digit growth"
+      ],
+      [
+       "Astera Labs",
+       "0.41%",
+       "PCIe 7 products sampling Q4 2026",
+       "Small, high-expectation stock"
+      ],
+      [
+       "Renesas",
+       "0.32%",
+       "Q3 revenue +30%",
+       "Shares fell 7% after results; car demand slower"
+      ]
+     ]
+    },
+    {
+     "type": "Text",
+     "children": [
+      "All 30 holdings as at 30 Oct 2026, from Global X. Weights add to 99.97%, with the rest in cash."
+     ]
+    }
+   ]
+  },
+  {
+   "heading": "Risk factors and red flags",
+   "blocks": [
+    {
+     "type": "Rows",
+     "rows": [
+      {
+       "lead": "Red flag",
+       "title": "Sharp sell-off under way",
+       "detail": "US chips −15% in October and −7.2% on 30 Oct, which SEMI's ASX price hasn't absorbed yet",
+       "status": {
+        "label": "Risky",
+        "tone": "danger"
+       }
+      },
+      {
+       "lead": "Red flag",
+       "title": "Concentration",
+       "detail": "Nvidia, Micron, TSMC, AMD and Broadcom are 51%; memory makers (Micron, SK Hynix, Kioxia) are about 18%",
+       "status": {
+        "label": "Risky",
+        "tone": "danger"
+       }
+      },
+      {
+       "lead": "Red flag",
+       "title": "AI capex cycle",
+       "detail": "If hyperscalers slow spending, orders and prices across the whole fund fall together",
+       "status": {
+        "label": "Risky",
+        "tone": "danger"
+       }
+      },
+      {
+       "lead": "Red flag",
+       "title": "Overlap with Bob's portfolio",
+       "detail": "TSLA, MSTR and BTC are also growth and risk-on assets; on 30 Oct they fell alongside chips",
+       "status": {
+        "label": "Risky",
+        "tone": "danger"
+       }
+      },
+      {
+       "lead": "Worry",
+       "title": "Taiwan and China",
+       "detail": "TSMC makes most advanced chips; a blockade or conflict would hit many holdings at once",
+       "status": {
+        "label": "Risky",
+        "tone": "danger"
+       }
+      },
+      {
+       "lead": "Worry",
+       "title": "Export controls and tariffs",
+       "detail": "25% US Section 232 chip tariff in force; China sales licensed case by case; new rules due around 9 Nov",
+       "status": {
+        "label": "Risky",
+        "tone": "danger"
+       }
+      },
+      {
+       "lead": "Worry",
+       "title": "Memory boom-bust",
+       "detail": "Memory prices are up several-fold; new capacity in 2027–28 could reverse that",
+       "status": {
+        "label": "Risky",
+        "tone": "danger"
+       }
+      },
+      {
+       "lead": "Worry",
+       "title": "Valuation",
+       "detail": "Average P/E on what may be peak profits; trailing P/E 30.4x",
+       "status": {
+        "label": "Sort of safe",
+        "tone": "warning"
+       }
+      },
+      {
+       "lead": "Worry",
+       "title": "Currency",
+       "detail": "Unhedged; a stronger Aussie dollar reduces A$ returns",
+       "status": {
+        "label": "Sort of safe",
+        "tone": "warning"
+       }
+      },
+      {
+       "lead": "Worry",
+       "title": "Age Pension and deeming",
+       "detail": "SEMI counts as a financial asset for Centrelink. Its value counts in the assets test and deeming sets the assumed income, so big swings change assessed assets. Distributions are also taxable, and lumpy",
+       "status": {
+        "label": "Sort of safe",
+        "tone": "warning"
+       }
+      },
+      {
+       "lead": "Minor",
+       "title": "Distribution yield misleading",
+       "detail": "7.35% is mostly a one-off July payout, not reliable income",
+       "status": {
+        "label": "Sort of safe",
+        "tone": "warning"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "heading": "Good points",
+   "blocks": [
+    {
+     "type": "ProsCons",
+     "prosHeading": "Strengths",
+     "consHeading": "Keep in mind",
+     "pros": [
+      "Low 0.45% fee, A$995m in assets, and tracks its index closely.",
+      "Holds all 30 leaders across design, manufacturing, equipment and memory in one ASX trade.",
+      "Strong record: 34% a year over 5 years and 56% a year over 3 years.",
+      "Most top holdings just beat forecasts and guided higher.",
+      "Sector forward P/E is back near its long-run average after the October drop.",
+      "No Tesla, Bitcoin or MSTR inside, so the specific companies don't overlap."
+     ],
+     "cons": [
+      "Strong past returns came from an exceptional boom.",
+      "Without hedging, the Aussie dollar can cut returns.",
+      "One sector, so it moves together in sell-offs."
+     ]
+    }
+   ]
+  },
+  {
+   "heading": "Sources",
+   "blocks": [
+    {
+     "type": "LinkCards",
+     "links": [
+      {
+       "title": "SEMI fund page (performance, holdings, NAV)",
+       "site": "Global X",
+       "href": "https://www.globalxetfs.com.au/funds/semi/"
+      },
+      {
+       "title": "WSTS Spring 2026 forecast",
+       "site": "WSTS",
+       "href": "https://www.wsts.org/76/103/Global-Semiconductor-Market-Surges-Beyond-15T-2026"
+      },
+      {
+       "title": "WSTS Q2 2026 update",
+       "site": "WSTS",
+       "href": "https://www.wsts.org/76/Global-Semiconductor-Market-records-exceptional-growth-in-Q2-2026"
+      },
+      {
+       "title": "Gartner: chip revenue US$1.6tn in 2026",
+       "site": "Gartner",
+       "href": "https://www.gartner.com/en/newsroom/press-releases/2026-08-24-gartner-forecasts-worldwide-semiconductor-revenue-to-reach-1-trillion-dollars-in-2026"
+      },
+      {
+       "title": "SOX forward P/E",
+       "site": "History of Market",
+       "href": "https://historyofmarket.com/semi/semi-fwdpe/"
+      },
+      {
+       "title": "Semiconductors: a funding-risk correction",
+       "site": "Ocean Capital",
+       "href": "https://ocean-capital.uk/insights/oc-insight-semiconductors-funding-risk-2026-10-14/"
+      },
+      {
+       "title": "Wall Street closes sharply lower (30 Oct)",
+       "site": "Reuters / Yahoo",
+       "href": "https://finance.yahoo.com/markets/stocks/articles/nasdaq-futures-sink-amazon-intel-114737736.html"
+      },
+      {
+       "title": "Intel, Amazon fall on AI spending concerns",
+       "site": "CNBC",
+       "href": "https://www.cnbc.com/2026/10/30/amazon-intel-earnings-big-tech-ai-spending-concerns.html"
+      },
+      {
+       "title": "AI stocks sell off",
+       "site": "CNBC",
+       "href": "https://www.cnbc.com/2026/10/30/ai-stocks-selloff-ai-spending-returns.html"
+      },
+      {
+       "title": "Cracks in the AI spending boom",
+       "site": "TechCrunch",
+       "href": "https://techcrunch.com/2026/10/30/cracks-are-emerging-in-the-ai-spending-boom/"
+      },
+      {
+       "title": "Nvidia Q2 FY27 results",
+       "site": "NVIDIA",
+       "href": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027"
+      },
+      {
+       "title": "Micron Q4 call",
+       "site": "Motley Fool",
+       "href": "https://www.fool.com/earnings/call-transcripts/2026/10/01/micron-mu-q4-2026-earnings-call-transcript/"
+      },
+      {
+       "title": "TSMC Q3 2026 results",
+       "site": "TSMC",
+       "href": "https://pr.tsmc.com/english/news/3346"
+      },
+      {
+       "title": "Broadcom Q3 FY26 results",
+       "site": "Broadcom",
+       "href": "https://investors.broadcom.com/news-releases/news-release-details/broadcom-inc-announces-third-quarter-fiscal-year-2026-financial"
+      },
+      {
+       "title": "SK hynix Q3 2026 results",
+       "site": "SK hynix",
+       "href": "https://news.skhynix.com/en/q3-2026-business-results/"
+      },
+      {
+       "title": "ASML Q3 2026 results",
+       "site": "ASML",
+       "href": "https://investor.asml.com/news-releases/news-release-details/asml-reports-eu11.7-billion-total-net-sales-and-eu5.0-billion-net-income-q3-2026"
+      },
+      {
+       "title": "AMD slides on Intel warning",
+       "site": "Investing.com",
+       "href": "https://www.investing.com/news/stock-market-news/why-is-advanced-micro-devices-stock-sliding-today-93CH-4988108"
+      },
+      {
+       "title": "Intel Q3 and PC slump",
+       "site": "Quartz",
+       "href": "https://qz.com/amd-stock-falls-intel-earnings-pc-server-supply-103026"
+      },
+      {
+       "title": "Semis forward P/E below S&P 500",
+       "site": "AInvest",
+       "href": "https://h5.ainvest.com/frontPage/regular/news-page/index.html?id=semis-trade-cheaper-500-earnings-discount-doubt-deal-2610"
+      },
+      {
+       "title": "US tariff actions 2026",
+       "site": "CRS",
+       "href": "https://www.everycrsreport.com/files/2026-10-08_R49481_ab4c7edd9ff7686b08fe8599738ceea629983ebf.html"
+      },
+      {
+       "title": "Anthropic flags TSMC disruption risk",
+       "site": "Bloomberg",
+       "href": "https://www.bloomberg.com/news/articles/2026-10-26/anthropic-highlights-disruptions-to-tsmc-operations-as-a-risk"
+      },
+      {
+       "title": "Lam, KLA results and equipment outlook",
+       "site": "Investing.com",
+       "href": "https://www.investing.com/news/transcripts/earnings-call-transcript-lam-research-tops-q1-2026-estimates-shares-fall-93CH-4964322"
+      },
+      {
+       "title": "Applied Materials Q3 script",
+       "site": "Applied Materials",
+       "href": "https://ir.appliedmaterials.com/static-files/e9985149-77c2-4cf3-aaad-a579178cbfe4"
+      },
+      {
+       "title": "Marvell sinks on Lumentum talks",
+       "site": "24/7 Wall St.",
+       "href": "https://247wallst.com/investing/2026/10/29/marvell-sinks-13-lumentum-jumps-6-on-reported-acquisition-talks-coherent-holds-flat-applied-optoelectronics-drops-3/"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
