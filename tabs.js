@@ -195,7 +195,7 @@ function assetScore(k) {
     const num = g.price != null ? "<div class='gd'>Price " + n(g.price) + (g.price_date ? " (" + dstr(g.price_date) + ")" : "") + " · 50-day avg " + n(g.ma50) + " (" + ab(g.price, g.ma50) + ") · 200-day avg " + n(g.ma200) + " (" + ab(g.price, g.ma200) + ") · weekly RSI " + g.rsi_week + (g.rsi_week >= 35 && g.rsi_week <= 70 ? " (in 35-70)" : " (outside 35-70)") + "</div>" : "";
     const row = (lab, p, mx, r, extra) => "<tr><td><b>" + lab + "</b><br>" + p + "/" + mx + "</td><td>" + esc(r) + (extra || "") + "</td></tr>";
     el.innerHTML = "<h2>" + NAMES[k] + " Scorecard</h2>" +
-      "<div class='box'><div style='font-size:28px;font-weight:700'>" + (G[0] === x.status ? "<span class='" + st + "'>" + x.score + "/10</span>" : x.score + "/10 <span class='" + st + "' style='font-size:18px'>" + esc(x.status) + "</span>") + "</div>" +
+      "<div class='box'><div style='font-size:28px;font-weight:700'>" + "<span class='" + st + "' title='" + esc(x.status) + "'>" + x.score + "/10</span>" + "</div>" +
       "<div class='" + G[1] + "' style='font-weight:600;margin-top:4px'>Growth: " + G[0] + "</div>" +
       (x.as_of ? "<div class='muted' style='margin-top:4px'>As of " + dstr(x.as_of) + "</div>" : "") + "</div>" +
       "<table class='parts'><thead><tr><th>Part</th><th>Why</th></tr></thead><tbody>" +
