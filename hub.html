@@ -26,6 +26,7 @@ h2{font-size:14px;font-weight:700;color:#9aa6bd;margin:16px 0 6px;text-transform
 <div class="sc" id="sc"></div>
 <h2>Portfolio</h2>
 <div class="tot" id="tot"><div class="h">…</div></div>
+<h2 id="duh" hidden>Daily Update</h2>
 <div class="du" id="du" hidden></div>
 </div>
 <script>
@@ -41,7 +42,7 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
   if(mk&&mk.scores){const C={"On track":"up","Mixed":"amber","Off track":"down"};
     $("sc").innerHTML=["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];return "<div><div class='t'>"+k+" <span class='st "+(C[x.status]||"")+"'>"+esc(x.status)+"</span> "+x.score+"/10</div><div class='l'>"+esc(x.line)+"</div>"+Object.values(x.parts||{}).map(v=>"<div class='q'>"+esc(v)+"</div>").join("")+"</div>"}).join("");}
   if(mk){const u=new Date(mk.updated).toLocaleString("en-AU",{timeZone:"Australia/Melbourne",weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
-    $("du").innerHTML="<div class='d'>Daily update · "+u+" AEDT</div><div class='hl'>"+esc(mk.headline)+"</div>"+["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const x=mk.assets[k];return "<div class='r'><span class='t'>"+k+"</span><span class='m "+(String(x.move).startsWith("-")?"down":"up")+"'>"+esc(x.move)+"</span>"+esc(x.note)+"</div>"}).join("");$("du").hidden=false;}
+    $("du").innerHTML="<div class='d'>"+u+" AEDT</div><div class='hl'>"+esc(mk.headline)+"</div>"+["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const x=mk.assets[k];return "<div class='r'><span class='t'>"+k+"</span><span class='m "+(String(x.move).startsWith("-")?"down":"up")+"'>"+esc(x.move)+"</span>"+esc(x.note)+"</div>"}).join("");$("du").hidden=false;$("duh").hidden=false;}
   $("buy").innerHTML=wk?"This week's buy: <b>"+esc(wk.pick)+" A$"+Math.ceil(wk.amount_aud)+"</b>":"This week's buy: not available";
   const COST={BTC:{units:0.1336,cost:16500},TSLA:{units:41,cost:25595},MSTR:{units:21.56,cost:4990}};
   const V=d&&d.value_inputs,A=n=>"A$"+Math.round(Math.abs(n)).toLocaleString("en-AU");
