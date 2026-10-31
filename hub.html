@@ -65,7 +65,13 @@
   .fgrid3 input[type=number] { font-size:1.1rem; padding:8px; }
   input.fdate { width:100%; font-size:1.05rem; padding:9px 10px; border-radius:10px; border:1px solid #2c3854; background:var(--inner); color:var(--text); color-scheme:dark; }
   .ghost { margin-top:10px; border:1px solid #2c3854; background:transparent; color:var(--text); padding:9px 14px; border-radius:10px; font-size:.95rem; cursor:pointer; }
-  #opt button, #fcAsset button { font-size:.9rem; padding:9px 2px; }
+  table.fcin input[type=number] { width:100%; min-width:44px; max-width:70px; font-size:.95rem; padding:6px 4px; }
+  table.fcin th, table.fcin td { padding:5px 2px; }
+  table.fcin td:first-child label { font-size:.88rem !important; }
+  .chartbox canvas { max-width:100%; }
+  table.fcin td { padding:5px 3px; }
+  input:disabled { opacity:.6; }
+  #opt button { font-size:.9rem; padding:9px 2px; }
   footer { color:var(--muted); font-size:.8rem; line-height:1.5; padding:4px 2px 30px; }
 </style>
 </head>
@@ -115,38 +121,45 @@
   <!-- Forecast scenarios -->
   <section class="card" id="forecast">
     <h2>Forecast scenarios: play with the numbers</h2>
-    <div class="sub">Pick an asset, your amounts and three made-up yearly growth rates, and see where each path could end up.</div>
+    <div class="sub">Tick the assets you want, split your money between them, set made-up yearly growth rates, and see where each path could end up.</div>
     <div class="fgrid">
       <div><label for="fcStart">Starting amount (A$)</label><input id="fcStart" type="number" inputmode="decimal" min="0" step="500" value="10000"></div>
-      <div><label for="fcTop">Regular top-up (A$, optional)</label>
+      <div><label for="fcTop">Regular top-up (A$, optional, split the same way)</label>
         <div style="display:flex;gap:6px"><input id="fcTop" type="number" inputmode="decimal" min="0" step="50" value="0" style="flex:1">
         <div class="seg" id="fcFreq" style="flex:0 0 auto"><button data-v="week">Weekly</button><button data-v="month" class="on">Monthly</button></div></div></div>
       <div><label for="fcDate">Start date</label><input id="fcDate" type="date" class="fdate"></div>
       <div><label for="fcYears">How long: <b id="fcYearsTxt">4 years</b></label><input id="fcYears" type="range" min="1" max="10" step="1" value="4" style="width:100%">
         <label for="fcEnd" style="margin-top:6px">or pick an end date</label><input id="fcEnd" type="date" class="fdate"></div>
     </div>
-    <label style="margin-top:12px">Asset</label>
-    <div class="seg" id="fcAsset"><button data-v="SEMI">SEMI</button><button data-v="TSLA">TSLA</button><button data-v="BTC">BTC</button><button data-v="MSTR">MSTR</button><button data-v="BASKET" class="on">Basket</button></div>
-    <div class="sub" id="fcRef" style="margin-top:8px"></div>
-    <label style="margin-top:10px">Yearly growth rate for each scenario (%)</label>
-    <div class="fgrid3">
-      <div><label for="fcBad" class="down">Bad</label><input id="fcBad" type="number" step="1" inputmode="decimal"></div>
-      <div><label for="fcMid" style="color:var(--accent)">Middle</label><input id="fcMid" type="number" step="1" inputmode="decimal"></div>
-      <div><label for="fcGood" class="up">Good</label><input id="fcGood" type="number" step="1" inputmode="decimal"></div>
+    <h3>Assets, split and yearly growth rates (%)</h3>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+      <div class="seg" id="fcMode" style="flex:0 0 auto"><button data-v="pct" class="on">Split by %</button><button data-v="aud">Split by A$</button></div>
+      <button type="button" class="ghost" id="fcEqual" style="margin:0">Equal split</button>
+      <button type="button" class="ghost" id="fcBasket" style="margin:0">Basket 35/30/25/10</button>
     </div>
+    <div class="tbl" style="margin-top:8px"><table class="fcin">
+      <thead><tr><th>Asset</th><th id="fcAllocHead">Split %</th><th class="down">Bad</th><th style="color:var(--accent)">Middle</th><th class="up">Good</th></tr></thead>
+      <tbody id="fcAssets"></tbody></table></div>
+    <div class="sub" id="fcAllocNote" style="margin-top:6px"></div>
+    <div class="sub" id="fcRef" style="margin-top:4px"></div>
     <div class="flag" style="margin-top:10px">
-      <label style="display:flex;align-items:center;gap:8px;margin:0;color:var(--text)"><input id="fcCrash" type="checkbox" style="width:20px;height:20px"> Add a crash</label>
+      <label style="display:flex;align-items:center;gap:8px;margin:0;color:var(--text)"><input id="fcCrash" type="checkbox" style="width:20px;height:20px"> Add a crash (applies to every ticked asset)</label>
       <div id="fcCrashBox" class="fgrid3" style="margin-top:8px;display:none">
         <div><label for="fcCrashPct">Drop (%)</label><input id="fcCrashPct" type="number" min="0" max="95" step="5" value="25"></div>
         <div><label for="fcCrashYr">In year</label><input id="fcCrashYr" type="number" min="1" max="10" step="1" value="1"></div>
-        <div class="sub" style="align-self:end;margin:0">Hits halfway through that year, then the scenario's rate carries on.</div>
+        <div class="sub" style="align-self:end;margin:0">Hits halfway through that year, then each scenario's rate carries on.</div>
       </div>
     </div>
     <button id="fcReset" type="button" class="ghost">Reset defaults</button>
-    <div class="tbl" style="margin-top:12px"><table>
-      <thead><tr><th>Scenario</th><th>End value</th><th>Gain / loss</th><th>Multiple</th><th>Per year</th></tr></thead>
+    <h3>Combined result</h3>
+    <div class="stats" id="fcSummary"></div>
+    <h3>By asset</h3>
+    <div class="seg" id="fcScen"><button data-v="0">Bad</button><button data-v="1" class="on">Middle</button><button data-v="2">Good</button></div>
+    <div class="tbl" style="margin-top:8px"><table>
+      <thead><tr><th>Asset</th><th>Put in</th><th>End value</th><th>Gain / loss</th><th>Multiple</th><th>Per year</th></tr></thead>
       <tbody id="fcBody"></tbody></table></div>
     <div class="sub" id="fcNote" style="margin-top:6px"></div>
+    <label style="display:flex;align-items:center;gap:8px;margin:10px 0 0;color:var(--text)"><input id="fcShowEach" type="checkbox" style="width:18px;height:18px"> Show each asset's middle path on the chart</label>
     <div class="chartbox"><canvas id="fcChart"></canvas></div>
     <div class="flag" style="margin-top:10px">These are made-up scenarios to explore, not forecasts. Past returns don't predict the future. Fees, brokerage, currency costs and tax aren't included.</div>
   </section>
@@ -347,90 +360,156 @@ function renderDCA() {
 }
 
 // ---------------- Forecast scenarios (all client-side)
+const FC_ASSETS = ["TSLA", "MSTR", "BTC", "SEMI"];
+const FC_NAME = { TSLA: "Tesla", MSTR: "MSTR", BTC: "Bitcoin", SEMI: "SEMI" };
+const FC_COLOR = { TSLA: "#e67e22", MSTR: "#9b59b6", BTC: "#f1c40f", SEMI: "#1abc9c" };
 const FC_DEF = { SEMI: [-5, 10, 20], TSLA: [-10, 10, 25], BTC: [-15, 15, 35], MSTR: [-30, 15, 50] };
-const FC_W = { BTC: 0.35, TSLA: 0.30, SEMI: 0.25, MSTR: 0.10 };
-FC_DEF.BASKET = [0, 1, 2].map(i => Math.round(Object.keys(FC_W).reduce((a, k) => a + FC_W[k] * FC_DEF[k][i], 0) * 100) / 100);
-const fc = { asset: "BASKET", freq: "month", chart: null };
+const FC_BASKET = { BTC: 35, TSLA: 30, SEMI: 25, MSTR: 10 };
+const FC_SC = [["Bad", "#ff6b6b"], ["Middle", "#4da3ff"], ["Good", "#2ecc71"]];
+const fc = { freq: "month", mode: "pct", scen: 1, chart: null };
 const isoD = d => d.toISOString().slice(0, 10);
 const melISO = () => new Date().toLocaleDateString("en-CA", { timeZone: "Australia/Melbourne" });
-function fcSetRates() { const d = FC_DEF[fc.asset]; $("fcBad").value = d[0]; $("fcMid").value = d[1]; $("fcGood").value = d[2]; }
+const r2 = v => Math.round(v * 100) / 100;
 function addYears(iso, y) { const d = new Date(iso + "T00:00:00Z"); const whole = Math.floor(y); d.setUTCFullYear(d.getUTCFullYear() + whole); return new Date(d.getTime() + (y - whole) * 365.25 * 86400000); }
 function fcSyncEnd() { $("fcEnd").value = isoD(addYears($("fcDate").value, +$("fcYears").value)); }
 function fcYears() { return Math.max(0.1, (Date.parse($("fcEnd").value) - Date.parse($("fcDate").value)) / (365.25 * 86400000)); }
+const fcEl = (k, f) => $("fc_" + f + "_" + k);
+const fcTicked = () => FC_ASSETS.filter(k => fcEl(k, "on").checked);
+
+function fcBuildRows() {
+  $("fcAssets").innerHTML = FC_ASSETS.map(k => '<tr><td><label style="display:flex;align-items:center;gap:6px;margin:0;color:var(--text);font-size:.95rem"><input type="checkbox" id="fc_on_' + k + '" checked style="width:18px;height:18px"> ' + FC_NAME[k] + "</label></td>" +
+    '<td><input type="number" id="fc_al_' + k + '" inputmode="decimal" step="1" min="0"></td>' +
+    [0, 1, 2].map(i => '<td><input type="number" id="fc_r' + i + "_" + k + '" inputmode="decimal" step="1"></td>').join("") + "</tr>").join("");
+  for (const k of FC_ASSETS) {
+    fcEl(k, "on").addEventListener("change", () => { fcEqual(); fcRenderRef(); fcRender(); });
+    fcEl(k, "al").addEventListener("input", () => { fcSyncStart(); fcRender(); });
+    [0, 1, 2].forEach(i => fcEl(k, "r" + i).addEventListener("input", fcRender));
+  }
+}
+function fcSetAlloc(map) { // map: % of start for each ticked asset
+  const start = Math.max(0, +$("fcStart").value || 0);
+  for (const k of FC_ASSETS) { const p = map[k] || 0; fcEl(k, "al").value = fc.mode === "pct" ? r2(p) : Math.round(start * p / 100); }
+}
+function fcEqual() { const t = fcTicked(); const m = {}; t.forEach(k => m[k] = 100 / t.length); fcSetAlloc(m); fcSyncStart(); }
+function fcBasketPreset() { for (const k of FC_ASSETS) fcEl(k, "on").checked = true; fcSetAlloc(FC_BASKET); fcSyncStart(); fcRenderRef(); fcRender(); }
+function fcSyncStart() { // in A$ mode the starting amount is the total of the A$ splits
+  const aud = fc.mode === "aud"; $("fcStart").disabled = aud;
+  if (aud) $("fcStart").value = fcTicked().reduce((a, k) => a + Math.max(0, +fcEl(k, "al").value || 0), 0);
+}
+function fcWeights() { // normalised weights of ticked assets
+  const t = fcTicked(); const raw = {}; let sum = 0;
+  t.forEach(k => { raw[k] = Math.max(0, +fcEl(k, "al").value || 0); sum += raw[k]; });
+  const w = {}; t.forEach(k => w[k] = sum ? raw[k] / sum : 0);
+  return { w, sum };
+}
 function fcReset() {
   $("fcStart").value = 10000; $("fcTop").value = 0; $("fcDate").value = melISO(); $("fcYears").value = 4; fcSyncEnd();
-  $("fcCrash").checked = false; $("fcCrashPct").value = 25; $("fcCrashYr").value = 1; $("fcCrashBox").style.display = "none";
+  $("fcCrash").checked = false; $("fcCrashPct").value = 25; $("fcCrashYr").value = 1; $("fcCrashBox").style.display = "none"; $("fcShowEach").checked = false;
   fc.freq = "month"; [...$("fcFreq").children].forEach(b => b.classList.toggle("on", b.dataset.v === "month"));
-  fc.asset = "BASKET"; [...$("fcAsset").children].forEach(b => b.classList.toggle("on", b.dataset.v === "BASKET"));
-  fcSetRates(); fcRender();
+  fc.mode = "pct"; [...$("fcMode").children].forEach(b => b.classList.toggle("on", b.dataset.v === "pct")); $("fcAllocHead").textContent = "Split %";
+  for (const k of FC_ASSETS) { fcEl(k, "on").checked = true; [0, 1, 2].forEach(i => fcEl(k, "r" + i).value = FC_DEF[k][i]); }
+  fcEqual(); fcRenderRef(); fcRender();
 }
-// money-weighted yearly return from cash flows [{t (years), amt (+ = money in)}] and end value
 function fcIRR(flows, endV, T) {
   const f = r => flows.reduce((a, c) => a + c.amt * Math.pow(1 + r, T - c.t), 0) - endV;
-  let lo = -0.9999, hi = 10; if (f(lo) * f(hi) > 0) return null;
+  let lo = -0.9999, hi = 10; if (!(endV > 0) || f(lo) * f(hi) > 0) return endV <= 0 ? -1 : null;
   for (let i = 0; i < 200; i++) { const m = (lo + hi) / 2; (f(lo) * f(m) <= 0) ? hi = m : lo = m; }
   return (lo + hi) / 2;
 }
-function fcSim(rate) {
-  const start = Math.max(0, +$("fcStart").value || 0), top = Math.max(0, +$("fcTop").value || 0);
-  const T = fcYears(), stepY = fc.freq === "week" ? 7 / 365.25 : 1 / 12;
-  const crash = $("fcCrash").checked ? { pct: Math.min(95, Math.max(0, +$("fcCrashPct").value || 0)) / 100, at: (Math.max(1, +$("fcCrashYr").value || 1) - 0.5) } : null;
-  let v = start, inv = start, t = 0, crashed = false; const flows = [{ t: 0, amt: start }];
-  const pts = [{ t: 0, v, inv }];
-  const g = Math.pow(1 + rate, stepY);
+// one asset, one rate: returns per-step values; all assets share the same step grid
+function fcSim(rate, start, top, T, stepY, crash) {
+  let v = start, t = 0, crashed = false; const vals = [v], times = [0], tops = [];
   while (t < T - 1e-9) {
     const dt = Math.min(stepY, T - t);
     if (crash && !crashed && t + dt >= crash.at - 1e-9) { v *= Math.pow(1 + rate, crash.at - t) * (1 - crash.pct) * Math.pow(1 + rate, t + dt - crash.at); crashed = true; }
-    else v *= dt === stepY ? g : Math.pow(1 + rate, dt);
+    else v *= Math.pow(1 + rate, dt);
     t += dt;
-    if (top > 0 && t < T - 1e-9) { v += top; inv += top; flows.push({ t, amt: top }); }
-    pts.push({ t, v, inv });
+    if (top > 0 && t < T - 1e-9) { v += top; tops.push(t); }
+    vals.push(v); times.push(t);
   }
-  return { end: v, inv, T, pts, irr: fcIRR(flows, v, T), crashHit: crash ? crashed : null, hasTop: top > 0 };
+  return { vals, times, tops, crashed };
 }
 function fcRender() {
-  const rates = [["Bad", +$("fcBad").value / 100, "#ff6b6b"], ["Middle", +$("fcMid").value / 100, "#4da3ff"], ["Good", +$("fcGood").value / 100, "#2ecc71"]];
-  const res = rates.map(([n, r, c]) => ({ n, r, c, ...fcSim(isFinite(r) ? r : 0) }));
-  $("fcYearsTxt").textContent = (Math.round(res[0].T * 10) / 10) + " years";
-  $("fcBody").innerHTML = res.map(x => { const gain = x.end - x.inv;
-    return '<tr><td><b style="color:' + x.c + '">' + x.n + '</b><br><span class="sub">' + (x.r >= 0 ? "+" : "") + (+(x.r * 100).toFixed(2)) + "% a year</span></td><td>" + aud(x.end) + "</td><td>" +
-      '<span class="' + cls(gain) + '">' + (gain >= 0 ? "+" : "−") + aud(Math.abs(gain)) + "</span><br>" + cpct(x.inv ? gain / x.inv : 0) + "</td><td>" +
-      (x.inv ? (x.end / x.inv).toFixed(2) + "x" : "–") + "</td><td>" + (x.irr == null ? "–" : cpct(x.irr)) + "</td></tr>"; }).join("");
-  const r0 = res[0];
-  let note = "Money put in: " + aud(r0.inv) + " over " + (Math.round(r0.T * 10) / 10) + " years (" + dstr($("fcDate").value) + " to " + dstr($("fcEnd").value) + ").";
-  if (r0.hasTop) note += " With top-ups, 'Per year' is money-weighted (like XIRR): each top-up only counts from the day it goes in, so it differs from a simple start-to-end growth rate.";
-  if (r0.crashHit === false) note += " The crash year is after the end date, so it isn't included.";
-  else if (r0.crashHit) note += " Includes a " + $("fcCrashPct").value + "% crash halfway through year " + $("fcCrashYr").value + ".";
+  const start = Math.max(0, +$("fcStart").value || 0), top = Math.max(0, +$("fcTop").value || 0);
+  const T = fcYears(), stepY = fc.freq === "week" ? 7 / 365.25 : 1 / 12;
+  const crash = $("fcCrash").checked ? { pct: Math.min(95, Math.max(0, +$("fcCrashPct").value || 0)) / 100, at: Math.max(1, +$("fcCrashYr").value || 1) - 0.5 } : null;
+  const { w, sum } = fcWeights(); const ticked = Object.keys(w);
+  $("fcYearsTxt").textContent = (Math.round(T * 10) / 10) + " years";
+  // allocation note
+  let an = "";
+  if (!ticked.length) an = '<span class="warn">Tick at least one asset.</span>';
+  else if (fc.mode === "pct" && Math.abs(sum - 100) > 0.05) an = '<span class="warn">Your splits add up to ' + r2(sum) + "%, so they've been scaled to 100%: " + ticked.map(k => FC_NAME[k] + " " + r2(w[k] * 100) + "%").join(", ") + ".</span>";
+  else an = "Split: " + ticked.map(k => FC_NAME[k] + " " + r2(w[k] * 100) + "% (" + aud(start * w[k]) + ")").join(", ") + (top ? ". Each top-up is split the same way." : ".");
+  $("fcAllocNote").innerHTML = an;
+  if (!ticked.length) { $("fcSummary").innerHTML = ""; $("fcBody").innerHTML = ""; return; }
+  // simulate every asset x scenario
+  const res = {}; let times = null, topTimes = [];
+  for (const k of ticked) {
+    res[k] = [0, 1, 2].map(i => { const r = (+fcEl(k, "r" + i).value || 0) / 100; const s = fcSim(r, start * w[k], top * w[k], T, stepY, crash); times = s.times; topTimes = s.tops; return { r, ...s }; });
+  }
+  const invAt = times.map(t => start + top * topTimes.filter(x => x <= t + 1e-9).length);
+  const invEnd = invAt[invAt.length - 1];
+  const flowsFor = share => [{ t: 0, amt: start * share }].concat(topTimes.map(t => ({ t, amt: top * share })));
+  const combo = [0, 1, 2].map(i => { const vals = times.map((_, j) => ticked.reduce((a, k) => a + res[k][i].vals[j], 0)); const end = vals[vals.length - 1];
+    return { vals, end, irr: fcIRR(flowsFor(1), end, T) }; });
+  const statCell = (i, x) => { const g = x.end - invEnd;
+    return '<div class="stat"><div class="k" style="color:' + FC_SC[i][1] + '">' + FC_SC[i][0] + '</div><div class="v">' + aud(x.end) + '</div><div class="s"><span class="' + cls(g) + '">' + (g >= 0 ? "+" : "−") + aud(Math.abs(g)) + " (" + pct(invEnd ? g / invEnd : 0) + ")</span><br>" +
+      (invEnd ? (x.end / invEnd).toFixed(2) + "x" : "–") + " · " + (x.irr == null ? "–" : pct(x.irr)) + " a year</div></div>"; };
+  $("fcSummary").innerHTML = combo.map((x, i) => statCell(i, x)).join("");
+  // per-asset table for the chosen scenario
+  const i = fc.scen;
+  const row = (name, inv, end, irr, rateTxt, bold) => { const g = end - inv;
+    return "<tr><td>" + (bold ? "<b>" + name + "</b>" : name) + (rateTxt ? '<br><span class="sub">' + rateTxt + "</span>" : "") + "</td><td>" + aud(inv) + "</td><td>" + (bold ? "<b>" + aud(end) + "</b>" : aud(end)) +
+      '</td><td><span class="' + cls(g) + '">' + (g >= 0 ? "+" : "−") + aud(Math.abs(g)) + "</span><br>" + cpct(inv ? g / inv : 0) + "</td><td>" + (inv ? (end / inv).toFixed(2) + "x" : "–") + "</td><td>" + (irr == null || !inv ? "–" : cpct(irr)) + "</td></tr>"; };
+  $("fcBody").innerHTML = ticked.map(k => { const x = res[k][i], inv = invEnd * w[k], end = x.vals[x.vals.length - 1];
+      return row(FC_NAME[k], inv, end, fcIRR(flowsFor(w[k]), end, T), (x.r >= 0 ? "+" : "") + r2(x.r * 100) + "% a year"); }).join("") +
+    row("Combined (" + FC_SC[i][0] + ")", invEnd, combo[i].end, combo[i].irr, "", true);
+  let note = "Money put in: " + aud(invEnd) + " over " + (Math.round(T * 10) / 10) + " years (" + dstr($("fcDate").value) + " to " + dstr($("fcEnd").value) + ").";
+  if (top) note += " With top-ups, 'Per year' is money-weighted (like XIRR): each top-up only counts from the day it goes in.";
+  if (crash) note += res[ticked[0]][0].crashed ? " Includes a " + $("fcCrashPct").value + "% crash halfway through year " + $("fcCrashYr").value + " for every ticked asset." : " The crash year is after the end date, so it isn't included.";
   $("fcNote").textContent = note;
-  const step = Math.max(1, Math.floor(r0.pts.length / 160));
-  const idx = r0.pts.map((_, i) => i).filter(i => i % step === 0 || i === r0.pts.length - 1);
-  const labels = idx.map(i => isoD(addYears($("fcDate").value, r0.pts[i].t)));
-  const ds = res.map(x => ({ label: x.n, data: idx.map(i => Math.round(x.pts[i].v)), borderColor: x.c, pointRadius: 0, borderWidth: 2, tension: 0.1 }))
-    .concat([{ label: "Money put in", data: idx.map(i => Math.round(r0.pts[i].inv)), borderColor: "#9aa6bd", borderDash: [6, 5], pointRadius: 0, borderWidth: 1 }]);
+  // chart
+  const step = Math.max(1, Math.floor(times.length / 160));
+  const idx = times.map((_, j) => j).filter(j => j % step === 0 || j === times.length - 1);
+  const labels = idx.map(j => isoD(addYears($("fcDate").value, times[j])));
+  let ds = combo.map((x, n) => ({ label: (ticked.length > 1 ? "Combined " : "") + FC_SC[n][0], data: idx.map(j => Math.round(x.vals[j])), borderColor: FC_SC[n][1], pointRadius: 0, borderWidth: 2.5, tension: .1 }));
+  if ($("fcShowEach").checked && ticked.length > 1) ds = ds.concat(ticked.map(k => ({ label: FC_NAME[k] + " (middle)", data: idx.map(j => Math.round(res[k][1].vals[j])), borderColor: FC_COLOR[k], pointRadius: 0, borderWidth: 1.5, borderDash: [3, 3], tension: .1 })));
+  ds.push({ label: "Money put in", data: idx.map(j => Math.round(invAt[j])), borderColor: "#9aa6bd", borderDash: [6, 5], pointRadius: 0, borderWidth: 1 });
   if (!window.Chart) return;
   if (fc.chart) { fc.chart.data.labels = labels; fc.chart.data.datasets = ds; fc.chart.update(); return; }
   fc.chart = new Chart($("fcChart"), { type: "line", data: { labels, datasets: ds }, options: { responsive: true, maintainAspectRatio: false, interaction: { mode: "index", intersect: false },
-    plugins: { legend: { labels: { color: "#e8ecf4", boxWidth: 14 } }, tooltip: { callbacks: { title: i => dstr(i[0].label), label: c => c.dataset.label + ": " + aud(c.parsed.y) } } },
+    plugins: { legend: { labels: { color: "#e8ecf4", boxWidth: 12, font: { size: 11 } } }, tooltip: { callbacks: { title: i => dstr(i[0].label), label: c => c.dataset.label + ": " + aud(c.parsed.y) } } },
     scales: { x: { ticks: { color: "#9aa6bd", maxTicksLimit: 6, callback: function (v) { return new Date(this.getLabelForValue(v) + "T12:00:00Z").toLocaleDateString("en-AU", { month: "short", year: "2-digit" }); } }, grid: { color: "#222b40" } },
               y: { ticks: { color: "#9aa6bd", callback: v => "A$" + (v >= 1e6 ? (v / 1e6).toFixed(1) + "m" : (v / 1000).toFixed(0) + "k") }, grid: { color: "#222b40" } } } } });
 }
 function fcRenderRef() {
   if (!st.daily) return;
-  const names = { SEMI: "SEMI", TSLA: "Tesla", BTC: "Bitcoin", MSTR: "MSTR", BASKET: "the basket" };
-  const out = [1, 3, 5].map(y => { const r = GrowthCalc.compute(st.daily, "all", y, 10000); if (r.error) return null;
-    const v = fc.asset === "BASKET" ? r.cagr : r.holdings.find(h => h.key === fc.asset).cagr; return y + "y " + cpct(v); }).filter(Boolean);
-  $("fcRef").innerHTML = "For context, " + names[fc.asset] + "'s actual past growth per year in A$: " + out.join(" · ") + (fc.asset === "BASKET" ? " (bought once, 35/30/25/10)" : "") + ".";
+  const rs = [1, 3, 5].map(y => GrowthCalc.compute(st.daily, "all", y, 10000));
+  const t = fcTicked(); if (!t.length) { $("fcRef").innerHTML = ""; return; }
+  $("fcRef").innerHTML = "For context, actual past growth per year in A$ (1y · 3y · 5y): " + t.map(k => "<b>" + FC_NAME[k] + "</b> " +
+    rs.map(r => r.error ? "–" : cpct(r.holdings.find(h => h.key === k).cagr)).join(" · ")).join("; ") + ".";
 }
-for (const [gid, key] of [["fcFreq", "freq"], ["fcAsset", "asset"]]) {
+fcBuildRows();
+for (const [gid, key] of [["fcFreq", "freq"], ["fcScen", "scen"]]) {
   $(gid).addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
-    [...$(gid).children].forEach(x => x.classList.toggle("on", x === b)); fc[key] = b.dataset.v;
-    if (key === "asset") { fcSetRates(); fcRenderRef(); } fcRender(); });
+    [...$(gid).children].forEach(x => x.classList.toggle("on", x === b)); fc[key] = key === "scen" ? +b.dataset.v : b.dataset.v; fcRender(); });
 }
-["fcStart", "fcTop", "fcBad", "fcMid", "fcGood", "fcCrashPct", "fcCrashYr"].forEach(id => $(id).addEventListener("input", fcRender));
+$("fcMode").addEventListener("click", e => { const b = e.target.closest("button"); if (!b || b.dataset.v === fc.mode) return;
+  const { w } = fcWeights(); const m = {}; Object.keys(w).forEach(k => m[k] = w[k] * 100);
+  [...$("fcMode").children].forEach(x => x.classList.toggle("on", x === b)); fc.mode = b.dataset.v;
+  $("fcAllocHead").textContent = fc.mode === "pct" ? "Split %" : "Split A$";
+  if (fc.mode === "pct") $("fcStart").disabled = false;
+  fcSetAlloc(m); fcSyncStart(); fcRender(); });
+$("fcStart").addEventListener("input", fcRender);
+$("fcTop").addEventListener("input", fcRender);
+["fcCrashPct", "fcCrashYr"].forEach(id => $(id).addEventListener("input", fcRender));
+$("fcShowEach").addEventListener("change", fcRender);
+$("fcEqual").addEventListener("click", () => { fcEqual(); fcRender(); });
+$("fcBasket").addEventListener("click", fcBasketPreset);
 $("fcYears").addEventListener("input", () => { fcSyncEnd(); fcRender(); });
 $("fcDate").addEventListener("change", () => { if (!$("fcDate").value) $("fcDate").value = melISO(); fcSyncEnd(); fcRender(); });
 $("fcEnd").addEventListener("change", () => { if (!$("fcEnd").value || $("fcEnd").value <= $("fcDate").value) fcSyncEnd();
-  const y = fcYears(); $("fcYears").value = Math.min(10, Math.max(1, Math.round(y))); fcRender(); });
+  $("fcYears").value = Math.min(10, Math.max(1, Math.round(fcYears()))); fcRender(); });
 $("fcCrash").addEventListener("change", () => { $("fcCrashBox").style.display = $("fcCrash").checked ? "grid" : "none"; fcRender(); });
 $("fcReset").addEventListener("click", fcReset);
 fcReset();
