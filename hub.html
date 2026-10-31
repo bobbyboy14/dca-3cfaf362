@@ -37,7 +37,7 @@ input[type=number],select{width:100%;min-width:0;padding:8px;border-radius:6px;b
 #tab-hub .tot,#tab-hub .buy{box-sizing:border-box;min-width:0;overflow-wrap:anywhere}#tab-hub .tot .h{text-align:right;line-height:1.15}#tab-hub .tot .h small{display:block;font-size:13px}#tab-hub .sc .nd{font-size:12px;margin-top:5px;font-weight:600}#tab-hub .sc .amber,.nd.amber{color:#ffd166}
 tr.need td{font-size:12px;color:#c9d1e0;padding-top:0;border-bottom:1px solid #2a3550}.amber{color:#ffd166}
 #tab-hub .sc .yt{display:block;font-size:12px;margin-top:6px;color:#9aa6bd}#tab-hub .yt input{width:52px;padding:2px 4px;font:inherit;background:#0f1626;color:inherit;border:1px solid #2a3550;border-radius:4px}#tab-hub .sc .bt{font-size:12px;margin-top:2px;font-weight:600}
-#tab-hub .sc .gr{font-size:13px;font-weight:600;margin-top:4px}#tab-hub .sc .sv{font-size:18px;font-weight:700;margin-top:2px}#tab-hub .sc .bd{font-size:11px;color:#9aa6bd;margin-top:2px}
+#tab-hub .sc .gr{font-size:13px;font-weight:600;margin-top:4px}#tab-hub .sc .sv{font-size:18px;font-weight:700;margin-top:2px}#tab-hub .sc .sv .st{font-size:14px}#tab-hub .sc .bd{font-size:11px;color:#9aa6bd;margin-top:2px}
 .box{background:#171e2e;border-radius:10px;padding:16px 18px}table.parts{width:100%;border-collapse:collapse;margin-top:12px}table.parts td,table.parts th{padding:10px;vertical-align:top;text-align:left;border-bottom:1px solid #2a3550;font-size:13px}table.parts td:first-child{white-space:nowrap}.gd{margin-top:6px;font-size:12px;color:#9aa6bd}ul.src{padding-left:18px;font-size:13px}ul.src a{color:#8ab4ff;overflow-wrap:anywhere}
 </style></head><body><div class="w">
 <h1>Bob's Hub</h1>
@@ -70,8 +70,8 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
   const [d,cg,sec,wk,mk]=await Promise.all([get("data.json?t="+t),
     get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud,usd"),
     get("security.json?t="+t),get("weekly.json?t="+t),get("market.json?t="+t)]);
-  if(mk&&mk.scores){const C={"On track":"up","Mixed":"amber","Behind":"down","Off track":"down"},N=(mk.needed&&mk.needed.assets)||{},NC={"On track":"up","Stretch":"amber","Behind":"down"};
-    $("sc").innerHTML=["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];const P=x.points||{},g=P.trend,G=g==null?null:g>=3?["On track","up"]:g==2?["Mixed","amber"]:["Behind","down"];return "<div><div class='t'>"+k+"</div>"+(G?"<div class='gr "+G[1]+"'>Growth: "+G[0]+"</div>":"")+"<div class='sv'>"+x.score+"/10</div>"+(x.points?"<div class='bd'>Fundamentals "+P.fundamentals+"/4 · News "+P.news+"/3 · Growth "+P.trend+"/3</div>":"")+(N[k]?"<label class='yt'>CAGR yearly target <input type='number' min='0' max='500' step='1' inputmode='numeric' data-k='"+k+"' value='"+ytG(k)+"'>%</label><div class='bt' data-k='"+k+"' data-r='"+N[k].recent+"'></div>":"")+"</div>"}).join("");ytU();}
+  if(mk&&mk.scores){const C={"On track":"up","Mixed":"amber","Behind":"down"},N=(mk.needed&&mk.needed.assets)||{},NC={"On track":"up","Stretch":"amber","Behind":"down"};
+    $("sc").innerHTML=["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];const P=x.points||{},g=P.trend,G=g==null?null:g>=3?["On track","up"]:g==2?["Mixed","amber"]:["Behind","down"];return "<div><div class='t'>"+k+"</div>"+(G?"<div class='gr "+G[1]+"'>Growth: "+G[0]+"</div>":"")+"<div class='sv'>"+x.score+"/10 <span class='st "+(C[x.status]||"")+"'>"+esc(x.status)+"</span></div>"+(x.points?"<div class='bd'>Fundamentals "+P.fundamentals+"/4 · News "+P.news+"/3 · Growth "+P.trend+"/3</div>":"")+(N[k]?"<label class='yt'>CAGR yearly target <input type='number' min='0' max='500' step='1' inputmode='numeric' data-k='"+k+"' value='"+ytG(k)+"'>%</label><div class='bt' data-k='"+k+"' data-r='"+N[k].recent+"'></div>":"")+"</div>"}).join("");ytU();}
   if(mk){const u=new Date(mk.updated).toLocaleString("en-AU",{timeZone:"Australia/Melbourne",weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
     $("du").innerHTML="<div class='d'>"+u+" AEDT</div><div class='hl'>"+esc(mk.headline)+"</div>"+["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const x=mk.assets[k];return "<div class='r'><span class='t'>"+k+"</span><span class='m "+(String(x.move).startsWith("-")?"down":"up")+"'>"+esc(x.move)+"</span>"+esc(x.note)+"</div>"}).join("");$("du").hidden=false;$("duh").hidden=false;}
   $("buy").innerHTML=wk?"This week's buy: <b>"+esc(wk.pick)+" A$"+Math.ceil(wk.amount_aud)+"</b>":"This week's buy: not available";
@@ -91,7 +91,7 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
 </script>
 <script>
 (function(){const TABS=["hub","cagr","scorecard","semireview","tsla-score","btc-score","mstr-score"];let lib=null;
-const need=()=>lib||(lib=new Promise((ok,no)=>{const s=document.createElement("script");s.src="tabs.js?v=5";s.onload=ok;s.onerror=no;document.head.appendChild(s);}));
+const need=()=>lib||(lib=new Promise((ok,no)=>{const s=document.createElement("script");s.src="tabs.js?v=6";s.onload=ok;s.onerror=no;document.head.appendChild(s);}));
 async function go(){const t=TABS.includes(location.hash.slice(1))?location.hash.slice(1):"hub";
  TABS.forEach(k=>{document.getElementById("tab-"+k).hidden=k!==t;});
  document.querySelectorAll("nav.tabs a").forEach(a=>a.classList.toggle("on",a.dataset.t===t));
