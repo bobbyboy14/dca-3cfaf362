@@ -210,35 +210,37 @@
     }
   },
   "needed": {
-    "as_of": "2026-10-31",
-    "source": "Sheet CAGR!H1:Q8 targets; recent growth = 3-year CAGR from yfinance, 30-31 Oct 2026",
+    "as_of": "2026-11-01",
+    "source": "Sheet CAGR!H1:Q8 targets; recent = year-to-date growth since 31 Dec 2025 close (not annualised), yfinance, 1 Nov 2026",
     "assets": {
       "BTC": {
         "target": "US$125,000",
         "needed": 0.617,
-        "recent": 0.307,
+        "recent": -0.1132,
         "verdict": "Behind"
       },
       "TSLA": {
         "target": "US$550",
         "needed": 0.376,
-        "recent": 0.265,
+        "recent": -0.111,
         "verdict": "Behind"
       },
       "MSTR": {
         "target": "US$210",
         "needed": 0.609,
-        "recent": 0.459,
+        "recent": -0.1411,
         "verdict": "Stretch"
       },
       "SEMI": {
         "target": "A$40",
         "needed": 0.184,
-        "recent": 0.531,
+        "recent": 0.4498,
         "verdict": "On track",
         "placeholder": true
       }
-    }
+    },
+    "basis": "ytd",
+    "start": "2025-12-31"
   },
   "scores_rule": "Fundamentals 0-4 + News 0-3 + Trend 0-3; no price targets. Status 7-10 On track, 6 Mixed, 0-5 Behind. Trend data 30-31 Oct 2026 (yfinance)."
 }
