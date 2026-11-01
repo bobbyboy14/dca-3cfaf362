@@ -1,22 +1,22 @@
 {
-  "updated": "2026-11-01T09:55+11:00",
-  "headline": "Weekend: Binance says 90% of hack losses covered; chips and big tech fell hard Friday",
+  "updated": "2026-11-02T09:55+11:00",
+  "headline": "Binance reopened withdrawals with 95% of hack covered; US chips fell ~8% Friday, SEMI likely opens lower",
   "assets": {
     "BTC": {
-      "move": "+0.3%",
-      "note": "Binance covered 90% of hack; withdrawals due back Sun 1 Nov"
+      "move": "+0.4%",
+      "note": "About US$77.7k; Binance withdrawals back, US$3.6bn net outflow handled"
     },
     "TSLA": {
       "move": "-0.9%",
-      "note": "Fri close US$399.81"
+      "note": "Fri close US$399.81; SpaceX merger still only under review"
     },
     "MSTR": {
       "move": "-7.8%",
-      "note": "Below its bitcoin value (~0.91x); MSCI decision 11 Nov"
+      "note": "Fri close US$130.51; Saylor hints at a buy; MSCI decision 11 Nov"
     },
     "SEMI": {
       "move": "-3.4%",
-      "note": "Fri close A$33.78; US chips fell ~8% after ASX shut"
+      "note": "Fri close A$33.78, just under its 200-day; US chips fell ~8% after ASX shut"
     }
   },
   "scores": {
@@ -31,22 +31,22 @@
       },
       "parts": {
         "fundamentals": "Mixed: US spot ETFs -US$516m in Oct (-US$202m week to 30 Oct); hash rate record ~1,064 EH/s; adoption/regulation not checked (2/4)",
-        "news": "Binance hack 90% covered, FBI blames North Korea; watch (2/3)",
+        "news": "Binance hack 95% covered, withdrawals reopened; watch (2/3)",
         "trend": "Below 50-day, above 200-day, weekly RSI 51 (2/3)"
       },
-      "as_of": "2026-11-01",
+      "as_of": "2026-11-02",
       "reasons": {
         "fundamentals": "Mixed (2/4). Money into US spot Bitcoin ETFs turned negative: about US$515m out in October and US$202m out in the week to 30 Oct, including US$643m out on Fri 30 Oct, the biggest one-day exit since June. The network itself is healthy: hash rate hit a record of about 1,064 EH/s (24 Oct), and miners kept adding capacity while the price fell. Adoption and regulation news: Not verified this round.",
-        "news": "Watch (2/3). Binance, an exchange, lost about US$6.3bn in a hack on 29-30 Oct. It was not a flaw in Bitcoin. Binance says it has now covered 90% of the losses from its own funds (all BTC fully backed), plans to reopen withdrawals on Sun 1 Nov, and expects a verifiable reserves proof around 3 Nov. The FBI says North Korea did it. The remaining risk is the attacker selling the stolen BTC.",
+        "news": "Watch (2/3). Binance, an exchange, lost about US$6.3bn in a hack on 29-30 Oct. It was not a flaw in Bitcoin. Binance says it has now covered about 95% of the losses from its own funds and reopened withdrawals in phases on Sun 1 Nov, starting with Bitcoin. Customers took out a net US$3.64bn (about 2.1% of its assets) in the first nine and a half hours, and Binance says withdrawals are settling. A new reserves proof is expected around 2-3 Nov. The FBI says North Korea did it; the risk left is the attacker selling the stolen BTC.",
         "growth": "Mixed (2/3). Price is below its 50-day average but above its 200-day average. Weekly RSI is in the normal 35-70 range."
       },
       "growth_detail": {
-        "price": 77465.97,
-        "ma50": 81896.98,
-        "ma200": 73131.83,
-        "rsi_week": 51.2,
+        "price": 77719.69,
+        "ma50": 81905.34,
+        "ma200": 73146.25,
+        "rsi_week": 51.6,
         "currency": "US$",
-        "price_date": "2026-10-31",
+        "price_date": "2026-11-01",
         "source": "yfinance daily closes"
       },
       "sources": [
@@ -71,8 +71,12 @@
           "url": "https://www.coindesk.com/markets/2026/10/30/binance-hacker-splits-usd1-4-billion-of-bitcoin-into-19-wallets-that-no-one-can-freeze"
         },
         {
-          "label": "Binance covers 90% of losses (CNBC)",
-          "url": "https://www.cnbc.com/2026/10/31/binance-hack-asset-coverage-withdrawals.html"
+          "label": "Binance reopens withdrawals (CoinDesk)",
+          "url": "https://www.coindesk.com/markets/2026/11/01/binance-opens-crypto-withdrawals-in-phases-starting-with-bitcoin-following-usd6-3-billion-hack"
+        },
+        {
+          "label": "Binance US$3.64bn net outflow (The Block)",
+          "url": "https://www.theblock.co/news/business/2026-11-01-binance-sees-3-64-billion-in-net-outflows-after-reopening-withdrawals-following-record-hack-432259"
         }
       ]
     },
@@ -90,7 +94,7 @@
         "news": "Nothing material; breach claim unverified (3/3)",
         "trend": "Above 50 & 200-day, weekly RSI 56 (3/3)"
       },
-      "as_of": "2026-11-01",
+      "as_of": "2026-11-02",
       "reasons": {
         "fundamentals": "Good (3/4). Q3 2026 (reported 21 Oct) beat forecasts: adjusted EPS 48c vs about 45c expected, and revenue US$28.05bn vs about US$27.9bn. Free cash flow was positive at US$1.53bn and the 2026 capex plan was cut to about US$20bn. Car margins beat estimates and the order backlog is the biggest in four years. Weak spots: net income fell about 29-43% (sources differ on basis), car revenue fell 3%, and energy revenue missed. Not Strong because profit fell.",
         "news": "Nothing material (3/3). No confirmed Tesla breach; a September forum claim is unverified.",
@@ -134,10 +138,10 @@
         "news": "MSCI decision 11 Nov; trading near/below its bitcoin value, watch (2/3)",
         "trend": "Below 50 & 200-day, weekly RSI 47 (1/3)"
       },
-      "as_of": "2026-11-01",
+      "as_of": "2026-11-02",
       "reasons": {
         "fundamentals": "Mixed (2/4). Q3 2026 (reported 29 Oct): holds 848,517 BTC, up 26% this year, after raising US$21.2bn this year (US$5.4bn in Q3 from share sales). Net leverage fell to about 2.4%, with US$5.07bn of cash reserves covering 3.4 years of dividends and interest. But BTC Yield, the bitcoin per share, is -3.7% this year, meaning new shares diluted holders faster than bitcoin was added. The premium to its bitcoin (mNAV) is thin at about 1.15x. The record US$19.5bn profit is mostly a paper gain on bitcoin's price.",
-        "news": "Watch (2/3). The MSCI index exclusion decision is due 11 Nov (effective after 30 Nov) and could force some funds to sell; Strategy estimates affected funds hold about 3.1% of its shares. The stock fell 7.8% on Fri 30 Oct with bitcoin, and the CFO's planned departure was reported. One data source puts its simple mNAV at about 0.91x, below the value of its bitcoin (not verified against Strategy's own figure). No breach at Strategy itself.",
+        "news": "Watch (2/3). The MSCI index exclusion decision is due 11 Nov (effective after 30 Nov) and could force some funds to sell; Strategy estimates affected funds hold about 3.1% of its shares, and JPMorgan has estimated about US$2.8bn of outflows. Strategy paused bitcoin buying in the week to 25 Oct and bought back preferred shares instead; Michael Saylor posted his purchase chart on 1 Nov, which often comes before a new buy (not confirmed until its Monday filing). The stock fell 7.8% on Fri 30 Oct with bitcoin. No breach at Strategy itself.",
         "growth": "Behind (1/3). Price is below both its 50-day and 200-day averages. Weekly RSI is in the normal range."
       },
       "growth_detail": {
@@ -165,34 +169,38 @@
         {
           "label": "MSCI 11 Nov decision (crypto.news)",
           "url": "https://crypto.news/strategys-bitcoin-plan-faces-november-11-index-decision/"
+        },
+        {
+          "label": "Saylor hints at buy before MSCI (Yahoo Finance)",
+          "url": "https://finance.yahoo.com/markets/crypto/articles/saylor-hinting-another-bitcoin-buy-180109202.html"
         }
       ]
     },
     "SEMI": {
-      "status": "On track",
-      "score": 7,
-      "line": "Holdings mostly beat; chip selloff",
+      "status": "Mixed",
+      "score": 6,
+      "line": "Holdings mostly beat; slipped under 200-day",
       "points": {
         "fundamentals": 3,
         "news": 2,
-        "trend": 2
+        "trend": 1
       },
       "parts": {
         "fundamentals": "Good: SEMI Scorecard whole fund Very good (85/100): 73.7% good, 18.3% mixed, 5.7% bad (3/4)",
         "news": "Chip selloff on AI-spending worries after Intel, Amazon, Alphabet results; watch (2/3)",
-        "trend": "Below 50-day, above 200-day, weekly RSI 47 (2/3)"
+        "trend": "Below 50 & 200-day (just), weekly RSI 46 (1/3)"
       },
-      "as_of": "2026-11-01",
+      "as_of": "2026-11-02",
       "reasons": {
         "fundamentals": "Good (3/4). The SEMI Scorecard grades the whole fund's latest results Very good (85/100): 73.7% of holdings by weight were Good, 18.3% Mixed, 5.7% Bad and 2.3% Not verified. AI demand is strong almost everywhere. Weak spots were the Intel and Kioxia guidance and the Broadcom and Qualcomm outlooks.",
-        "news": "Watch (2/3). US chip stocks fell sharply on Fri 30 Oct after the ASX had closed: the US chip ETF SOXX fell 8.2% after Intel's weak forecast (Intel -28.6%), with AMD -10.9%, TSMC -5.9%, Broadcom -5.5% and Nvidia -4.2%. Alphabet's and Amazon's results raised doubts about the payoff from AI spending. SEMI may open lower on Monday. No breaches at the top holdings.",
-        "growth": "Mixed (2/3). Price is below its 50-day average but above its 200-day average. Weekly RSI is in the normal range."
+        "news": "Watch (2/3). US chip stocks fell sharply on Fri 30 Oct after the ASX had closed: SOXX fell 8.2% after Intel's weak forecast, with AMD -10.9%, ASML -6.6%, TSMC -5.9%, Broadcom -5.5% and Nvidia -4.2%. Alphabet's and Amazon's results raised doubts about the payoff from AI spending. AMD reports on 3 Nov (US time) and Nvidia on 17 Nov. No breaches at the top holdings.",
+        "growth": "Behind (1/3). On the latest yfinance data, SEMI's Friday close of A$33.78 sits just under its 200-day average (about A$33.95, 0.5% below) and well under its 50-day average (A$36.40). Weekly RSI is in the normal range. Friday's 8% fall in US chip stocks happened after the ASX closed, so Monday's open may push it further below."
       },
       "growth_detail": {
         "price": 33.78,
         "ma50": 36.4,
-        "ma200": 32.86,
-        "rsi_week": 47.2,
+        "ma200": 33.95,
+        "rsi_week": 46.1,
         "currency": "A$",
         "price_date": "2026-10-30",
         "source": "yfinance daily closes"
@@ -205,18 +213,22 @@
         {
           "label": "Intel forecast sinks chip ETFs (ETF.net)",
           "url": "https://etf.net/news/intel-forecast-sinks-chip-etfs-2026-10-30"
+        },
+        {
+          "label": "Nvidia Q3 FY2027 results date",
+          "url": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Sets-Conference-Call-for-Third-Quarter-Financial-Results/default.aspx"
         }
       ]
     }
   },
   "needed": {
-    "as_of": "2026-11-01",
-    "source": "Sheet CAGR!H1:Q8 targets; recent = year-to-date growth since 31 Dec 2025 close (not annualised), yfinance, 1 Nov 2026",
+    "as_of": "2026-11-02",
+    "source": "Sheet CAGR!H1:Q8 targets; recent = year-to-date growth since 31 Dec 2025 close (not annualised), yfinance, 2 Nov 2026",
     "assets": {
       "BTC": {
         "target": "US$125,000",
         "needed": 0.617,
-        "recent": -0.1132,
+        "recent": -0.1119,
         "verdict": "Behind"
       },
       "TSLA": {
@@ -241,7 +253,7 @@
     },
     "basis": "ytd",
     "start": "2025-12-31",
-    "portfolio_ytd": -0.157
+    "portfolio_ytd": -0.1564
   },
   "scores_rule": "Fundamentals 0-4 + News 0-3 + Trend 0-3; no price targets. Status 7-10 On track, 6 Mixed, 0-5 Behind. Trend data 30-31 Oct 2026 (yfinance)."
 }
