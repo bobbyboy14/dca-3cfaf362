@@ -53,8 +53,8 @@ function simulate() {
   const sIso = new Date(Date.UTC(ed.getUTCFullYear() - C.yrs, ed.getUTCMonth(), ed.getUTCDate())).toISOString().slice(0, 10);
   let s = e; while (s > 0 && D[s].date > sIso) s--;
   if (D[s].date > sIso) return { error: "Not enough history for " + C.yrs + " years." };
-  const on = KEYS.filter(k => $("on_" + k).checked && (+$("amt_" + k).value || 0) >= 0);
-  const amt = {}; on.forEach(k => amt[k] = Math.max(0, +$("amt_" + k).value || 0));
+  const on = KEYS.filter(k => $("on_" + k).checked && (+String($("amt_" + k).value).replace(/[^0-9.]/g, "") || 0) >= 0);
+  const amt = {}; on.forEach(k => amt[k] = Math.max(0, +String($("amt_" + k).value).replace(/[^0-9.]/g, "") || 0));
   const dep = on.reduce((a, k) => a + amt[k], 0), top = Math.max(0, +$("cTop").value || 0);
   if (!on.length || (!dep && !top)) return { error: "Tick an asset and enter an amount." };
   const w = {}; on.forEach(k => w[k] = dep ? amt[k] / dep : 1 / on.length);
@@ -78,13 +78,30 @@ function simulate() {
 }
 function run() {
   const r = simulate();
-  if (r.error) { $("cStats").innerHTML = ""; $("cBody").innerHTML = ""; $("cPer").textContent = r.error; return; }
+  if (r.error) { $("cBody").innerHTML = ""; $("cPer").textContent = r.error; return; }
   const g = r.endV - r.putIn;
-  $("cStats").innerHTML =
-    '<div><div class="k">' + (r.crash ? "Worth after crash" : "Worth now") + '</div><div class="v">' + aud(r.endV) + "</div></div>" +
-    '<div><div class="k">Put in</div><div class="v">' + aud(r.putIn) + "</div></div>" +
-    '<div><div class="k">Up / Down</div><div class="v ' + (g >= 0 ? "up" : "down") + '">' + (g >= 0 ? "+" : "") + aud(g) + " <small>(" + pct(g / r.putIn) + ")</small></div></div>" +
-    '<div><div class="k">Per year</div><div class="v ' + (r.rate >= 0 ? "up" : "down") + '">' + pct(r.rate) + "</div></div>";
+  if (!$("cPutTot")) {
+    $("cStats").innerHTML =
+      '<div><div class="k" id="cWk"></div><div class="v" id="cWv"></div></div>' +
+      '<div><div class="k">Put in (tap to change)</div><div class="v"><span style="display:flex;align-items:center;gap:4px">A$<input type="text" inputmode="decimal" autocomplete="off" id="cPutTot" style="font-size:inherit;font-weight:700;padding:4px 6px"></span><small id="cPutTop"></small></div></div>' +
+      '<div><div class="k">Up / Down</div><div class="v" id="cGv"></div></div>' +
+      '<div><div class="k">Per year</div><div class="v" id="cRv"></div></div>';
+    $("cPutTot").addEventListener("input", e => {
+      const el = e.target, c = el.value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1"); if (c !== el.value) el.value = c;
+      const tot = Math.max(0, +c || 0), on = KEYS.filter(k => $("on_" + k).checked); if (!on.length) return;
+      const cur = on.map(k => Math.max(0, +String($("amt_" + k).value).replace(/[^0-9.]/g, "") || 0)), sum = cur.reduce((a, b) => a + b, 0);
+      on.forEach((k, i) => { $("amt_" + k).value = String(Math.round(tot * (sum ? cur[i] / sum : 1 / on.length) * 100) / 100); });
+      $("amt_" + on[0]).dispatchEvent(new Event("input", { bubbles: true }));
+      run();
+    });
+  }
+
+  const start = KEYS.filter(k => $("on_" + k).checked).reduce((a, k) => a + Math.max(0, +String($("amt_" + k).value).replace(/[^0-9.]/g, "") || 0), 0);
+  $("cWk").textContent = r.crash ? "Worth after crash" : "Worth now"; $("cWv").textContent = aud(r.endV);
+  if (document.activeElement !== $("cPutTot")) $("cPutTot").value = Math.round(start).toLocaleString("en-AU");
+  $("cPutTop").textContent = r.top ? "Total incl. top-ups " + aud(r.putIn) : "";
+  $("cGv").className = "v " + (g >= 0 ? "up" : "down"); $("cGv").innerHTML = (g >= 0 ? "+" : "") + aud(g) + " <small>(" + pct(g / r.putIn) + ")</small>";
+  $("cRv").className = "v " + (r.rate >= 0 ? "up" : "down"); $("cRv").textContent = pct(r.rate);
   $("cPer").textContent = dstr(r.start) + " to " + dstr(r.end) + (r.top ? ", topping up " + aud(r.top) + " " + ($("cFreq").value === "week" ? "weekly" : "monthly") : "") + (r.crash ? ", then −25%" : "") + (C.live ? " · BTC live" : "");
   $("cBody").innerHTML = r.rows.map(x => "<tr><td><b>" + x.k + "</b></td><td>" + aud(x.put) + "</td><td>" + aud(x.worth) + "</td><td>" + cpct(x.chg, 0) + "</td><td>" + cpct(x.cagr) + "</td></tr>").join("") +
     (r.rows.length > 1 ? "<tr class='tot'><td><b>Total</b></td><td>" + aud(r.putIn) + "</td><td><b>" + aud(r.endV) + "</b></td><td>" + cpct(r.endV / r.putIn - 1, 0) + "</td><td>" + cpct(r.rate) + "</td></tr>" : "");
