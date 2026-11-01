@@ -201,10 +201,10 @@ async function review() {
 // ---------- Chips (Micron, SK hynix, Broadcom, TSMC) — same maths as CAGR, data from chips.json ----------
 const XK = ["MU", "HYNIX", "AVGO", "TSM"], XN = { MU: "Micron", HYNIX: "SK hynix", AVGO: "Broadcom", TSM: "TSMC" };
 const XCOL = { MU: "#4dd0e1", HYNIX: "#f7931a", AVGO: "#ff6b9a", TSM: "#b388ff", total: "#4da3ff" };
-const XKEY = "hubChipsAmts", num = v => Math.max(0, +String(v == null ? "" : v).replace(/[^0-9.]/g, "") || 0);
+const XKEY = "hubChipsAmts2", num = v => Math.max(0, +String(v == null ? "" : v).replace(/[^0-9.]/g, "") || 0);
 let X = null, xchart = null;
-const mul = k => num($("xmul_" + k).value), eff = k => num($("xamt_" + k).value) * mul(k);
-const xsave = () => { const o = {}; XK.forEach(k => { o["xamt_" + k] = $("xamt_" + k).value; o["xmul_" + k] = $("xmul_" + k).value; o["xon_" + k] = $("xon_" + k).checked; }); o.xTop = $("xTop").value; o.xFreq = $("xFreq").value; try { localStorage.setItem(XKEY, JSON.stringify(o)); } catch (_) {} };
+const eff = k => num($("xamt_" + k).value), wmul = k => num($("xwm_" + k).value);
+const xsave = () => { const o = {}; XK.forEach(k => { o["xamt_" + k] = $("xamt_" + k).value; o["xwm_" + k] = $("xwm_" + k).value; o["xon_" + k] = $("xon_" + k).checked; }); o.xTop = $("xTop").value; o.xFreq = $("xFreq").value; try { localStorage.setItem(XKEY, JSON.stringify(o)); } catch (_) {} };
 const clean = el => { const c = el.value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1"); if (c !== el.value) el.value = c; };
 async function chips() {
   const el = $("tab-chips");
@@ -221,22 +221,26 @@ async function chips() {
       '<h2>Results</h2><div class="stats" id="xStats"></div><div class="muted" id="xPer"></div>' +
       '<div class="tw"><table><thead><tr><th>Stock</th><th>Put in</th><th>Worth</th><th>Price</th><th>CAGR</th></tr></thead><tbody id="xBody"></tbody></table></div>' +
       '<div class="ov" id="xSemi"></div>' +
+      '<h2>What if</h2><div class="tw"><table class="xw"><thead><tr><th>Stock</th><th>Deposit</th><th>Multiple</th><th>Would be worth</th></tr></thead><tbody>' +
+      XK.map(k => '<tr id="xwr_' + k + '"><td><b>' + XN[k] + '</b></td><td id="xwd_' + k + '"></td><td><span class="xwi">' + inp("xwm_" + k, saved["xwm_" + k] != null ? saved["xwm_" + k] : "1") + '<span>×</span></span></td><td id="xww_' + k + '"></td></tr>').join("") +
+      '<tr class="tot"><td><b>Total</b></td><td id="xwdT"></td><td id="xwmT"></td><td id="xwwT"></td></tr></tbody></table></div>' +
+      '<div class="muted">What if each deposit ended up worth that many times over (type 3, 4, 5… or 3x). Would be worth = deposit × multiple. A what-if, not a forecast.</div>' +
       '<div class="cbox"><canvas id="xChart"></canvas></div>' +
       '<h2>Settings</h2><div class="seg" id="xPick">' + XK.map(k => '<button data-k="' + k + '">' + XN[k] + "</button>").join("") + '<button data-k="mix">Mix</button></div>' +
-      '<div class="amts">' + XK.map(k => '<label class="am"><input type="checkbox" id="xon_' + k + '"> <span class="xn">' + XN[k] + '</span><span class="xa">A$' + inp("xamt_" + k, saved["xamt_" + k] != null ? saved["xamt_" + k] : "2500") + '</span><span class="xm">×' + inp("xmul_" + k, saved["xmul_" + k] != null ? saved["xmul_" + k] : "1") + "</span></label>").join("") + "</div>" +
+      '<div class="amts">' + XK.map(k => '<label class="am"><input type="checkbox" id="xon_' + k + '"> <span class="xn">' + XN[k] + '</span><span class="xa">A$' + inp("xamt_" + k, saved["xamt_" + k] != null ? saved["xamt_" + k] : "5000") + "</span></label>").join("") + "</div>" +
       '<div class="row2"><label>Top-up A$ ' + inp("xTop", saved.xTop != null ? saved.xTop : "0") + '</label><select id="xFreq"><option value="week">weekly</option><option value="month">monthly</option></select></div>' +
-      '<div class="muted">A$ = deposit per stock, × = multiplier (amount bought = deposit × multiplier; top-ups split the same way).</div><div class="seg" id="xYrs"><button data-y="1">1 year</button><button data-y="2">2 years</button><button data-y="3" class="on">3 years</button><button data-y="4">4 years</button><button data-y="5">5 years</button></div>' +
+      '<div class="seg" id="xYrs"><button data-y="1">1 year</button><button data-y="2">2 years</button><button data-y="3" class="on">3 years</button><button data-y="4">4 years</button><button data-y="5">5 years</button></div>' +
       '<label class="ck"><input type="checkbox" id="xCrash"> Crash 25% from here</label>' +
       '<div class="muted" style="margin-top:10px">All in A$. Prices: Yahoo Finance adjusted daily closes (dividends reinvested) — Micron MU (US$), SK hynix 000660.KS (Korea, KRW), Broadcom AVGO (US$), TSMC TSM (US ADR, US$) — converted with each day\'s AUDUSD / AUDKRW rate. Prices to ' + dstr(d.dates[d.dates.length - 1]) + '. SK hynix uses its Korean listing because its US ticker SKHY only started on 10 Jul 2026. Past returns, general information only.</div>';
     if (saved.xFreq) $("xFreq").value = saved.xFreq;
     XK.forEach(k => { $("xon_" + k).checked = saved["xon_" + k] != null ? !!saved["xon_" + k] : true;
-      $("xon_" + k).onchange = () => { xsave(); xrun(); }; $("xamt_" + k).oninput = $("xmul_" + k).oninput = e => { clean(e.target); xsave(); xrun(); }; });
+      $("xon_" + k).onchange = () => { xsave(); xrun(); }; $("xamt_" + k).oninput = e => { clean(e.target); xsave(); xrun(); }; $("xwm_" + k).oninput = e => { clean(e.target); xsave(); xwhat(); }; });
     $("xTop").oninput = e => { clean(e.target); xsave(); xrun(); }; $("xFreq").onchange = () => { xsave(); xrun(); }; $("xCrash").onchange = xrun;
     el.querySelectorAll("#xYrs button").forEach(b => b.onclick = () => { X.yrs = +b.dataset.y; el.querySelectorAll("#xYrs button").forEach(x => x.classList.toggle("on", x === b)); xrun(); });
     el.querySelectorAll("#xPick button").forEach(b => b.onclick = () => {
       const k = b.dataset.k; el.querySelectorAll("#xPick button").forEach(x => x.classList.toggle("on", x === b));
       if (k === "mix") XK.forEach(j => $("xon_" + j).checked = true);
-      else { const tot = XK.reduce((a, j) => a + ($("xon_" + j).checked ? eff(j) : 0), 0) || 10000; XK.forEach(j => $("xon_" + j).checked = j === k); $("xamt_" + k).value = String(Math.round(tot / (mul(k) || 1) * 100) / 100); }
+      else { const tot = XK.reduce((a, j) => a + ($("xon_" + j).checked ? eff(j) : 0), 0) || 20000; XK.forEach(j => $("xon_" + j).checked = j === k); $("xamt_" + k).value = String(tot); }
       xsave(); xrun(); });
     const allOn = XK.every(k => $("xon_" + k).checked), only = XK.filter(k => $("xon_" + k).checked);
     el.querySelector('#xPick button[data-k="' + (allOn || only.length !== 1 ? "mix" : only[0]) + '"]').classList.add("on");
@@ -275,7 +279,15 @@ function xsim() {
     semi = { worth: sv, chg: D[e].SEMI / D[s].SEMI - 1, cagr: Math.pow(D[e].SEMI / D[s].SEMI, 1 / Ty) - 1, rate: (a + b) / 2 }; }
   return { start: D[s].date, end, Ty, on, putIn, endV, rate: (lo + hi) / 2, rows, series, crash, top, semi };
 }
+function xwhat() {
+  let d = 0, w = 0;
+  XK.forEach(k => { const on = $("xon_" + k).checked; $("xwr_" + k).hidden = !on; if (!on) return;
+    const dep = eff(k), m = $("xwm_" + k).value.trim() === "" ? 1 : wmul(k), v = dep * m; d += dep; w += v;
+    $("xwd_" + k).textContent = aud(dep); $("xww_" + k).textContent = aud(v); });
+  $("xwdT").textContent = aud(d); $("xwwT").innerHTML = "<b>" + aud(w) + "</b>"; $("xwmT").textContent = d ? (Math.round(w / d * 100) / 100) + "×" : "–";
+}
 function xrun() {
+  xwhat();
   const r = xsim();
   if (r.error) { $("xBody").innerHTML = ""; $("xPer").textContent = r.error; return; }
   const g = r.endV - r.putIn;
@@ -288,7 +300,7 @@ function xrun() {
     $("xPutTot").addEventListener("input", e => {
       clean(e.target); const tot = num(e.target.value), on = XK.filter(k => $("xon_" + k).checked); if (!on.length) return;
       const cur = on.map(k => eff(k)), sum = cur.reduce((a, b) => a + b, 0);
-      on.forEach((k, i) => { const m = mul(k) || 1; $("xamt_" + k).value = String(Math.round(tot * (sum ? cur[i] / sum : 1 / on.length) / m * 100) / 100); if (!mul(k)) $("xmul_" + k).value = "1"; });
+      on.forEach((k, i) => { $("xamt_" + k).value = String(Math.round(tot * (sum ? cur[i] / sum : 1 / on.length) * 100) / 100); });
       xsave(); xrun();
     });
   }
