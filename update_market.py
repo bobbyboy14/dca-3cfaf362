@@ -10,8 +10,10 @@ Format: {"updated": "2026-11-01T09:30+11:00", "headline": "one short line",
                            "as_of": "YYYY-MM-DD", "reasons": {"fundamentals": "plain English", "news": "...", "growth": "..."},
                            "growth_detail": {"price": n, "ma50": n, "ma200": n, "rsi_week": n, "currency": "US$|A$", "price_date": "YYYY-MM-DD"},
                            "sources": [{"label": "...", "url": "https://..."}]}, "TSLA": {...}, "MSTR": {...}, "SEMI": {...}}
-"needed" (optional): copy of sheet CAGR!H1:Q8 - per asset target, needed, recent (fraction/yr), verdict.
-        Data only: "recent" feeds the hub CAGR yearly target boxes. It does NOT feed the score.
+"needed" (optional): copy of sheet CAGR!H1:Q8 - per asset target, needed, recent, verdict.
+        "recent" = year-to-date growth since the 31 Dec 2025 close (fraction, NOT annualised, NOT a 3-year CAGR);
+        set needed.basis="ytd", needed.start="2025-12-31". Data only: "recent" feeds the hub CAGR yearly target boxes
+        (hub compares it to target x day-of-year/days-in-year). It does NOT feed the score.
 "move" must start with + or - (shown green/red). Needs the box's `gh` login.
 
 SCORING RULE (same for all four; total 0-10; no price targets):
@@ -78,7 +80,8 @@ if nd is not None:
         x = nd.get("assets", {}).get(k)
         if not x: sys.exit(f"needed: missing {k}")
         if x.get("verdict") not in ("On track", "Stretch", "Behind"): sys.exit(f"needed.{k}: verdict must be On track, Stretch or Behind")
-        if not all(isinstance(x.get(f), (int, float)) for f in ("needed", "recent")): sys.exit(f"needed.{k}: needed/recent must be fractions, e.g. 0.376")
+        if not all(isinstance(x.get(f), (int, float)) for f in ("needed", "recent")): sys.exit(f"needed.{k}: needed/recent must be fractions, e.g. 0.376 (recent = YTD growth since 31 Dec 2025, not annualised)")
+    if nd.get("basis") != "ytd": sys.exit("needed.basis must be \"ytd\" (recent is year-to-date growth, not a 3-year CAGR)")
 commit = None
 if not a.no_push:
     sha = subprocess.run(["gh", "api", f"repos/{REPO}/contents/{PATH}?ref={BRANCH}", "--jq", ".sha"], capture_output=True, text=True).stdout.strip()
