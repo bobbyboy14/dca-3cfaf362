@@ -231,7 +231,8 @@ async function chips() {
       '<div class="row2"><label>Top-up A$ ' + inp("xTop", saved.xTop != null ? saved.xTop : "0") + '</label><select id="xFreq"><option value="week">weekly</option><option value="month">monthly</option></select></div>' +
       '<div class="seg" id="xYrs"><button data-y="1">1 year</button><button data-y="2">2 years</button><button data-y="3" class="on">3 years</button><button data-y="4">4 years</button><button data-y="5">5 years</button></div>' +
       '<label class="ck"><input type="checkbox" id="xCrash"> Crash 25% from here</label>' +
-      '<div class="muted" style="margin-top:10px">All in A$. Prices: Yahoo Finance adjusted daily closes (dividends reinvested) — Micron MU (US$), SK hynix 000660.KS (Korea, KRW), Broadcom AVGO (US$), TSMC TSM (US ADR, US$), SEMI SEMI.AX (Global X, ASX, A$) — US$ and KRW converted with each day\'s AUDUSD / AUDKRW rate. Prices to ' + dstr(d.dates[d.dates.length - 1]) + '. SK hynix uses its Korean listing because its US ticker SKHY only started on 10 Jul 2026. Past returns, general information only.</div>';
+      '<div class="muted" style="margin-top:10px">All in A$. Prices: Yahoo Finance adjusted daily closes (dividends reinvested) — Micron MU (US$), SK hynix 000660.KS (Korea, KRW), Broadcom AVGO (US$), TSMC TSM (US ADR, US$), SEMI SEMI.AX (Global X, ASX, A$) — US$ and KRW converted with each day\'s AUDUSD / AUDKRW rate. Prices to ' + dstr(d.dates[d.dates.length - 1]) + '. SK hynix uses its Korean listing because its US ticker SKHY only started on 10 Jul 2026. Past returns, general information only.</div>' +
+      '<div id="xBT" style="margin-top:28px;border-top:2px solid #2d5b8a;padding-top:6px"></div>';
     if (saved.xFreq) $("xFreq").value = saved.xFreq;
     XK.forEach(k => { $("xon_" + k).checked = saved["xon_" + k] != null ? !!saved["xon_" + k] : k !== "SEMI";
       $("xon_" + k).onchange = () => { xsave(); xrun(); }; $("xamt_" + k).oninput = e => { clean(e.target); xsave(); xrun(); }; $("xwm_" + k).oninput = e => { clean(e.target); xsave(); xwhat(); }; });
@@ -244,6 +245,7 @@ async function chips() {
       xsave(); xrun(); });
     const allOn = XK.every(k => $("xon_" + k).checked), only = XK.filter(k => $("xon_" + k).checked);
     el.querySelector('#xPick button[data-k="' + (allOn || only.length !== 1 ? "mix" : only[0]) + '"]').classList.add("on");
+    xbt();
   }
   xrun();
 }
@@ -326,8 +328,62 @@ function xrun() {
   xchart = new Chart($("xChart"), { type: "line", data: { labels: L, datasets: ds },
     options: { animation: false, maintainAspectRatio: false, interaction: { mode: "index", intersect: false },
       plugins: { legend: { labels: { color: "#e8ecf4", boxWidth: 14, font: { size: big } } }, tooltip: { callbacks: { label: c => c.parsed.y == null ? "" : c.dataset.label + ": " + aud(c.parsed.y) } } },
-      scales: { x: { ticks: { color: "#9aa6bd", maxTicksLimit: 6, font: { size: big }, callback: function (v) { return new Date(this.getLabelForValue(v) + "T12:00:00Z").toLocaleDateString("en-AU", { month: "short", year: "2-digit" }); } }, grid: { color: "#222b40" } },
+      scales: { x: { ticks: { color: "#9aa6bd", maxTicksLimit: innerWidth > 700 ? 6 : 4, font: { size: big }, callback: function (v) { return new Date(this.getLabelForValue(v) + "T12:00:00Z").toLocaleDateString("en-AU", { month: "short", year: "2-digit" }); } }, grid: { color: "#222b40" } },
                 y: { ticks: { color: "#9aa6bd", font: { size: big }, callback: v => "A$" + (v / 1000).toFixed(0) + "k" }, grid: { color: "#222b40" } } } } });
+}
+// ---------- Chips backtest section (data: chips_backtest.json from /workspace/chips_backtest.py) ----------
+let BT = null, btPer = "3y", btChart = null;
+async function xbt() {
+  const el = $("xBT"); if (!el) return;
+  if (!BT) { try { BT = await get("chips_backtest.json?t=" + T); } catch (e) { el.innerHTML = '<div class="muted">Backtest data not available.</div>'; return; } }
+  const P = BT.periods[btPer], M = P.metrics, R = P.relationship, C = P.contribution, L = P.legs;
+  const f2 = v => v.toFixed(2), pp = v => (v * 100).toFixed(1) + " pts";
+  const dd = m => cpct(m.max_dd) + '<div class="muted">' + dstr(m.dd_peak) + " → " + dstr(m.dd_trough) + (m.dd_recovered ? ", back by " + dstr(m.dd_recovered) : ", not yet recovered") + "</div>";
+  const w12 = m => m.worst_12m ? cpct(m.worst_12m.return) + '<div class="muted">' + dstr(m.worst_12m.from) + " → " + dstr(m.worst_12m.to) + "</div>" : "–";
+  const cy = (m, y) => m.calendar_years[y] ? cpct(m.calendar_years[y].return) : "–";
+  const yrs = Object.keys(M.A.calendar_years);
+  const rows = (cols, defs) => defs.map(([lab, fn]) => "<tr><td><b>" + lab + "</b></td>" + cols.map(c => "<td>" + fn(M[c], c) + "</td>").join("") + "</tr>").join("");
+  const defs = [["Final value (from A$" + (20000).toLocaleString() + ")", m => "<b>" + aud(m.final_value) + "</b>"], ["Total return", m => cpct(m.total_return, 0)], ["CAGR", m => cpct(m.cagr)],
+    ["Volatility (yearly)", m => (m.vol * 100).toFixed(1) + "%"], ["Sharpe", m => f2(m.sharpe)], ["Sortino", m => f2(m.sortino)], ["Max drawdown", dd], ["Worst 12 months", w12]]
+    .concat(yrs.map(y => ["Calendar " + y, m => cy(m, y)]));
+  const sdefs = [["Start → end (A$)", (m, k) => aud(m.start_value) + " → <b>" + aud(m.final_value) + "</b>"], ["Total return", m => cpct(m.total_return, 0)], ["CAGR", m => cpct(m.cagr)], ["Volatility", m => (m.vol * 100).toFixed(1) + "%"],
+    ["Sharpe", m => f2(m.sharpe)], ["Sortino", m => f2(m.sortino)], ["Max drawdown", dd], ["Worst 12 months", w12],
+    ["Share of A's gain", (m, k) => C[k] ? (C[k].share_of_gain * 100).toFixed(0) + "%" : "–"], ["Weight in A at end", (m, k) => C[k] ? (C[k].end_weight * 100).toFixed(0) + "%" : "–"],
+    ["Local-currency return", (m, k) => cpct(L[k].local_return, 0)], ["FX effect for an Aussie", (m, k) => L[k].currency === "AUD" ? "none (A$)" : cpct(L[k].fx_effect)]];
+  const A = M.A, B = M.B, better = A.final_value > B.final_value, rbetter = A.sharpe > B.sharpe;
+  const top = Object.keys(C).sort((a, b) => C[b].share_of_gain - C[a].share_of_gain);
+  const nm = { MU: "Micron", HYNIX: "SK hynix", AVGO: "Broadcom", TSM: "TSMC", SEMI: "SEMI" };
+  const beatSemi = Object.keys(C).filter(k => M[k].cagr > B.cagr).map(k => nm[k]);
+  el.innerHTML =
+    '<h2>Backtest: 4 stocks vs SEMI</h2>' +
+    '<div class="muted">A: A$5,000 each in Micron, SK hynix, Broadcom, TSMC, bought once, never rebalanced. B: A$20,000 in SEMI (Global X, ASX), distributions reinvested. All in A$, dividends included.</div>' +
+    '<div class="seg" id="btPer"><button data-p="3y"' + (btPer === "3y" ? ' class="on"' : "") + '>3 years (1 Nov 2023 – 30 Oct 2026)</button><button data-p="2y"' + (btPer === "2y" ? ' class="on"' : "") + '>2 years (1 Nov 2024 – 30 Oct 2026)</button></div>' +
+    '<div class="tw"><table><thead><tr><th></th><th>A: 4 stocks</th><th>B: SEMI</th></tr></thead><tbody>' + rows(["A", "B"], defs) +
+    "<tr><td><b>Extra volatility of A</b></td><td colspan='2'>" + pp(R.extra_vol_pp) + " (" + R.vol_ratio.toFixed(2) + "× SEMI's). Weekly-return check: " + (R.vol_weekly_A * 100).toFixed(0) + "% vs " + (R.vol_weekly_B * 100).toFixed(0) + "% (" + (R.vol_weekly_A / R.vol_weekly_B).toFixed(2) + "×)</td></tr>" +
+    "<tr><td><b>How closely they move</b></td><td colspan='2'>Correlation " + f2(R.corr_weekly) + " weekly (" + f2(R.corr_daily) + " daily, held down by different closing times). Beta of A to SEMI " + f2(R.beta_weekly) + " weekly (" + f2(R.beta_daily) + " daily)</td></tr>" +
+    "<tr><td><b>Risk-free rate used</b></td><td colspan='2'>" + (P.rf * 100).toFixed(2) + "% a year (average RBA cash rate over the period)</td></tr></tbody></table></div>" +
+    '<div class="cbox"><canvas id="btChart"></canvas></div>' +
+    "<h3>Each stock (A$5,000 each) and SEMI</h3>" +
+    '<div class="tw"><table><thead><tr><th></th>' + ["MU", "HYNIX", "AVGO", "TSM", "SEMI"].map(k => "<th>" + nm[k] + "</th>").join("") + "</tr></thead><tbody>" + rows(["MU", "HYNIX", "AVGO", "TSM", "SEMI"], sdefs) + "</tbody></table></div>" +
+    "<h3>Plain-English read</h3><ol class='n'>" +
+    "<li><b>Better return:</b> " + (better ? "the 4 stocks" : "SEMI") + " — " + aud(A.final_value) + " vs " + aud(B.final_value) + " (" + cpct(A.cagr) + " vs " + cpct(B.cagr) + " a year).</li>" +
+    "<li><b>Better risk-adjusted:</b> " + (rbetter ? "the 4 stocks" : "SEMI") + " — Sharpe " + f2(A.sharpe) + " vs " + f2(B.sharpe) + ", Sortino " + f2(A.sortino) + " vs " + f2(B.sortino) + ".</li>" +
+    "<li><b>Extra bumpiness:</b> about " + pp(R.extra_vol_pp) + " more volatility (" + R.vol_ratio.toFixed(2) + "×), and a deeper worst fall (" + pct(A.max_dd) + " vs " + pct(B.max_dd) + ").</li>" +
+    "<li><b>Worth it?</b> In hindsight, yes — the extra return was far bigger than the extra risk. But " + top.slice(0, 2).map(k => nm[k]).join(" and ") + " made " + ((C[top[0]].share_of_gain + C[top[1]].share_of_gain) * 100).toFixed(0) + "% of the gain (memory-chip boom); only " + (beatSemi.length ? beatSemi.join(", ") : "none") + " beat SEMI on their own. These four were picked knowing they had done well, so the result flatters them.</li>" +
+    "<li><b>Diversified chip exposure:</b> SEMI holds about 30 chip companies, gave a smoother ride, and still returned " + cpct(B.cagr) + " a year. For someone who doesn't want everything riding on four names, it did its job.</li></ol>" +
+    '<div class="muted">Method: Yahoo Finance adjusted closes (splits and dividends/distributions reinvested), checked against each company\'s dividend and split records. US stocks ÷ AUDUSD, SK hynix (000660.KS) ÷ AUDKRW on the same date. Buy at the first close on/after the start date, value at the last close on/before the end (all markets traded on ' + dstr(L.MU.start_date) + " and " + dstr(L.MU.end_date) + "). Daily values on US + ASX trading days, carrying each market's last close forward. CAGR = (end/start)^(365.25/days) − 1; volatility = daily return stdev × √252; Sharpe = (CAGR − cash rate) ÷ volatility; Sortino uses only downside days. Korea and the ASX close hours before the US, so daily correlation is understated; the weekly numbers are the fairer guide. No brokerage, FX costs or tax. Past results only — general information, not advice.</div>";
+  el.querySelectorAll("#btPer button").forEach(b => b.onclick = () => { btPer = b.dataset.p; xbt(); });
+  const S = P.series, n = S.dates.length, step = Math.max(1, Math.floor(n / 260)), idx = S.dates.map((_, i) => i).filter(i => i % step === 0 || i === n - 1);
+  const big = innerWidth > 700 ? 17 : 13;
+  if (btChart) btChart.destroy();
+  btChart = new Chart($("btChart"), { type: "line", data: { labels: idx.map(i => S.dates[i]), datasets: [
+      { label: "A: 4 stocks", data: idx.map(i => S.A[i]), borderColor: "#4da3ff", borderWidth: 2.5, pointRadius: 0 },
+      { label: "B: SEMI", data: idx.map(i => S.B[i]), borderColor: "#7ee2a0", borderWidth: 2.5, pointRadius: 0 },
+      { label: "Put in", data: idx.map(() => 20000), borderColor: "#9aa6bd", borderDash: [5, 4], borderWidth: 1.2, pointRadius: 0 }] },
+    options: { animation: false, maintainAspectRatio: false, interaction: { mode: "index", intersect: false },
+      plugins: { legend: { labels: { color: "#e8ecf4", boxWidth: 14, font: { size: big } } }, tooltip: { callbacks: { label: c => c.dataset.label + ": " + aud(c.parsed.y) } } },
+      scales: { x: { ticks: { color: "#9aa6bd", maxTicksLimit: innerWidth > 700 ? 6 : 4, font: { size: big }, callback: function (v) { return new Date(this.getLabelForValue(v) + "T12:00:00Z").toLocaleDateString("en-AU", { month: "short", year: "2-digit" }); } }, grid: { color: "#222b40" } },
+        y: { ticks: { color: "#9aa6bd", font: { size: big }, callback: v => "A$" + (v / 1000).toFixed(0) + "k" }, grid: { color: "#222b40" } } } } });
 }
 const NAMES = { TSLA: "Tesla", BTC: "Bitcoin", MSTR: "MSTR" };
 function assetScore(k) {
