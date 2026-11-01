@@ -199,9 +199,9 @@ async function review() {
   el.innerHTML = html; el.dataset.done = 1;
 }
 // ---------- Chips (Micron, SK hynix, Broadcom, TSMC) — same maths as CAGR, data from chips.json ----------
-const XK = ["MU", "HYNIX", "AVGO", "TSM"], XN = { MU: "Micron", HYNIX: "SK hynix", AVGO: "Broadcom", TSM: "TSMC" };
-const XCOL = { MU: "#4dd0e1", HYNIX: "#f7931a", AVGO: "#ff6b9a", TSM: "#b388ff", total: "#4da3ff" };
-const XKEY = "hubChipsAmts2", num = v => Math.max(0, +String(v == null ? "" : v).replace(/[^0-9.]/g, "") || 0);
+const XK = ["MU", "HYNIX", "AVGO", "TSM", "SEMI"], XN = { MU: "Micron", HYNIX: "SK hynix", AVGO: "Broadcom", TSM: "TSMC", SEMI: "SEMI" };
+const XCOL = { MU: "#4dd0e1", HYNIX: "#f7931a", AVGO: "#ff6b9a", TSM: "#b388ff", SEMI: "#ffd84d", total: "#4da3ff" };
+const XKEY = "hubChipsAmts3", num = v => Math.max(0, +String(v == null ? "" : v).replace(/[^0-9.]/g, "") || 0);
 let X = null, xchart = null;
 const eff = k => num($("xamt_" + k).value), wmul = k => num($("xwm_" + k).value);
 const xsave = () => { const o = {}; XK.forEach(k => { o["xamt_" + k] = $("xamt_" + k).value; o["xwm_" + k] = $("xwm_" + k).value; o["xon_" + k] = $("xon_" + k).checked; }); o.xTop = $("xTop").value; o.xFreq = $("xFreq").value; try { localStorage.setItem(XKEY, JSON.stringify(o)); } catch (_) {} };
@@ -211,17 +211,17 @@ async function chips() {
   if (!X) {
     el.innerHTML = '<div class="muted">Loading…</div>';
     const [d, dd] = await Promise.all([get("chips.json?t=" + T), data().catch(() => null), once("chartjs", () => loadScript("https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"))]);
-    const D = d.dates.map((dt, i) => { const r = { date: dt }; XK.forEach(k => r[k] = d.aud[k][i]); return r; });
+    const D = d.dates.map((dt, i) => { const r = { date: dt }; XK.forEach(k => { if (d.aud[k]) r[k] = d.aud[k][i]; }); return r; });
     if (dd && dd.series && dd.series.SEMI) { const m = new Map(dd.series.SEMI); let cur = null; for (const [dt, v] of dd.series.SEMI) { if (dt <= D[0].date) cur = v; else break; } D.forEach(r => { if (m.has(r.date)) cur = m.get(r.date); r.SEMI = cur; }); }
     X = { daily: D, yrs: 3 };
     let saved = {}; try { saved = JSON.parse(localStorage.getItem(XKEY) || "{}"); } catch (_) {}
     const inp = (id, v) => '<input type="text" inputmode="decimal" autocomplete="off" id="' + id + '" value="' + esc(v) + '">';
     el.innerHTML =
-      '<h2>Chips: Micron, SK hynix, Broadcom, TSMC</h2>' +
+      '<h2>Chips: Micron, SK hynix, Broadcom, TSMC + SEMI</h2>' +
       '<h2>Results</h2><div class="stats" id="xStats"></div><div class="muted" id="xPer"></div>' +
-      '<div class="tw"><table><thead><tr><th>Stock</th><th>Put in</th><th>Worth</th><th>Price</th><th>CAGR</th></tr></thead><tbody id="xBody"></tbody></table></div>' +
+      '<div class="tw"><table><thead><tr><th>Asset</th><th>Put in</th><th>Worth</th><th>Price</th><th>CAGR</th></tr></thead><tbody id="xBody"></tbody></table></div>' +
       '<div class="ov" id="xSemi"></div>' +
-      '<h2>What if</h2><div class="tw"><table class="xw"><thead><tr><th>Stock</th><th>Deposit</th><th>Multiple</th><th>Would be worth</th></tr></thead><tbody>' +
+      '<h2>What if</h2><div class="tw"><table class="xw"><thead><tr><th>Asset</th><th>Deposit</th><th>Multiple</th><th>Would be worth</th></tr></thead><tbody>' +
       XK.map(k => '<tr id="xwr_' + k + '"><td><b>' + XN[k] + '</b></td><td id="xwd_' + k + '"></td><td><span class="xwi">' + inp("xwm_" + k, saved["xwm_" + k] != null ? saved["xwm_" + k] : "1") + '<span>×</span></span></td><td id="xww_' + k + '"></td></tr>').join("") +
       '<tr class="tot"><td><b>Total</b></td><td id="xwdT"></td><td id="xwmT"></td><td id="xwwT"></td></tr></tbody></table></div>' +
       '<div class="muted">What if each deposit ended up worth that many times over (type 3, 4, 5… or 3x). Would be worth = deposit × multiple. A what-if, not a forecast.</div>' +
@@ -231,9 +231,9 @@ async function chips() {
       '<div class="row2"><label>Top-up A$ ' + inp("xTop", saved.xTop != null ? saved.xTop : "0") + '</label><select id="xFreq"><option value="week">weekly</option><option value="month">monthly</option></select></div>' +
       '<div class="seg" id="xYrs"><button data-y="1">1 year</button><button data-y="2">2 years</button><button data-y="3" class="on">3 years</button><button data-y="4">4 years</button><button data-y="5">5 years</button></div>' +
       '<label class="ck"><input type="checkbox" id="xCrash"> Crash 25% from here</label>' +
-      '<div class="muted" style="margin-top:10px">All in A$. Prices: Yahoo Finance adjusted daily closes (dividends reinvested) — Micron MU (US$), SK hynix 000660.KS (Korea, KRW), Broadcom AVGO (US$), TSMC TSM (US ADR, US$) — converted with each day\'s AUDUSD / AUDKRW rate. Prices to ' + dstr(d.dates[d.dates.length - 1]) + '. SK hynix uses its Korean listing because its US ticker SKHY only started on 10 Jul 2026. Past returns, general information only.</div>';
+      '<div class="muted" style="margin-top:10px">All in A$. Prices: Yahoo Finance adjusted daily closes (dividends reinvested) — Micron MU (US$), SK hynix 000660.KS (Korea, KRW), Broadcom AVGO (US$), TSMC TSM (US ADR, US$), SEMI SEMI.AX (Global X, ASX, A$) — US$ and KRW converted with each day\'s AUDUSD / AUDKRW rate. Prices to ' + dstr(d.dates[d.dates.length - 1]) + '. SK hynix uses its Korean listing because its US ticker SKHY only started on 10 Jul 2026. Past returns, general information only.</div>';
     if (saved.xFreq) $("xFreq").value = saved.xFreq;
-    XK.forEach(k => { $("xon_" + k).checked = saved["xon_" + k] != null ? !!saved["xon_" + k] : true;
+    XK.forEach(k => { $("xon_" + k).checked = saved["xon_" + k] != null ? !!saved["xon_" + k] : k !== "SEMI";
       $("xon_" + k).onchange = () => { xsave(); xrun(); }; $("xamt_" + k).oninput = e => { clean(e.target); xsave(); xrun(); }; $("xwm_" + k).oninput = e => { clean(e.target); xsave(); xwhat(); }; });
     $("xTop").oninput = e => { clean(e.target); xsave(); xrun(); }; $("xFreq").onchange = () => { xsave(); xrun(); }; $("xCrash").onchange = xrun;
     el.querySelectorAll("#xYrs button").forEach(b => b.onclick = () => { X.yrs = +b.dataset.y; el.querySelectorAll("#xYrs button").forEach(x => x.classList.toggle("on", x === b)); xrun(); });
@@ -253,6 +253,7 @@ function xsim() {
   let s = e; while (s > 0 && D[s].date > sIso) s--;
   if (D[s].date > sIso) return { error: "Not enough history for " + X.yrs + " years." };
   const on = XK.filter(k => $("xon_" + k).checked);
+  if (on.some(k => !(D[s][k] > 0))) return { error: "No SEMI price history for that start date (SEMI data didn't load or starts later)." };
   const amt = {}; on.forEach(k => amt[k] = eff(k));
   const dep = on.reduce((a, k) => a + amt[k], 0), top = num($("xTop").value);
   if (!on.length || (!dep && !top)) return { error: "Tick a stock and enter an amount." };
@@ -274,7 +275,7 @@ function xsim() {
   let lo = -0.99, hi = 20; for (let j = 0; j < 100; j++) { const m = (lo + hi) / 2; if (fv(m) > endV) hi = m; else lo = m; }
   const rows = on.map(k => ({ k, put: put[k], worth: last[k] * f, chg: D[e][k] / D[s][k] - 1, cagr: Math.pow(D[e][k] / D[s][k], 1 / Ty) - 1 }));
   let semi = null;
-  if (D[s].SEMI > 0) { let u = dep / D[s].SEMI; for (let i = s; i <= e; i++) { const n = i - s; if (top > 0 && n > 0 && Math.floor(n / step) > Math.floor((n - 1) / step)) u += top / D[i].SEMI; series[i - s].SEMI = u * D[i].SEMI; }
+  if (D[s].SEMI > 0) { let u = dep / D[s].SEMI; for (let i = s; i <= e; i++) { const n = i - s; if (top > 0 && n > 0 && Math.floor(n / step) > Math.floor((n - 1) / step)) u += top / D[i].SEMI; series[i - s].SEMIALL = u * D[i].SEMI; }
     const sv = u * D[e].SEMI * f; let a = -0.99, b = 20; for (let j = 0; j < 100; j++) { const m = (a + b) / 2; if (fv(m) > sv) b = m; else a = m; }
     semi = { worth: sv, chg: D[e].SEMI / D[s].SEMI - 1, cagr: Math.pow(D[e].SEMI / D[s].SEMI, 1 / Ty) - 1, rate: (a + b) / 2 }; }
   return { start: D[s].date, end, Ty, on, putIn, endV, rate: (lo + hi) / 2, rows, series, crash, top, semi };
@@ -313,11 +314,11 @@ function xrun() {
   $("xPer").textContent = dstr(r.start) + " to " + dstr(r.end) + (r.top ? ", topping up " + aud(r.top) + " " + ($("xFreq").value === "week" ? "weekly" : "monthly") : "") + (r.crash ? ", then −25%" : "");
   $("xBody").innerHTML = r.rows.map(x => "<tr><td><b>" + XN[x.k] + "</b></td><td>" + aud(x.put) + "</td><td>" + aud(x.worth) + "</td><td>" + cpct(x.chg, 0) + "</td><td>" + cpct(x.cagr) + "</td></tr>").join("") +
     (r.rows.length > 1 ? "<tr class='tot'><td><b>Total</b></td><td>" + aud(r.putIn) + "</td><td><b>" + aud(r.endV) + "</b></td><td>" + cpct(r.endV / r.putIn - 1, 0) + "</td><td>" + cpct(r.rate) + "</td></tr>" : "");
-  $("xSemi").innerHTML = r.semi ? "<b>Same money in SEMI (Global X, ASX) instead:</b> worth " + aud(r.semi.worth) + " (" + cpct(r.semi.worth / r.putIn - 1, 0) + "), SEMI price " + cpct(r.semi.chg, 0) + ", CAGR " + cpct(r.semi.cagr) + ", per year " + cpct(r.semi.rate) + ". Chips " + (r.endV >= r.semi.worth ? "ahead by " + aud(r.endV - r.semi.worth) : "behind by " + aud(r.semi.worth - r.endV)) + "." : '<span class="muted">SEMI comparison unavailable.</span>';
+  $("xSemi").innerHTML = r.semi ? "<b>Same total money all in SEMI (Global X, ASX) instead:</b> worth " + aud(r.semi.worth) + " (" + cpct(r.semi.worth / r.putIn - 1, 0) + "), SEMI price " + cpct(r.semi.chg, 0) + ", CAGR " + cpct(r.semi.cagr) + ", per year " + cpct(r.semi.rate) + ". Your mix " + (r.endV >= r.semi.worth ? "ahead by " + aud(r.endV - r.semi.worth) : "behind by " + aud(r.semi.worth - r.endV)) + "." : '<span class="muted">SEMI comparison unavailable.</span>';
   const S = r.series.filter((_, i) => i % 3 === 0 || i === r.series.length - 1), L = S.map(x => x.date);
   const ds = [{ label: "Total", data: S.map(x => Math.round(x.total)), borderColor: XCOL.total, borderWidth: 2.5, pointRadius: 0 },
               { label: "Put in", data: S.map(x => Math.round(x.putIn)), borderColor: "#9aa6bd", borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0 }];
-  if (r.semi) ds.push({ label: "SEMI (same money)", data: S.map(x => Math.round(x.SEMI)), borderColor: "#7ee2a0", borderDash: [2, 3], borderWidth: 2, pointRadius: 0 });
+  if (r.semi) ds.push({ label: "All in SEMI (same money)", data: S.map(x => Math.round(x.SEMIALL)), borderColor: "#7ee2a0", borderDash: [2, 3], borderWidth: 2, pointRadius: 0 });
   if (r.on.length > 1) r.on.forEach(k => ds.push({ label: XN[k], data: S.map(x => Math.round(x[k])), borderColor: XCOL[k], borderWidth: 1.2, pointRadius: 0 }));
   if (r.crash) ds.push({ label: "After crash", data: L.map((_, i) => i === L.length - 1 ? Math.round(r.endV) : null), borderColor: "#ff6b6b", backgroundColor: "#ff6b6b", pointRadius: 6, showLine: false });
   if (xchart) xchart.destroy();
