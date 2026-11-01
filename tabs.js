@@ -1,4 +1,4 @@
-// Lazy-loaded by hub.html for the CAGR, SEMI Scorecard and Semi Holdings tabs.
+// Lazy-loaded by hub.html for the CAGR, Chips, SEMI Scorecard and Semi Holdings tabs.
 (function () {
 const $ = id => document.getElementById(id);
 const esc = t => String(t == null ? "" : t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -198,6 +198,124 @@ async function review() {
   html += '<div class="muted">Original page: <a href="' + esc(rv.source_page) + '" target="_blank" rel="noopener">SEMI ETF review</a></div>';
   el.innerHTML = html; el.dataset.done = 1;
 }
+// ---------- Chips (Micron, SK hynix, Broadcom, TSMC) — same maths as CAGR, data from chips.json ----------
+const XK = ["MU", "HYNIX", "AVGO", "TSM"], XN = { MU: "Micron", HYNIX: "SK hynix", AVGO: "Broadcom", TSM: "TSMC" };
+const XCOL = { MU: "#4dd0e1", HYNIX: "#f7931a", AVGO: "#ff6b9a", TSM: "#b388ff", total: "#4da3ff" };
+const XKEY = "hubChipsAmts", num = v => Math.max(0, +String(v == null ? "" : v).replace(/[^0-9.]/g, "") || 0);
+let X = null, xchart = null;
+const mul = k => num($("xmul_" + k).value), eff = k => num($("xamt_" + k).value) * mul(k);
+const xsave = () => { const o = {}; XK.forEach(k => { o["xamt_" + k] = $("xamt_" + k).value; o["xmul_" + k] = $("xmul_" + k).value; o["xon_" + k] = $("xon_" + k).checked; }); o.xTop = $("xTop").value; o.xFreq = $("xFreq").value; try { localStorage.setItem(XKEY, JSON.stringify(o)); } catch (_) {} };
+const clean = el => { const c = el.value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1"); if (c !== el.value) el.value = c; };
+async function chips() {
+  const el = $("tab-chips");
+  if (!X) {
+    el.innerHTML = '<div class="muted">Loading…</div>';
+    const [d, dd] = await Promise.all([get("chips.json?t=" + T), data().catch(() => null), once("chartjs", () => loadScript("https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"))]);
+    const D = d.dates.map((dt, i) => { const r = { date: dt }; XK.forEach(k => r[k] = d.aud[k][i]); return r; });
+    if (dd && dd.series && dd.series.SEMI) { const m = new Map(dd.series.SEMI); let cur = null; for (const [dt, v] of dd.series.SEMI) { if (dt <= D[0].date) cur = v; else break; } D.forEach(r => { if (m.has(r.date)) cur = m.get(r.date); r.SEMI = cur; }); }
+    X = { daily: D, yrs: 3 };
+    let saved = {}; try { saved = JSON.parse(localStorage.getItem(XKEY) || "{}"); } catch (_) {}
+    const inp = (id, v) => '<input type="text" inputmode="decimal" autocomplete="off" id="' + id + '" value="' + esc(v) + '">';
+    el.innerHTML =
+      '<h2>Chips: Micron, SK hynix, Broadcom, TSMC</h2>' +
+      '<h2>Results</h2><div class="stats" id="xStats"></div><div class="muted" id="xPer"></div>' +
+      '<div class="tw"><table><thead><tr><th>Stock</th><th>Put in</th><th>Worth</th><th>Price</th><th>CAGR</th></tr></thead><tbody id="xBody"></tbody></table></div>' +
+      '<div class="ov" id="xSemi"></div>' +
+      '<div class="cbox"><canvas id="xChart"></canvas></div>' +
+      '<h2>Settings</h2><div class="seg" id="xPick">' + XK.map(k => '<button data-k="' + k + '">' + XN[k] + "</button>").join("") + '<button data-k="mix">Mix</button></div>' +
+      '<div class="amts">' + XK.map(k => '<label class="am"><input type="checkbox" id="xon_' + k + '"> <span class="xn">' + XN[k] + '</span><span class="xa">A$' + inp("xamt_" + k, saved["xamt_" + k] != null ? saved["xamt_" + k] : "2500") + '</span><span class="xm">×' + inp("xmul_" + k, saved["xmul_" + k] != null ? saved["xmul_" + k] : "1") + "</span></label>").join("") + "</div>" +
+      '<div class="row2"><label>Top-up A$ ' + inp("xTop", saved.xTop != null ? saved.xTop : "0") + '</label><select id="xFreq"><option value="week">weekly</option><option value="month">monthly</option></select></div>' +
+      '<div class="muted">A$ = deposit per stock, × = multiplier (amount bought = deposit × multiplier; top-ups split the same way).</div><div class="seg" id="xYrs"><button data-y="1">1 year</button><button data-y="2">2 years</button><button data-y="3" class="on">3 years</button><button data-y="4">4 years</button><button data-y="5">5 years</button></div>' +
+      '<label class="ck"><input type="checkbox" id="xCrash"> Crash 25% from here</label>' +
+      '<div class="muted" style="margin-top:10px">All in A$. Prices: Yahoo Finance adjusted daily closes (dividends reinvested) — Micron MU (US$), SK hynix 000660.KS (Korea, KRW), Broadcom AVGO (US$), TSMC TSM (US ADR, US$) — converted with each day\'s AUDUSD / AUDKRW rate. Prices to ' + dstr(d.dates[d.dates.length - 1]) + '. SK hynix uses its Korean listing because its US ticker SKHY only started on 10 Jul 2026. Past returns, general information only.</div>';
+    if (saved.xFreq) $("xFreq").value = saved.xFreq;
+    XK.forEach(k => { $("xon_" + k).checked = saved["xon_" + k] != null ? !!saved["xon_" + k] : true;
+      $("xon_" + k).onchange = () => { xsave(); xrun(); }; $("xamt_" + k).oninput = $("xmul_" + k).oninput = e => { clean(e.target); xsave(); xrun(); }; });
+    $("xTop").oninput = e => { clean(e.target); xsave(); xrun(); }; $("xFreq").onchange = () => { xsave(); xrun(); }; $("xCrash").onchange = xrun;
+    el.querySelectorAll("#xYrs button").forEach(b => b.onclick = () => { X.yrs = +b.dataset.y; el.querySelectorAll("#xYrs button").forEach(x => x.classList.toggle("on", x === b)); xrun(); });
+    el.querySelectorAll("#xPick button").forEach(b => b.onclick = () => {
+      const k = b.dataset.k; el.querySelectorAll("#xPick button").forEach(x => x.classList.toggle("on", x === b));
+      if (k === "mix") XK.forEach(j => $("xon_" + j).checked = true);
+      else { const tot = XK.reduce((a, j) => a + ($("xon_" + j).checked ? eff(j) : 0), 0) || 10000; XK.forEach(j => $("xon_" + j).checked = j === k); $("xamt_" + k).value = String(Math.round(tot / (mul(k) || 1) * 100) / 100); }
+      xsave(); xrun(); });
+    const allOn = XK.every(k => $("xon_" + k).checked), only = XK.filter(k => $("xon_" + k).checked);
+    el.querySelector('#xPick button[data-k="' + (allOn || only.length !== 1 ? "mix" : only[0]) + '"]').classList.add("on");
+  }
+  xrun();
+}
+function xsim() {
+  const D = X.daily, e = D.length - 1, end = D[e].date, ed = new Date(end + "T00:00:00Z");
+  const sIso = new Date(Date.UTC(ed.getUTCFullYear() - X.yrs, ed.getUTCMonth(), ed.getUTCDate())).toISOString().slice(0, 10);
+  let s = e; while (s > 0 && D[s].date > sIso) s--;
+  if (D[s].date > sIso) return { error: "Not enough history for " + X.yrs + " years." };
+  const on = XK.filter(k => $("xon_" + k).checked);
+  const amt = {}; on.forEach(k => amt[k] = eff(k));
+  const dep = on.reduce((a, k) => a + amt[k], 0), top = num($("xTop").value);
+  if (!on.length || (!dep && !top)) return { error: "Tick a stock and enter an amount." };
+  const w = {}; on.forEach(k => w[k] = dep ? amt[k] / dep : 1 / on.length);
+  const units = {}, put = {}; on.forEach(k => { units[k] = amt[k] / D[s][k]; put[k] = amt[k]; });
+  const step = $("xFreq").value === "week" ? 7 : 30.4375, cfs = dep ? [[0, dep]] : [], series = [];
+  let putIn = dep;
+  for (let i = s; i <= e; i++) {
+    const n = i - s;
+    if (top > 0 && n > 0 && Math.floor(n / step) > Math.floor((n - 1) / step)) {
+      on.forEach(k => { units[k] += top * w[k] / D[i][k]; put[k] += top * w[k]; }); putIn += top; cfs.push([n / 365.25, top]);
+    }
+    const row = { date: D[i].date, putIn, total: 0 };
+    on.forEach(k => { row[k] = units[k] * D[i][k]; row.total += row[k]; });
+    series.push(row);
+  }
+  const Ty = (e - s) / 365.25, crash = $("xCrash").checked, f = crash ? 0.75 : 1, last = series[series.length - 1];
+  const endV = last.total * f, fv = r => cfs.reduce((a, [t, c]) => a + c * Math.pow(1 + r, Ty - t), 0);
+  let lo = -0.99, hi = 20; for (let j = 0; j < 100; j++) { const m = (lo + hi) / 2; if (fv(m) > endV) hi = m; else lo = m; }
+  const rows = on.map(k => ({ k, put: put[k], worth: last[k] * f, chg: D[e][k] / D[s][k] - 1, cagr: Math.pow(D[e][k] / D[s][k], 1 / Ty) - 1 }));
+  let semi = null;
+  if (D[s].SEMI > 0) { let u = dep / D[s].SEMI; for (let i = s; i <= e; i++) { const n = i - s; if (top > 0 && n > 0 && Math.floor(n / step) > Math.floor((n - 1) / step)) u += top / D[i].SEMI; series[i - s].SEMI = u * D[i].SEMI; }
+    const sv = u * D[e].SEMI * f; let a = -0.99, b = 20; for (let j = 0; j < 100; j++) { const m = (a + b) / 2; if (fv(m) > sv) b = m; else a = m; }
+    semi = { worth: sv, chg: D[e].SEMI / D[s].SEMI - 1, cagr: Math.pow(D[e].SEMI / D[s].SEMI, 1 / Ty) - 1, rate: (a + b) / 2 }; }
+  return { start: D[s].date, end, Ty, on, putIn, endV, rate: (lo + hi) / 2, rows, series, crash, top, semi };
+}
+function xrun() {
+  const r = xsim();
+  if (r.error) { $("xBody").innerHTML = ""; $("xPer").textContent = r.error; return; }
+  const g = r.endV - r.putIn;
+  if (!$("xPutTot")) {
+    $("xStats").innerHTML =
+      '<div><div class="k" id="xWk"></div><div class="v" id="xWv"></div></div>' +
+      '<div><div class="k">Put in (tap to change)</div><div class="v"><span style="display:flex;align-items:center;gap:4px">A$<input type="text" inputmode="decimal" autocomplete="off" id="xPutTot"></span><small id="xPutTop"></small></div></div>' +
+      '<div><div class="k">Up / Down</div><div class="v" id="xGv"></div></div>' +
+      '<div><div class="k">Per year</div><div class="v" id="xRv"></div></div>';
+    $("xPutTot").addEventListener("input", e => {
+      clean(e.target); const tot = num(e.target.value), on = XK.filter(k => $("xon_" + k).checked); if (!on.length) return;
+      const cur = on.map(k => eff(k)), sum = cur.reduce((a, b) => a + b, 0);
+      on.forEach((k, i) => { const m = mul(k) || 1; $("xamt_" + k).value = String(Math.round(tot * (sum ? cur[i] / sum : 1 / on.length) / m * 100) / 100); if (!mul(k)) $("xmul_" + k).value = "1"; });
+      xsave(); xrun();
+    });
+  }
+  const start = XK.filter(k => $("xon_" + k).checked).reduce((a, k) => a + eff(k), 0);
+  $("xWk").textContent = r.crash ? "Worth after crash" : "Worth now"; $("xWv").textContent = aud(r.endV);
+  if (document.activeElement !== $("xPutTot")) $("xPutTot").value = Math.round(start).toLocaleString("en-AU");
+  $("xPutTop").textContent = r.top ? "Total incl. top-ups " + aud(r.putIn) : "";
+  $("xGv").className = "v " + (g >= 0 ? "up" : "down"); $("xGv").innerHTML = (g >= 0 ? "+" : "") + aud(g) + " <small>(" + pct(g / r.putIn) + ")</small>";
+  $("xRv").className = "v " + (r.rate >= 0 ? "up" : "down"); $("xRv").textContent = pct(r.rate);
+  $("xPer").textContent = dstr(r.start) + " to " + dstr(r.end) + (r.top ? ", topping up " + aud(r.top) + " " + ($("xFreq").value === "week" ? "weekly" : "monthly") : "") + (r.crash ? ", then −25%" : "");
+  $("xBody").innerHTML = r.rows.map(x => "<tr><td><b>" + XN[x.k] + "</b></td><td>" + aud(x.put) + "</td><td>" + aud(x.worth) + "</td><td>" + cpct(x.chg, 0) + "</td><td>" + cpct(x.cagr) + "</td></tr>").join("") +
+    (r.rows.length > 1 ? "<tr class='tot'><td><b>Total</b></td><td>" + aud(r.putIn) + "</td><td><b>" + aud(r.endV) + "</b></td><td>" + cpct(r.endV / r.putIn - 1, 0) + "</td><td>" + cpct(r.rate) + "</td></tr>" : "");
+  $("xSemi").innerHTML = r.semi ? "<b>Same money in SEMI (Global X, ASX) instead:</b> worth " + aud(r.semi.worth) + " (" + cpct(r.semi.worth / r.putIn - 1, 0) + "), SEMI price " + cpct(r.semi.chg, 0) + ", CAGR " + cpct(r.semi.cagr) + ", per year " + cpct(r.semi.rate) + ". Chips " + (r.endV >= r.semi.worth ? "ahead by " + aud(r.endV - r.semi.worth) : "behind by " + aud(r.semi.worth - r.endV)) + "." : '<span class="muted">SEMI comparison unavailable.</span>';
+  const S = r.series.filter((_, i) => i % 3 === 0 || i === r.series.length - 1), L = S.map(x => x.date);
+  const ds = [{ label: "Total", data: S.map(x => Math.round(x.total)), borderColor: XCOL.total, borderWidth: 2.5, pointRadius: 0 },
+              { label: "Put in", data: S.map(x => Math.round(x.putIn)), borderColor: "#9aa6bd", borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0 }];
+  if (r.semi) ds.push({ label: "SEMI (same money)", data: S.map(x => Math.round(x.SEMI)), borderColor: "#7ee2a0", borderDash: [2, 3], borderWidth: 2, pointRadius: 0 });
+  if (r.on.length > 1) r.on.forEach(k => ds.push({ label: XN[k], data: S.map(x => Math.round(x[k])), borderColor: XCOL[k], borderWidth: 1.2, pointRadius: 0 }));
+  if (r.crash) ds.push({ label: "After crash", data: L.map((_, i) => i === L.length - 1 ? Math.round(r.endV) : null), borderColor: "#ff6b6b", backgroundColor: "#ff6b6b", pointRadius: 6, showLine: false });
+  if (xchart) xchart.destroy();
+  const big = innerWidth > 700 ? 17 : 13;
+  xchart = new Chart($("xChart"), { type: "line", data: { labels: L, datasets: ds },
+    options: { animation: false, maintainAspectRatio: false, interaction: { mode: "index", intersect: false },
+      plugins: { legend: { labels: { color: "#e8ecf4", boxWidth: 14, font: { size: big } } }, tooltip: { callbacks: { label: c => c.parsed.y == null ? "" : c.dataset.label + ": " + aud(c.parsed.y) } } },
+      scales: { x: { ticks: { color: "#9aa6bd", maxTicksLimit: 6, font: { size: big }, callback: function (v) { return new Date(this.getLabelForValue(v) + "T12:00:00Z").toLocaleDateString("en-AU", { month: "short", year: "2-digit" }); } }, grid: { color: "#222b40" } },
+                y: { ticks: { color: "#9aa6bd", font: { size: big }, callback: v => "A$" + (v / 1000).toFixed(0) + "k" }, grid: { color: "#222b40" } } } } });
+}
 const NAMES = { TSLA: "Tesla", BTC: "Bitcoin", MSTR: "MSTR" };
 function assetScore(k) {
   return async () => {
@@ -221,5 +339,5 @@ function assetScore(k) {
       "<p class='muted'>How it's scored: Fundamentals 0-4 + News 0-3 + Growth (price trend) 0-3. Growth gets 1 point each for price above its 50-day average, above its 200-day average, and weekly RSI between 35 and 70. Overall: 7-10 On track, 6 Mixed, 0-5 Behind. No price targets. General information only, not advice.</p>";
   };
 }
-window.HubTabs = { cagr, scorecard, semireview: review, "tsla-score": assetScore("TSLA"), "btc-score": assetScore("BTC"), "mstr-score": assetScore("MSTR") };
+window.HubTabs = { cagr, chips, scorecard, semireview: review, "tsla-score": assetScore("TSLA"), "btc-score": assetScore("BTC"), "mstr-score": assetScore("MSTR") };
 })();
