@@ -1,13 +1,13 @@
 {
-  "updated": "2026-11-01T17:06+11:00",
+  "updated": "2026-11-01T19:05+11:00",
   "assets": {
     "BTC": {
       "level": "watch",
-      "note": "Binance hack: an exchange breach, not Bitcoin itself; 95% covered, withdrawals reopening",
-      "detail": "Binance (an exchange) lost about US$6.3bn on 29-30 Oct; the FBI says North Korea did it. It was not a flaw in Bitcoin. Binance says it has now covered about 95% of losses from its own funds (all BTC fully backed) and began reopening withdrawals in phases on Sun 1 Nov, starting with BTC, ETH and other major coins; a verifiable reserves proof is expected around 3 Nov. Watch for the attacker selling stolen BTC. Separately, Bitcoin Core disclosed a medium-severity bug (CVE-2026-117350) that can make non-Linux nodes run out of memory; no funds at risk, fixed in 29.5/30.4/31.2/32.1. Quantum: new estimates remain theoretical, hardware expected early 2030s.",
+      "note": "Binance hack: an exchange breach, not Bitcoin itself; 95% covered, withdrawals reopened",
+      "detail": "Binance (an exchange) lost about US$6.3bn on 29-30 Oct; the FBI says North Korea's TraderTraitor group did it. It was not a flaw in Bitcoin. Binance says it has replaced about 95% of the stolen tokens from its own funds (BTC fully backed) and reopened withdrawals in phases from 1 Nov, starting with Bitcoin; a verifiable reserves proof is expected around 3 Nov. Watch for the attacker selling the 18,270 stolen BTC (still unmoved per latest reports). Separately, Bitcoin Core disclosed a medium-severity bug (CVE-2026-117350) that can make non-Linux nodes run out of memory; no funds at risk, fixed in 29.5/30.4/31.2/32.1. Quantum: new estimates remain theoretical, hardware expected early 2030s.",
       "sources": [
-        "https://cryptoticker.io/en/binance-withdrawals-reopen-phase-one/",
         "https://www.investing.com/news/stock-market-news/binance-to-resume-withdrawals-after-recovering-bulk-of-6-billion-in-stolen-funds-4989388",
+        "https://www.chainalysis.com/blog/binance-exploit-latest-findings-and-response/",
         "https://bitcoincore.org/en/2026/10/28/disclose-tcp-oom/"
       ]
     },
