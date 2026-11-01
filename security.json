@@ -1,13 +1,13 @@
 {
-  "updated": "2026-11-02T07:10+11:00",
+  "updated": "2026-11-02T09:10+11:00",
   "assets": {
     "BTC": {
       "level": "watch",
       "note": "Binance hack: an exchange breach, not Bitcoin itself; 95% covered, withdrawals reopened",
-      "detail": "Binance (an exchange) lost about US$6.3bn on 29-30 Oct; the FBI says North Korea did it. It was not a flaw in Bitcoin. Binance says 95% is now replenished (BTC fully backed) and reopened withdrawals in phases on 1 Nov, starting with Bitcoin; a verifiable reserves proof is expected around 2-3 Nov. The attacker's 18,270 stolen BTC still hasn't moved, though they are swapping stolen SOL into BTC; watch for any selling. Separately, Bitcoin Core fixed medium-severity node-crash bugs (e.g. CVE-2026-117350); no funds at risk. Quantum: new estimates remain theoretical, hardware expected late 2020s to early 2030s.",
+      "detail": "Binance (an exchange) lost about US$6.3bn on 29-30 Oct; the FBI says North Korea did it. It was not a flaw in Bitcoin. Binance says it has covered about 95% of losses (all BTC fully backed) and reopened withdrawals in phases on 1 Nov, starting with Bitcoin; a verifiable reserves proof is expected around 3 Nov. The attacker's 18,270 stolen BTC remain unmoved, so watch for any selling. Separately, Bitcoin Core fixed medium-severity node memory bugs (CVE-2026-117349/117350) in 29.5/30.4/31.2/32.1; no funds at risk. Quantum: new estimates remain theoretical.",
       "sources": [
-        "https://techcrunch.com/2026/11/01/binance-resumes-withdrawals-following-6-3-billion-breach/",
-        "https://bravenewcoin.com/insights/binance-hacker-moves-96m-in-stolen-solana-to-bitcoin-as-laundering-efforts-continue",
+        "https://www.coindesk.com/markets/2026/11/01/binance-opens-crypto-withdrawals-in-phases-starting-with-bitcoin-following-usd6-3-billion-hack",
+        "https://news.bitcoin.com/featured/north-koreas-1-4b-bitcoin-haul-from-binance-hack-remains-untouched/",
         "https://bitcoincore.org/en/2026/10/28/disclose-tcp-oom/"
       ]
     },
