@@ -2,11 +2,11 @@
 import json, math, datetime as dt
 import yfinance as yf
 
-SYMS = {"BTC": "BTC-USD", "TSLA": "TSLA", "MSTR": "MSTR", "SEMI": "SEMI.AX", "AUDUSD": "AUDUSD=X"}
+SYMS = {"BTC": "BTC-USD", "TSLA": "TSLA", "MSTR": "MSTR", "SEMI": "SEMI.AX", "SPCX": "SPCX", "AUDUSD": "AUDUSD=X"}  # SPCX = SpaceX (Nasdaq, listed 12 Jun 2026), held from 2 Nov 2026
 START = "2021-01-01"
 
 out = {"generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-       "note": "Daily closes from Yahoo Finance via yfinance, adjusted for splits and distributions (SEMI payouts reinvested). BTC, TSLA, MSTR in USD; SEMI in AUD; AUDUSD = US$ per A$1.",
+       "note": "Daily closes from Yahoo Finance via yfinance, adjusted for splits and distributions (SEMI payouts reinvested). BTC, TSLA, MSTR, SPCX in USD; SEMI in AUD; AUDUSD = US$ per A$1.",
        "series": {}, "latest": {}}
 for key, sym in SYMS.items():
     t = yf.Ticker(sym)
@@ -48,7 +48,7 @@ fx = S["AUDUSD"]
 
 def in_aud(key):
     s = S[key]
-    if key in ("BTC", "TSLA", "MSTR"):
+    if key in ("BTC", "TSLA", "MSTR", "SPCX"):
         return s / fx.reindex(s.index, method="ffill")
     return s
 
@@ -160,7 +160,7 @@ print("yearly", {k: [(r.get("change"), r.get("value_10k")) for r in v] for k, v 
 
 # ---------------------------------------------------------------- value-indicator inputs (AUD, each asset's own trading days)
 vi = {}
-for k in ("BTC", "TSLA", "MSTR", "SEMI"):
+for k in ("BTC", "TSLA", "MSTR", "SEMI", "SPCX"):  # SPCX: under a year of history, so high/average cover since listing
     a = in_aud(k).dropna()
     last = a.index[-1]
     yr = a[a.index > last - pd.Timedelta(days=365)]
