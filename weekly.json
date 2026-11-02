@@ -1,107 +1,81 @@
 {
- "week": "Mon 26 Oct 2026 to Sun 1 Nov 2026",
- "week_start": "2026-10-26",
- "week_end": "2026-11-01",
- "calculated": "2026-10-31T20:42+11:00",
- "calculated_line": "Calculated on Saturday 31 Oct 2026, 8:42 PM AEDT. Normally recalculated every Wednesday.",
- "pick": "MSTR",
- "pick_name": "Strategy (MSTR)",
- "pick_score": 25.74,
- "runner_up": "Bitcoin",
- "runner_up_score": 13.02,
+ "week": "Mon 2 Nov 2026 to Sun 8 Nov 2026",
+ "week_start": "2026-11-02",
+ "week_end": "2026-11-08",
+ "calculated": "2026-11-02T15:12+11:00",
+ "calculated_line": "Calculated on Monday 2 Nov 2026, 3:12 PM AEDT. Normally recalculated every Wednesday.",
+ "pick": "SPCX",
+ "pick_name": "SpaceX (SPCX)",
+ "pick_score": 21.67,
+ "runner_up": "SEMI",
+ "runner_up_score": 7.6,
  "base_aud": 75.0,
- "multiplier": 2.27,
- "amount_aud": 171,
+ "multiplier": 2.25,
+ "amount_aud": 169,
  "cap": 4.0,
+ "candidates": [
+  "SPCX",
+  "SEMI"
+ ],
  "scores": [
   {
-   "key": "MSTR",
-   "name": "Strategy (MSTR)",
-   "price_aud": 185.73,
-   "price_source": "2026-10-30 close",
-   "from_high_52w": -0.548,
-   "vs_cost": -0.1975,
-   "mayer": 0.973,
-   "pts_high": 54.8,
-   "pts_cost": 19.8,
-   "pts_mayer": 2.7,
-   "score": 25.74,
-   "weekly_rsi": 47.3,
-   "multiplier": 2.27,
+   "key": "SPCX",
+   "name": "SpaceX (SPCX)",
+   "price_aud": 191.72,
+   "price_source": "2026-10-30 close (Yahoo Finance, US$134.72)",
+   "from_high_52w": -0.3585,
+   "vs_cost": null,
+   "mayer": 0.925,
+   "pts_high": 35.9,
+   "pts_cost": null,
+   "pts_mayer": 7.5,
+   "score": 21.67,
+   "avg_used": "since-listing average (98 closes from 2026-06-12; under 200 days of history)",
+   "high_used": "since-listing high (listed 2026-06-12, under a year of history)",
+   "inputs_aud": {
+    "price": 191.7176,
+    "high": 298.8689,
+    "high_date": "2026-06-16",
+    "avg": 207.2385,
+    "closes": 98
+   },
+   "data_source": "Yahoo Finance daily closes / AUDUSD=X",
+   "weekly_rsi": 67.4,
+   "multiplier": 2.25,
    "multiplier_detail": {
-    "base": 1.27,
-    "base_why": "price is 2.7% below its 200-day average: 1 + 0.1 per 1% below",
+    "base": 1.75,
+    "base_why": "price is 7.5% below its 200-day average: 1 + 0.1 per 1% below",
     "extras": [
      {
-      "add": 1.0,
-      "why": "55% below its 52-week high (50%+)"
+      "add": 0.5,
+      "why": "36% below its 52-week high (30%+)"
      }
     ]
    }
   },
   {
-   "key": "BTC",
-   "name": "Bitcoin",
-   "price_aud": 110101.0,
-   "price_source": "live (CoinGecko)",
-   "from_high_52w": -0.3473,
-   "vs_cost": -0.1085,
-   "mayer": 1.065,
-   "pts_high": 34.7,
-   "pts_cost": 10.9,
-   "pts_mayer": -6.5,
-   "score": 13.02,
-   "weekly_rsi": 51.5,
-   "multiplier": 1.26,
-   "multiplier_detail": {
-    "rule": "BTC DCA sheet (dca_sheet.mult, as daily_test.py)",
-    "raw": 1.264,
-    "inputs_usd": {
-     "p": 77299.7969,
-     "s50": 81893.6534,
-     "s100": 76269.5805,
-     "s200": 73131.0014,
-     "rsi": 34.853,
-     "mvrv": 0.7489,
-     "dxy": 101.88,
-     "mayer": 1.057,
-     "date": "2026-10-31"
-    }
-   }
-  },
-  {
    "key": "SEMI",
    "name": "SEMI",
-   "price_aud": 33.78,
-   "price_source": "2026-10-30 close",
-   "from_high_52w": -0.2365,
-   "vs_cost": null,
-   "mayer": 1.028,
-   "pts_high": 23.7,
-   "pts_cost": null,
-   "pts_mayer": -2.8,
-   "score": 10.43,
-   "weekly_rsi": 47.2,
-   "multiplier": 1.0,
-   "multiplier_detail": {
-    "base": 1.0,
-    "base_why": "price is at or above its 200-day average: normal",
-    "extras": []
-   }
-  },
-  {
-   "key": "TSLA",
-   "name": "Tesla",
-   "price_aud": 568.96,
-   "price_source": "2026-10-30 close",
-   "from_high_52w": -0.2305,
-   "vs_cost": -0.0886,
-   "mayer": 1.04,
-   "pts_high": 23.0,
-   "pts_cost": 8.9,
-   "pts_mayer": -4.0,
-   "score": 9.29,
-   "weekly_rsi": 55.9,
+   "price_aud": 33.4,
+   "price_source": "2026-11-02 close",
+   "from_high_52w": -0.2451,
+   "vs_cost": 0.0021,
+   "mayer": 1.015,
+   "pts_high": 24.5,
+   "pts_cost": -0.2,
+   "pts_mayer": -1.5,
+   "score": 7.6,
+   "avg_used": "200-day average",
+   "high_used": "52-week high",
+   "inputs_aud": {
+    "price": 33.4,
+    "high": 44.2465,
+    "high_date": "2026-07-01",
+    "avg": 32.9079,
+    "closes": null
+   },
+   "data_source": "hub data.json value_inputs",
+   "weekly_rsi": 46.7,
    "multiplier": 1.0,
    "multiplier_detail": {
     "base": 1.0,
@@ -109,5 +83,8 @@
     "extras": []
    }
   }
+ ],
+ "notes": [
+  "SPCX: uses its since-listing average (98 closes from 2026-06-12; under 200 days of history) in place of the 200-day average and its since-listing high (listed 2026-06-12, under a year of history) in place of the 52-week high."
  ]
 }
