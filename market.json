@@ -253,8 +253,8 @@
     },
     "basis": "ytd",
     "start": "2025-12-31",
-    "portfolio_ytd": -0.0139,
-    "portfolio_ytd_basis": "TSLA 41, MSTR 21.56, SEMI 447 (Bitcoin sold 2 Nov 2026), yfinance, AUD/USD 0.6698 on 31 Dec 2025 and 0.7024 on 2 Nov 2026"
+    "portfolio_ytd": -0.0085,
+    "portfolio_ytd_basis": "TSLA 41 and SEMI 447 vs 31 Dec 2025 closes (US$449.72, A$23.30); SpaceX 20.75691899 vs its 12 Jun 2026 listing-day close (US$160.95, AUD/USD 0.7048) since it listed mid-year; now TSLA US$399.81 (30 Oct close), SEMI A$33.55 (2 Nov close), SPCX US$134.72 (30 Oct close), AUD/USD 0.6698 on 31 Dec 2025 and 0.7023 on 2 Nov 2026; start A$42,683.67 -> now A$42,319.34. Bitcoin and MSTR sold 2 Nov 2026 (realised -A$2,445.97 shown under Up / Down, not in this figure). yfinance, raw closes."
   },
   "scores_rule": "Fundamentals 0-4 + News 0-3 + Trend 0-3; no price targets. Status 7-10 On track, 6 Mixed, 0-5 Behind. Trend data 30-31 Oct 2026 (yfinance)."
 }
