@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-03T09:08+11:00",
+  "updated": "2026-11-03T09:30+11:00",
   "assets": {
     "BTC": {
       "level": "watch",
@@ -30,6 +30,12 @@
       "sources": [
         "https://www.tomshardware.com/tech-industry/cyber-security/nvidia-brev-security-breach-may-have-exposed-ssh-keys-used-to-access-customer-vms-investigation-finds-unauthorized-activity-spanning-16-days-but-no-evidence-of-misuse"
       ]
+    },
+    "SPCX": {
+      "level": "none",
+      "note": "Zero threats",
+      "detail": "No confirmed SpaceX or Starlink breach reported. Checked 3 Nov 2026.",
+      "sources": []
     }
   }
 }
