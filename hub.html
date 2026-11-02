@@ -83,17 +83,20 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
   if(mk){const u=new Date(mk.updated).toLocaleString("en-AU",{timeZone:"Australia/Melbourne",weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
     $("du").innerHTML="<div class='d'>"+u+" AEDT</div><div class='hl'>"+esc(mk.headline)+"</div>"+["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const x=mk.assets[k];return "<div class='r'><span class='t'>"+k+"</span><span class='m "+(String(x.move).startsWith("-")?"down":"up")+"'>"+esc(x.move)+"</span>"+esc(x.note)+"</div>"}).join("");$("du").hidden=false;$("duh").hidden=false;}
   $("buy").innerHTML=wk?"<b>"+esc(wk.pick)+"</b><div style='margin-top:10px'><b>A$"+Math.ceil(wk.amount_aud)+"</b></div>"+(wk.multiplier!=null?"<div style='margin-top:6px'>Multiplier: "+(+wk.multiplier).toFixed(2)+"×</div>":""):"Not available";
-  const COST={BTC:{units:0.1336,cost:16500},TSLA:{units:41,cost:25595},MSTR:{units:21.56,cost:4990}};
+  const COST={TSLA:{units:41,cost:25595},MSTR:{units:21.56,cost:4990},SEMI:{units:447,cost:14898.51}};
+  /* Bitcoin (1,356 IBTC) sold 2 Nov 2026 for A$14,929.56 vs A$16,500 put in; A$14,898.51 went into SEMI. Left over: A$1,601.49 put in, A$31.05 cash, realised -A$1,570.44 */
+  const SOLD={cost:16500-14898.51,cash:14929.56-14898.51,realised:14929.56-16500};
   const V=d&&d.value_inputs,A=n=>"A$"+Math.round(Math.abs(n)).toLocaleString("en-AU");
-  if(V){let val=0,inn=0;for(const k in COST){const p=k==="BTC"&&cg&&cg.bitcoin&&cg.bitcoin.aud?cg.bitcoin.aud:V[k].price_aud;val+=COST[k].units*p;inn+=COST[k].cost;}
+  if(V){let val=SOLD.cash,inn=SOLD.cost;for(const k in COST){const p=V[k].price_aud;val+=COST[k].units*p;inn+=COST[k].cost;}
     const g=val-inn,c=g>=0?"up":"down",s=g>=0?"+":"-";
-    $("tot").innerHTML="<div class='r'><span>Invested</span><span>"+A(inn)+"</span></div><div class='r'><span>Portfolio Value</span><span>"+A(val)+"</span></div><div class='r'><span>Up / Down</span><span class='h "+c+"'>"+s+A(g)+"<small>"+s+Math.abs(g/inn*100).toFixed(1)+"%</small></span></div>"+((mk&&mk.needed&&typeof mk.needed.portfolio_ytd==='number')?(r=>"<div class='r'><span>This year CAGR</span><span class='"+(r>0?"up":r<0?"down":"")+"'>"+(r>0?"+":"")+r+"%</span></div>")(Math.round(mk.needed.portfolio_ytd*100)):"");}
+    $("tot").innerHTML="<div class='r'><span>Invested</span><span>"+A(inn)+"</span></div><div class='r'><span>Portfolio Value</span><span>"+A(val)+"</span></div><div class='r'><span>Up / Down</span><span class='h "+c+"'>"+s+A(g)+"<small>"+s+Math.abs(g/inn*100).toFixed(1)+"%</small></span></div>"+((mk&&mk.needed&&typeof mk.needed.portfolio_ytd==='number')?(r=>"<div class='r'><span>This year CAGR</span><span class='"+(r>0?"up":r<0?"down":"")+"'>"+(r>0?"+":"")+r+"%</span></div>")(Math.round(mk.needed.portfolio_ytd*100)):"")+"<div class='s'>Includes Bitcoin sold 2 Nov: <span style='white-space:nowrap'>−"+A(SOLD.realised)+"</span> realised loss, A$"+SOLD.cash.toFixed(2)+" cash left. Now TSLA 41, MSTR 21.56, SEMI 447.</div>";}
   else $("tot").innerHTML="<div class='h'>–</div>";
   const T=d&&d.today, f2=v=>v.toFixed(2);
   const btc=cg&&cg.bitcoin&&cg.bitcoin.usd?cg.bitcoin.usd:(T?T.BTC.close:null);
   const P={BTC:btc!=null?"US$"+Math.round(btc).toLocaleString("en-AU"):"–",
     TSLA:T?"US$"+f2(T.TSLA.close):"–",MSTR:T?"US$"+f2(T.MSTR.close):"–",SEMI:T?"A$"+f2(T.SEMI.close):"–"};
   $("rows").innerHTML=["BTC","TSLA","MSTR","SEMI"].map(k=>{const a=sec&&sec.assets[k];const L=a?(LV[a.level]||LV.watch):null;
+    if(k==="BTC")return "<tr><td><b>BTC</b></td><td class='p'>"+P[k]+"</td><td><span class='pill none'>Sold 2 Nov 2026</span><div class='n'>No longer held</div></td></tr>";
     return "<tr><td><b>"+k+"</b></td><td class='p'>"+P[k]+"</td><td>"+(L?"<span class='pill "+L[0]+"'>"+L[1]+"</span>"+(a.level!=="none"&&a.note?"<div class='n'>"+esc(a.note)+"</div>":""):"–")+"</td></tr>"}).join("");
 })();
 </script>
