@@ -1,12 +1,12 @@
 {
-  "updated": "2026-11-02T11:20+11:00",
+  "updated": "2026-11-02T13:15+11:00",
   "assets": {
     "BTC": {
       "level": "watch",
       "note": "Binance hack (exchange breach, 95% covered) and BTCPay hot-wallet drains; Bitcoin itself unaffected",
-      "detail": "Binance (an exchange) lost about US$6.3bn on 29-30 Oct to North Korea-linked hackers; it was not a flaw in Bitcoin. Binance says about 95% is now replaced (BTC fully backed), withdrawals reopened in phases from 1 Nov, and a verifiable reserves proof is due about 3 Nov. The attacker's 18,270 stolen BTC have not moved. Separately, on 1 Nov (US time) BTCPay Server, open-source software merchants use to accept Bitcoin, told operators to shut down after reports of attackers draining hot wallets on several servers; cause, versions and losses not yet known. This hits merchants' online wallets, not the Bitcoin network or funds like Bob's. Quantum: estimates keep falling but remain theoretical, hardware expected early 2030s.",
+      "detail": "Binance (an exchange) lost about US$6.3bn on 29-30 Oct to North Korea-linked hackers; it was not a flaw in Bitcoin. Binance says about 95% is now replaced (BTC fully backed), withdrawals reopened in phases from 1 Nov (net outflow about US$3.6bn, 2.1% of assets), and a verifiable reserves proof is due about 3 Nov. The attacker's 18,270 stolen BTC have not moved. Separately, on 1 Nov (US time) BTCPay Server, open-source software merchants use to accept Bitcoin, told operators to shut down after reports of attackers draining hot wallets on several servers; cause, versions and losses not yet known. This hits merchants' online wallets, not the Bitcoin network or funds like Bob's. Quantum: estimates keep falling but remain theoretical, hardware expected early 2030s.",
       "sources": [
-        "https://www.coindesk.com/markets/2026/11/01/binance-opens-crypto-withdrawals-in-phases-starting-with-bitcoin-following-usd6-3-billion-hack",
+        "https://www.cnbc.com/2026/11/02/binance-outflow-hack-bitcoin.html",
         "https://nodewitness.com/en/analysis/binance-bitcoin-withdrawals-new-wallets/",
         "https://investinglive.com/cryptocurrency/btcpay-server-tells-operators-to-shut-down-after-reports-of-hot-wallets-being-drained/"
       ]
