@@ -1,13 +1,13 @@
 {
-  "updated": "2026-11-02T21:10+11:00",
+  "updated": "2026-11-03T07:15+11:00",
   "assets": {
     "BTC": {
       "level": "watch",
-      "note": "Sold 2 Nov 2026 – no longer held; still watched for MSTR: Binance exchange hack (95% covered) and BTCPay drains, Bitcoin itself unaffected",
-      "detail": "Bob sold his Bitcoin fund on 2 Nov 2026; this is watched only because MSTR depends on Bitcoin. Binance (an exchange) lost about US$6.3bn on 29-30 Oct to North Korea-linked hackers; it was not a flaw in Bitcoin. Binance says about 95% is replaced, withdrawals reopened in phases from 1 Nov (net outflow about US$3.6bn, 2.1% of assets), and a verifiable reserves proof is due about 3 Nov. The attacker's 18,270 stolen BTC have not moved; on 2 Nov the attacker split stolen XRP (~US$293m) into six wallets, a laundering step. Separately, BTCPay Server (merchant payment software) hot wallets were drained on versions 2.4.1 and older; latest 2.4.7 has no credible reports. This hits merchants' online wallets, not the Bitcoin network. Quantum: estimates keep falling but remain theoretical.",
+      "note": "Sold 2 Nov 2026 – no longer held; exchange hacks (Binance, Mercado Bitcoin) and BTCPay drains, Bitcoin itself unaffected",
+      "detail": "Bob sold his Bitcoin fund on 2 Nov 2026; this is kept only as market context. Binance lost about US$6.3bn on 29-30 Oct to North Korea-linked hackers (not a flaw in Bitcoin); it says about 95% is replaced, its 2 Nov zero-knowledge reserves proof shows BTC and nine other major coins backed 1:1, more withdrawals reopen from 3 Nov and another snapshot is due 4 Nov. On 2 Nov Brazil's largest exchange, Mercado Bitcoin, had hot wallets drained of about US$40-48m across 10 chains (including about 106 BTC) and paused deposits and withdrawals; it says customers are not out of pocket. BTCPay Server versions 2.4.1 and older had merchant hot wallets drained (about 18 BTC reported); 2.4.7 has no credible reports. Quantum: estimates keep falling but remain theoretical.",
       "sources": [
-        "https://www.cnbc.com/2026/11/02/binance-outflow-hack-bitcoin.html",
-        "https://news.bitcoin.com/security/binance-hacker-moves-293m-stolen-xrp/",
+        "https://www.theblock.co/news/business/2026-11-02-binance-zero-knowledge-proof-of-reserves-snapshot-hack-recovery-432321",
+        "https://www.coindesk.com/business/2026/11/02/brazil-s-mercado-bitcoin-halts-withdrawals-after-usd40-million-drained-across-10-chains",
         "https://cointelegraph.com/news/btcpay-server-hot-wallet-thefts-older-versions"
       ]
     },
@@ -19,15 +19,17 @@
     },
     "MSTR": {
       "level": "none",
-      "note": "Zero threats",
-      "detail": "Strategy itself was not hacked. The Binance hack only moved its share price through Bitcoin.",
+      "note": "Sold 2 Nov 2026 – no longer held",
+      "detail": "Bob sold all his MSTR on 2 Nov 2026. Strategy itself was not hacked; its custodians were not affected by the Binance hack.",
       "sources": []
     },
     "SEMI": {
       "level": "none",
       "note": "Zero threats",
-      "detail": "No breaches at SEMI's top holdings. Intel's Israel factory explosion is an operations issue, not a security one.",
-      "sources": []
+      "detail": "No serious breaches at SEMI's top holdings. Nvidia disclosed on 2 Nov that its Brev developer cloud had unauthorised activity from 4-20 Oct; exposed SSH keys were rotated and no misuse was found, so it is minor.",
+      "sources": [
+        "https://www.tomshardware.com/tech-industry/cyber-security/nvidia-brev-security-breach-may-have-exposed-ssh-keys-used-to-access-customer-vms-investigation-finds-unauthorized-activity-spanning-16-days-but-no-evidence-of-misuse"
+      ]
     }
   }
 }
