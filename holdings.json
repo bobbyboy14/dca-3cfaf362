@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-02T23:57+00:00",
+ "generated_utc": "2026-11-03T00:44+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -39,9 +39,9 @@
   "SK hynix": {
    "ticker": "000660.KS",
    "currency": "KRW",
-   "date": "2026-11-02",
-   "close": 1472000.0,
-   "change": 0.03808
+   "date": "2026-11-03",
+   "close": 1398000.0,
+   "change": -0.05027
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -172,9 +172,9 @@
   "Samsung Electro-Mechanics": {
    "ticker": "009150.KS",
    "currency": "KRW",
-   "date": "2026-11-02",
-   "close": 1193000.0,
-   "change": -0.00251
+   "date": "2026-11-03",
+   "close": 1147000.0,
+   "change": -0.03856
   },
   "Coherent": {
    "ticker": "COHR",
