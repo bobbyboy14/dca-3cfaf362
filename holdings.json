@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-03T03:39+00:00",
+ "generated_utc": "2026-11-03T04:40+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -19,8 +19,8 @@
    "ticker": "2330.TW",
    "currency": "TWD",
    "date": "2026-11-03",
-   "close": 2325.0,
-   "change": -0.00215
+   "close": 2305.0,
+   "change": -0.01073
   },
   "AMD": {
    "ticker": "AMD",
@@ -40,8 +40,8 @@
    "ticker": "000660.KS",
    "currency": "KRW",
    "date": "2026-11-03",
-   "close": 1396000.0,
-   "change": -0.05163
+   "close": 1382000.0,
+   "change": -0.06114
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -110,8 +110,8 @@
    "ticker": "2454.TW",
    "currency": "TWD",
    "date": "2026-11-03",
-   "close": 3830.0,
-   "change": -0.03526
+   "close": 3700.0,
+   "change": -0.06801
   },
   "Advantest": {
    "ticker": "6857.T",
@@ -145,8 +145,8 @@
    "ticker": "3711.TW",
    "currency": "TWD",
    "date": "2026-11-03",
-   "close": 634.0,
-   "change": -0.05935
+   "close": 614.0,
+   "change": -0.08902
   },
   "NXP": {
    "ticker": "NXPI",
@@ -173,8 +173,8 @@
    "ticker": "009150.KS",
    "currency": "KRW",
    "date": "2026-11-03",
-   "close": 1128000.0,
-   "change": -0.05448
+   "close": 1105500.0,
+   "change": -0.07334
   },
   "Coherent": {
    "ticker": "COHR",
@@ -194,8 +194,8 @@
    "ticker": "2303.TW",
    "currency": "TWD",
    "date": "2026-11-03",
-   "close": 105.5,
-   "change": -0.04091
+   "close": 102.5,
+   "change": -0.06818
   },
   "Astera Labs": {
    "ticker": "ALAB",
