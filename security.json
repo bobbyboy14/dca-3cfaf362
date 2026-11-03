@@ -1,12 +1,12 @@
 {
-  "updated": "2026-11-04T07:10+11:00",
+  "updated": "2026-11-04T09:05+11:00",
   "assets": {
     "BTC": {
       "level": "watch",
       "note": "Sold 2 Nov 2026 – no longer held; exchange hacks (Binance, Mercado Bitcoin) and BTCPay drains, Bitcoin itself unaffected",
-      "detail": "Bob sold his Bitcoin fund on 2 Nov 2026; kept only as market context. Binance says its US$6.3bn hack began with a North Korea-linked fake job interview (not a flaw in Bitcoin); about 98% replenished, US$2.85bn frozen. Mercado Bitcoin is covering ~US$38m losses. BTCPay Server 2.4.1 and older had hot wallets drained. Quantum: still theoretical. Checked 4 Nov 2026.",
+      "detail": "Bob sold his Bitcoin fund on 2 Nov 2026; this is kept only as market context. Binance has covered about 95% of its US$6.3bn hack (North Korea-linked, not a flaw in Bitcoin) and is reopening withdrawals in phases; another reserves snapshot is due 4 Nov. Brazil's Mercado Bitcoin had hot wallets drained of about US$40m across 10 chains on 2 Nov and paused withdrawals. BTCPay Server 2.4.1 and older had merchant hot wallets drained. Quantum: still theoretical, no new breakthrough. Checked 3 Nov 2026.",
       "sources": [
-        "https://www.coindesk.com/business/2026/11/03/binance-s-usd6-3-billion-hack-began-with-a-fake-job-interview-exchange-says",
+        "https://www.theblock.co/news/business/2026-11-02-binance-zero-knowledge-proof-of-reserves-snapshot-hack-recovery-432321",
         "https://www.coindesk.com/business/2026/11/02/brazil-s-mercado-bitcoin-halts-withdrawals-after-usd40-million-drained-across-10-chains",
         "https://cointelegraph.com/news/btcpay-server-hot-wallet-thefts-older-versions"
       ]
