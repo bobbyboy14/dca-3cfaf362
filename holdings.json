@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-03T08:55+00:00",
+ "generated_utc": "2026-11-03T09:46+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -47,8 +47,8 @@
    "ticker": "ASML.AS",
    "currency": "EUR",
    "date": "2026-11-03",
-   "close": 1373.0,
-   "change": -0.02486
+   "close": 1384.2,
+   "change": -0.0169
   },
   "Intel": {
    "ticker": "INTC",
@@ -138,8 +138,8 @@
    "ticker": "IFX.DE",
    "currency": "EUR",
    "date": "2026-11-03",
-   "close": 50.45,
-   "change": -0.02981
+   "close": 51.2,
+   "change": -0.01538
   },
   "ASE Technology": {
    "ticker": "3711.TW",
