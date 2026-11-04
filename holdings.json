@@ -1,19 +1,19 @@
 {
- "generated_utc": "2026-11-04T16:43+00:00",
+ "generated_utc": "2026-11-04T17:42+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 202.53,
-   "change": -0.02013
+   "close": 203.02,
+   "change": -0.01776
   },
   "Micron": {
    "ticker": "MU",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 804.18,
-   "change": -0.05955
+   "close": 809.39,
+   "change": -0.05346
   },
   "TSMC": {
    "ticker": "2330.TW",
@@ -26,15 +26,15 @@
    "ticker": "AMD",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 484.71,
-   "change": 0.00167
+   "close": 486.85,
+   "change": 0.0061
   },
   "Broadcom": {
    "ticker": "AVGO",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 326.49,
-   "change": -0.01698
+   "close": 327.95,
+   "change": -0.01259
   },
   "SK hynix": {
    "ticker": "000660.KS",
@@ -47,64 +47,64 @@
    "ticker": "ASML.AS",
    "currency": "EUR",
    "date": "2026-11-04",
-   "close": 1327.6,
-   "change": -0.04144
+   "close": 1337.6,
+   "change": -0.03422
   },
   "Intel": {
    "ticker": "INTC",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 57.73,
-   "change": -0.04657
+   "close": 59.24,
+   "change": -0.02163
   },
   "Applied Materials": {
    "ticker": "AMAT",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 368.08,
-   "change": -0.03625
+   "close": 368.47,
+   "change": -0.03522
   },
   "Lam Research": {
    "ticker": "LRCX",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 223.14,
-   "change": -0.03285
+   "close": 223.88,
+   "change": -0.02967
   },
   "Texas Instruments": {
    "ticker": "TXN",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 310.84,
-   "change": -0.00528
+   "close": 311.82,
+   "change": -0.00214
   },
   "KLA": {
    "ticker": "KLAC",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 150.93,
-   "change": -0.03374
+   "close": 150.96,
+   "change": -0.03355
   },
   "Analog Devices": {
    "ticker": "ADI",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 403.47,
-   "change": -0.03888
+   "close": 407.82,
+   "change": -0.02851
   },
   "Qualcomm": {
    "ticker": "QCOM",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 166.95,
-   "change": 0.01533
+   "close": 169.85,
+   "change": 0.03296
   },
   "Marvell": {
    "ticker": "MRVL",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 158.14,
-   "change": -0.08042
+   "close": 158.16,
+   "change": -0.0803
   },
   "MediaTek": {
    "ticker": "2454.TW",
@@ -138,8 +138,8 @@
    "ticker": "IFX.DE",
    "currency": "EUR",
    "date": "2026-11-04",
-   "close": 50.62,
-   "change": -0.03397
+   "close": 50.24,
+   "change": -0.04122
   },
   "ASE Technology": {
    "ticker": "3711.TW",
@@ -152,22 +152,22 @@
    "ticker": "NXPI",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 265.79,
-   "change": 0.0114
+   "close": 268.22,
+   "change": 0.02066
   },
   "TE Connectivity": {
    "ticker": "TEL",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 217.77,
-   "change": -0.0091
+   "close": 219.76,
+   "change": -5e-05
   },
   "Monolithic Power": {
    "ticker": "MPWR",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 1276.95,
-   "change": -0.03866
+   "close": 1276.0,
+   "change": -0.03937
   },
   "Samsung Electro-Mechanics": {
    "ticker": "009150.KS",
@@ -180,15 +180,15 @@
    "ticker": "COHR",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 190.11,
-   "change": -0.08376
+   "close": 192.36,
+   "change": -0.07292
   },
   "Teradyne": {
    "ticker": "TER",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 253.03,
-   "change": -0.06059
+   "close": 253.38,
+   "change": -0.05927
   },
   "UMC": {
    "ticker": "2303.TW",
@@ -201,8 +201,8 @@
    "ticker": "ALAB",
    "currency": "USD",
    "date": "2026-11-04",
-   "close": 217.66,
-   "change": -0.06829
+   "close": 218.82,
+   "change": -0.06335
   },
   "Renesas": {
    "ticker": "6723.T",
