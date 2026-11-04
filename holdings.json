@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-04T00:00+00:00",
+ "generated_utc": "2026-11-04T00:53+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -39,9 +39,9 @@
   "SK hynix": {
    "ticker": "000660.KS",
    "currency": "KRW",
-   "date": "2026-11-03",
-   "close": 1398000.0,
-   "change": -0.05027
+   "date": "2026-11-04",
+   "close": 1435000.0,
+   "change": 0.02647
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -73,7 +73,10 @@
   },
   "Texas Instruments": {
    "ticker": "TXN",
-   "error": "Too Many Requests. Rate limited. Try after a while."
+   "currency": "USD",
+   "date": "2026-11-03",
+   "close": 312.49,
+   "change": 0.03467
   },
   "KLA": {
    "ticker": "KLAC",
@@ -113,23 +116,23 @@
   "Advantest": {
    "ticker": "6857.T",
    "currency": "JPY",
-   "date": "2026-11-02",
-   "close": 35770.0,
-   "change": 0.0261
+   "date": "2026-11-04",
+   "close": 34160.0,
+   "change": -0.04501
   },
   "Tokyo Electron": {
    "ticker": "8035.T",
    "currency": "JPY",
-   "date": "2026-11-02",
-   "close": 10005.0,
-   "change": 0.05161
+   "date": "2026-11-04",
+   "close": 9688.0,
+   "change": -0.03168
   },
   "Kioxia": {
    "ticker": "285A.T",
    "currency": "JPY",
-   "date": "2026-11-02",
-   "close": 11345.0,
-   "change": -0.15776
+   "date": "2026-11-04",
+   "close": 10545.0,
+   "change": -0.07052
   },
   "Infineon": {
    "ticker": "IFX.DE",
@@ -169,9 +172,9 @@
   "Samsung Electro-Mechanics": {
    "ticker": "009150.KS",
    "currency": "KRW",
-   "date": "2026-11-03",
-   "close": 1105000.0,
-   "change": -0.07376
+   "date": "2026-11-04",
+   "close": 1129000.0,
+   "change": 0.02172
   },
   "Coherent": {
    "ticker": "COHR",
@@ -204,9 +207,9 @@
   "Renesas": {
    "ticker": "6723.T",
    "currency": "JPY",
-   "date": "2026-11-02",
-   "close": 2860.0,
-   "change": -0.00175
+   "date": "2026-11-04",
+   "close": 2745.0,
+   "change": -0.04021
   }
  }
 }
