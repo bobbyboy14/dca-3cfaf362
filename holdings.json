@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-05T03:42+00:00",
+ "generated_utc": "2026-11-05T04:47+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -19,8 +19,8 @@
    "ticker": "2330.TW",
    "currency": "TWD",
    "date": "2026-11-05",
-   "close": 2265.0,
-   "change": 0.00221
+   "close": 2245.0,
+   "change": -0.00664
   },
   "AMD": {
    "ticker": "AMD",
@@ -40,8 +40,8 @@
    "ticker": "000660.KS",
    "currency": "KRW",
    "date": "2026-11-05",
-   "close": 1288000.0,
-   "change": -0.07736
+   "close": 1268000.0,
+   "change": -0.09169
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -110,29 +110,29 @@
    "ticker": "2454.TW",
    "currency": "TWD",
    "date": "2026-11-05",
-   "close": 3560.0,
-   "change": -0.04172
+   "close": 3500.0,
+   "change": -0.05787
   },
   "Advantest": {
    "ticker": "6857.T",
    "currency": "JPY",
    "date": "2026-11-05",
-   "close": 31390.0,
-   "change": -0.09199
+   "close": 30340.0,
+   "change": -0.12236
   },
   "Tokyo Electron": {
    "ticker": "8035.T",
    "currency": "JPY",
    "date": "2026-11-05",
-   "close": 8929.0,
-   "change": -0.07596
+   "close": 8738.0,
+   "change": -0.09573
   },
   "Kioxia": {
    "ticker": "285A.T",
    "currency": "JPY",
    "date": "2026-11-05",
-   "close": 10085.0,
-   "change": -0.06055
+   "close": 9658.0,
+   "change": -0.10033
   },
   "Infineon": {
    "ticker": "IFX.DE",
@@ -145,8 +145,8 @@
    "ticker": "3711.TW",
    "currency": "TWD",
    "date": "2026-11-05",
-   "close": 586.0,
-   "change": -0.06539
+   "close": 574.0,
+   "change": -0.08453
   },
   "NXP": {
    "ticker": "NXPI",
@@ -173,8 +173,8 @@
    "ticker": "009150.KS",
    "currency": "KRW",
    "date": "2026-11-05",
-   "close": 995000.0,
-   "change": -0.10762
+   "close": 971000.0,
+   "change": -0.12915
   },
   "Coherent": {
    "ticker": "COHR",
@@ -194,8 +194,8 @@
    "ticker": "2303.TW",
    "currency": "TWD",
    "date": "2026-11-05",
-   "close": 102.0,
-   "change": -0.03318
+   "close": 99.7,
+   "change": -0.05498
   },
   "Astera Labs": {
    "ticker": "ALAB",
@@ -208,8 +208,8 @@
    "ticker": "6723.T",
    "currency": "JPY",
    "date": "2026-11-05",
-   "close": 2682.5,
-   "change": -0.04808
+   "close": 2673.5,
+   "change": -0.05128
   }
  }
 }
