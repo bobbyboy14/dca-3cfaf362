@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-05T21:33+00:00",
+ "generated_utc": "2026-11-05T22:37+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -18,9 +18,9 @@
   "TSMC": {
    "ticker": "2330.TW",
    "currency": "TWD",
-   "date": "2026-11-04",
-   "close": 2260.0,
-   "change": -0.01525
+   "date": "2026-11-05",
+   "close": 2240.0,
+   "change": -0.00885
   },
   "AMD": {
    "ticker": "AMD",
@@ -39,9 +39,9 @@
   "SK hynix": {
    "ticker": "000660.KS",
    "currency": "KRW",
-   "date": "2026-11-04",
-   "close": 1396000.0,
-   "change": -0.00143
+   "date": "2026-11-05",
+   "close": 1264000.0,
+   "change": -0.09456
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -109,30 +109,30 @@
   "MediaTek": {
    "ticker": "2454.TW",
    "currency": "TWD",
-   "date": "2026-11-04",
-   "close": 3715.0,
-   "change": 0.01088
+   "date": "2026-11-05",
+   "close": 3460.0,
+   "change": -0.06864
   },
   "Advantest": {
    "ticker": "6857.T",
    "currency": "JPY",
-   "date": "2026-11-04",
-   "close": 34570.0,
-   "change": -0.03355
+   "date": "2026-11-05",
+   "close": 29485.0,
+   "change": -0.14709
   },
   "Tokyo Electron": {
    "ticker": "8035.T",
    "currency": "JPY",
-   "date": "2026-11-04",
-   "close": 9663.0,
-   "change": -0.03418
+   "date": "2026-11-05",
+   "close": 8753.0,
+   "change": -0.09417
   },
   "Kioxia": {
    "ticker": "285A.T",
    "currency": "JPY",
-   "date": "2026-11-04",
-   "close": 10735.0,
-   "change": -0.05377
+   "date": "2026-11-05",
+   "close": 9324.0,
+   "change": -0.13144
   },
   "Infineon": {
    "ticker": "IFX.DE",
@@ -144,9 +144,9 @@
   "ASE Technology": {
    "ticker": "3711.TW",
    "currency": "TWD",
-   "date": "2026-11-04",
-   "close": 627.0,
-   "change": 0.01786
+   "date": "2026-11-05",
+   "close": 572.0,
+   "change": -0.08772
   },
   "NXP": {
    "ticker": "NXPI",
@@ -172,9 +172,9 @@
   "Samsung Electro-Mechanics": {
    "ticker": "009150.KS",
    "currency": "KRW",
-   "date": "2026-11-04",
-   "close": 1115000.0,
-   "change": 0.00905
+   "date": "2026-11-05",
+   "close": 944000.0,
+   "change": -0.15336
   },
   "Coherent": {
    "ticker": "COHR",
@@ -193,9 +193,9 @@
   "UMC": {
    "ticker": "2303.TW",
    "currency": "TWD",
-   "date": "2026-11-04",
-   "close": 105.5,
-   "change": 0.02427
+   "date": "2026-11-05",
+   "close": 98.4,
+   "change": -0.0673
   },
   "Astera Labs": {
    "ticker": "ALAB",
@@ -207,9 +207,9 @@
   "Renesas": {
    "ticker": "6723.T",
    "currency": "JPY",
-   "date": "2026-11-04",
-   "close": 2818.0,
-   "change": -0.01469
+   "date": "2026-11-05",
+   "close": 2628.5,
+   "change": -0.06725
   }
  }
 }
