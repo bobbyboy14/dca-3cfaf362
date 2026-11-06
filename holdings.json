@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-06T09:21+00:00",
+ "generated_utc": "2026-11-06T10:26+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -47,8 +47,8 @@
    "ticker": "ASML.AS",
    "currency": "EUR",
    "date": "2026-11-06",
-   "close": 1280.4,
-   "change": 0.02432
+   "close": 1283.8,
+   "change": 0.02704
   },
   "Intel": {
    "ticker": "INTC",
