@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-06T05:47+00:00",
+ "generated_utc": "2026-11-06T06:53+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -40,8 +40,8 @@
    "ticker": "000660.KS",
    "currency": "KRW",
    "date": "2026-11-06",
-   "close": 1157000.0,
-   "change": -0.08465
+   "close": 1132000.0,
+   "change": -0.10443
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -110,29 +110,29 @@
    "ticker": "2454.TW",
    "currency": "TWD",
    "date": "2026-11-06",
-   "close": 3415.0,
-   "change": -0.01301
+   "close": 3390.0,
+   "change": -0.02023
   },
   "Advantest": {
    "ticker": "6857.T",
    "currency": "JPY",
    "date": "2026-11-06",
-   "close": 27890.0,
-   "change": -0.0541
+   "close": 28015.0,
+   "change": -0.04986
   },
   "Tokyo Electron": {
    "ticker": "8035.T",
    "currency": "JPY",
    "date": "2026-11-06",
-   "close": 8244.0,
-   "change": -0.05815
+   "close": 8263.0,
+   "change": -0.05598
   },
   "Kioxia": {
    "ticker": "285A.T",
    "currency": "JPY",
    "date": "2026-11-06",
-   "close": 8253.0,
-   "change": -0.11486
+   "close": 8511.0,
+   "change": -0.08719
   },
   "Infineon": {
    "ticker": "IFX.DE",
@@ -145,8 +145,8 @@
    "ticker": "3711.TW",
    "currency": "TWD",
    "date": "2026-11-06",
-   "close": 526.0,
-   "change": -0.08042
+   "close": 527.0,
+   "change": -0.07867
   },
   "NXP": {
    "ticker": "NXPI",
@@ -173,8 +173,8 @@
    "ticker": "009150.KS",
    "currency": "KRW",
    "date": "2026-11-06",
-   "close": 880000.0,
-   "change": -0.0678
+   "close": 870000.0,
+   "change": -0.07839
   },
   "Coherent": {
    "ticker": "COHR",
@@ -194,8 +194,8 @@
    "ticker": "2303.TW",
    "currency": "TWD",
    "date": "2026-11-06",
-   "close": 91.7,
-   "change": -0.06809
+   "close": 92.0,
+   "change": -0.06504
   },
   "Astera Labs": {
    "ticker": "ALAB",
@@ -208,8 +208,8 @@
    "ticker": "6723.T",
    "currency": "JPY",
    "date": "2026-11-06",
-   "close": 2475.0,
-   "change": -0.0584
+   "close": 2477.5,
+   "change": -0.05745
   }
  }
 }
