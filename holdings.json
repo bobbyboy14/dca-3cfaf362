@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-06T23:58+00:00",
+ "generated_utc": "2026-11-07T22:46+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -46,9 +46,9 @@
   "ASML": {
    "ticker": "ASML.AS",
    "currency": "EUR",
-   "date": "2026-11-05",
-   "close": 1250.0,
-   "change": -0.06549
+   "date": "2026-11-06",
+   "close": 1283.6,
+   "change": 0.02688
   },
   "Intel": {
    "ticker": "INTC",
@@ -61,8 +61,8 @@
    "ticker": "AMAT",
    "currency": "USD",
    "date": "2026-11-06",
-   "close": 332.71,
-   "change": 0.04218
+   "close": 332.72,
+   "change": 0.04219
   },
   "Lam Research": {
    "ticker": "LRCX",
@@ -137,9 +137,9 @@
   "Infineon": {
    "ticker": "IFX.DE",
    "currency": "EUR",
-   "date": "2026-11-05",
-   "close": 45.95,
-   "change": -0.08539
+   "date": "2026-11-06",
+   "close": 45.76,
+   "change": -0.00424
   },
   "ASE Technology": {
    "ticker": "3711.TW",
@@ -187,8 +187,8 @@
    "ticker": "TER",
    "currency": "USD",
    "date": "2026-11-06",
-   "close": 218.21,
-   "change": 0.02574
+   "close": 218.22,
+   "change": 0.02576
   },
   "UMC": {
    "ticker": "2303.TW",
