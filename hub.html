@@ -2,7 +2,7 @@
 <html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Bob's Hub</title>
 <style>
-body{margin:0;font-family:-apple-system,system-ui,sans-serif;background:#0f1420;color:#e8ecf4;padding:16px}
+body{margin:0;font-family:-apple-system,system-ui,sans-serif;background:linear-gradient(180deg,#151c2e 0%,#0f1420 42%,#0c111b 100%);color:#e8ecf4;padding:16px}
 .w{max-width:520px;margin:0 auto}h1{font-size:20px;margin:0 0 12px}
 .buy{margin-top:0;background:#16304a;border:1px solid #2d5b8a;border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:17px}
 .buy b{color:#ffd84d}
@@ -50,23 +50,71 @@ tr.need td{font-size:12px;color:#c9d1e0;padding-top:0;border-bottom:1px solid #2
 @media(max-width:700px){.w{width:100%;padding:0 12px}.sc{grid-template-columns:1fr}.r1{flex-direction:column}h1{font-size:30px}nav.tabs a{font-size:17px}.buy{font-size:26px}.tot .r{font-size:21px}#tab-hub .tot .h{font-size:34px}#tab-hub table td{font-size:16px!important;padding:10px 8px}#tab-hub table th{font-size:15px!important;padding:10px 8px}#tab-hub table .n,#tab-hub table td div{font-size:15px!important}#tab-hub table .chip{font-size:14px!important}.du{font-size:19px;padding:16px}}</style><style>/*chips*/#tab-chips h2{font-size:26px}#tab-chips .stats{gap:14px}#tab-chips .stats>div{padding:16px 20px}#tab-chips .stats .k{font-size:19px}#tab-chips .stats .v{font-size:34px;margin-top:4px}#tab-chips .stats small{font-size:20px}#tab-chips #xPutTot{font-size:inherit;font-weight:700;padding:4px 8px;width:100%}
 #tab-chips .tw td,#tab-chips .tw th{font-size:21px;padding:14px 16px}#tab-chips .tw th{font-size:19px}#tab-chips .cbox{height:420px;padding:12px}#tab-chips .seg button{font-size:20px;padding:13px;min-width:90px}
 #tab-chips .am{flex-wrap:wrap}#tab-chips .xa{display:flex;align-items:center;gap:4px;flex:1;min-width:120px}#tab-chips .xwi{display:flex;align-items:center;gap:4px;max-width:150px}#tab-chips .xwi input{font-size:20px;padding:8px}#tab-chips .amts{gap:10px}#tab-chips .am{font-size:20px;padding:10px 12px;gap:10px}#tab-chips .am input[type=text],#tab-chips .row2 input,#tab-chips select{font-size:20px;padding:10px}#tab-chips .am input[type=checkbox],#tab-chips .ck input{width:26px;height:26px;flex:none}#tab-chips .row2 label,#tab-chips .ck{font-size:20px}#tab-chips .muted{font-size:17px}
-#tab-chips .ov{font-size:20px;line-height:1.4}#xBT .tw td,#xBT .tw th{vertical-align:top}#xBT .tw td .muted{font-size:14px}#xBT ol.n{font-size:20px;line-height:1.45}#xBT h3{font-size:22px}#btPer button{font-size:18px}@media(max-width:700px){#tab-chips h2{font-size:21px}#xBT ol.n{font-size:16px}#xBT h3{font-size:18px}#btPer button{font-size:14px!important;flex:1 1 45%}#xBT .tw td .muted{font-size:12px}#tab-chips .ov{font-size:16px}#tab-chips .am{gap:6px}#tab-chips .xn{flex:1 0 calc(100% - 40px)}#tab-chips .xa{flex:3;min-width:0}#tab-chips .xwi{max-width:90px}#tab-chips .xwi input{font-size:16px;padding:6px}#tab-chips #xYrs button{min-width:0;font-size:14px;padding:10px 4px}#tab-chips #xPick button{min-width:0;flex:1 1 30%}#tab-chips .tw td,#tab-chips .tw th{font-size:14px!important;padding:8px 4px!important}#tab-chips .stats .k{font-size:15px}#tab-chips .stats .v{font-size:24px}#tab-chips .stats small{font-size:15px}#tab-chips .stats>div{padding:12px}#tab-chips .tw td,#tab-chips .tw th{font-size:15px;padding:9px 7px}#tab-chips .cbox{height:300px}#tab-chips .seg button{font-size:16px;padding:10px;min-width:64px}#tab-chips .amts{grid-template-columns:1fr}#tab-chips .am{font-size:17px}#tab-chips .am input[type=text],#tab-chips .row2 input,#tab-chips select{font-size:17px}#tab-chips .row2 label,#tab-chips .ck{font-size:17px}#tab-chips .muted{font-size:15px}}</style><style>#tab-hub .recoup{margin:48px 0 20px}#tab-hub .recoup>h2{margin-top:0}#tab-hub .recoup .s{margin-top:0}#tab-hub .recoup .s+.s{margin-top:14px}@media(max-width:700px){#tab-hub .recoup{margin:32px 0 16px}}</style></head><body><div class="w">
+#tab-chips .ov{font-size:20px;line-height:1.4}#xBT .tw td,#xBT .tw th{vertical-align:top}#xBT .tw td .muted{font-size:14px}#xBT ol.n{font-size:20px;line-height:1.45}#xBT h3{font-size:22px}#btPer button{font-size:18px}@media(max-width:700px){#tab-chips h2{font-size:21px}#xBT ol.n{font-size:16px}#xBT h3{font-size:18px}#btPer button{font-size:14px!important;flex:1 1 45%}#xBT .tw td .muted{font-size:12px}#tab-chips .ov{font-size:16px}#tab-chips .am{gap:6px}#tab-chips .xn{flex:1 0 calc(100% - 40px)}#tab-chips .xa{flex:3;min-width:0}#tab-chips .xwi{max-width:90px}#tab-chips .xwi input{font-size:16px;padding:6px}#tab-chips #xYrs button{min-width:0;font-size:14px;padding:10px 4px}#tab-chips #xPick button{min-width:0;flex:1 1 30%}#tab-chips .tw td,#tab-chips .tw th{font-size:14px!important;padding:8px 4px!important}#tab-chips .stats .k{font-size:15px}#tab-chips .stats .v{font-size:24px}#tab-chips .stats small{font-size:15px}#tab-chips .stats>div{padding:12px}#tab-chips .tw td,#tab-chips .tw th{font-size:15px;padding:9px 7px}#tab-chips .cbox{height:300px}#tab-chips .seg button{font-size:16px;padding:10px;min-width:64px}#tab-chips .amts{grid-template-columns:1fr}#tab-chips .am{font-size:17px}#tab-chips .am input[type=text],#tab-chips .row2 input,#tab-chips select{font-size:17px}#tab-chips .row2 label,#tab-chips .ck{font-size:17px}#tab-chips .muted{font-size:15px}}</style><style>
+#tab-hub .recoup{margin:28px 0 20px}#tab-hub .recoup>h2{margin-top:0}
+#tab-hub .perf{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+#tab-hub .pcard,#tab-hub .rcard{position:relative;overflow:hidden;min-width:0;border:1px solid #2a3550;border-radius:14px;background:linear-gradient(165deg,#1c2538 0%,#141b2c 70%,#121826 100%);padding:16px 18px 14px}
+#tab-hub .pcard.tsla,#tab-hub .rcard.btc{box-shadow:inset 3px 0 0 #ffd166}
+#tab-hub .pcard.semi,#tab-hub .rcard.semi{box-shadow:inset 3px 0 0 #7ee2a0}
+#tab-hub .rcard.mstr{box-shadow:inset 3px 0 0 #9ec5ff}
+#tab-hub .rl{display:flex;align-items:center;gap:8px;color:#9aa6bd;font-size:15px;font-weight:700}
+#tab-hub .rl svg{width:22px;height:22px;flex:none}
+#tab-hub .rv{font-size:30px;font-weight:800;letter-spacing:-.02em;margin:4px 0 2px;color:#f3f6fb;font-variant-numeric:tabular-nums}
+#tab-hub .rv.sm{font-size:26px}
+#tab-hub .ru{color:#9aa6bd;font-size:14px;font-weight:600;margin-bottom:6px}
+#tab-hub .sp{margin-top:8px}
+#tab-hub .pr{display:flex;justify-content:space-between;gap:10px;padding:3px 0;font-size:16px}
+#tab-hub .pr span:first-child{color:#9aa6bd}
+#tab-hub .pd{margin-top:6px;color:#9aa6bd;font-size:13px}
+#rc .rcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+#tab-hub .bar{height:8px;margin-top:10px;border-radius:99px;background:#0e1422;overflow:hidden}
+#tab-hub .bar i{display:block;height:100%;width:var(--p);border-radius:99px;background:linear-gradient(90deg,#2d5b8a,#9ec5ff)}
+#tab-hub .rcard.btc .bar i{background:linear-gradient(90deg,#8a6a22,#ffd166)}
+#tab-hub .rcard.semi .bar i{background:linear-gradient(90deg,#1d4a32,#7ee2a0)}
+#tab-hub .bp{margin-top:4px;text-align:right;color:#c9d1e0;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.rcsr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+nav.tabs a{position:relative}
+nav.tabs a::after{content:"";position:absolute;left:16%;right:16%;bottom:5px;height:2px;border-radius:2px;background:#ffd166;opacity:0;transform:scaleX(.4);pointer-events:none}
+nav.tabs a.on::after,nav.tabs a:hover::after,nav.tabs a:focus-visible::after{opacity:1;transform:scaleX(1)}
+nav.tabs a:hover:not(.on){background:#222b40}
+nav.tabs a:focus-visible{outline:2px solid #ffd166;outline-offset:3px}
+#tab-hub .du{background:linear-gradient(165deg,#1b2436,#141b2b);border:1px solid #2a3550;border-radius:14px}
+#tab-hub .du .hl{line-height:1.35}
+#tab-hub .du div.r{display:block;margin-top:8px;padding:10px 12px;background:rgba(8,12,20,.35);border-radius:10px;border-left:3px solid #4da3ff;line-height:1.4;overflow-wrap:anywhere}
+#tab-hub .du .t{color:#ffd166}
+@media(max-width:700px){
+#tab-hub .recoup{margin:24px 0 16px}
+#tab-hub .perf,#rc .rcards{grid-template-columns:1fr}
+#tab-hub .rv{font-size:28px}#tab-hub .pr{font-size:16px}
+}
+@media(prefers-reduced-motion:no-preference){
+nav.tabs a{transition:background-color .15s ease,color .15s ease}
+nav.tabs a::after{transition:opacity .15s ease,transform .15s ease}
+#tab-hub .bar i{animation:rcgrow .7s ease both}
+}
+@keyframes rcgrow{from{width:0}}
+@media(prefers-reduced-motion:reduce){
+nav.tabs a,nav.tabs a::after,#tab-hub .bar i{transition:none;animation:none}
+}
+</style></head><body><div class="w">
 <h1>Bob's Hub</h1>
-<nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="#trajectory" data-t="trajectory">Trajectory</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#chips" data-t="chips">Chips</a><a href="#tsla-score" data-t="tsla-score">Tesla Scorecard</a><a href="#btc-score" data-t="btc-score">Bitcoin Scorecard</a><a href="#mstr-score" data-t="mstr-score">MSTR Scorecard</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a></nav>
+<nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="#trajectory" data-t="trajectory">Trajectory</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#chips" data-t="chips">Chips</a><a href="#tsla-score" data-t="tsla-score">Tesla Scorecard</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a></nav>
 <div id="tab-hub">
 <div class="r1"><div><h2>Portfolio</h2>
 <div class="tot" id="tot"><div class="h">…</div></div></div>
 <div><h2>This Week's Buy</h2>
 <div class="buy" id="buy">…</div></div></div>
+<h2>Performance</h2>
+<div class="perf" id="perf"></div>
 <section class="recoup">
 <h2>Recoup targets</h2>
-<div class="tot" id="rc"></div>
+<div id="rc"></div>
 </section>
 <h2 id="duh" hidden>Daily Update</h2>
 <div class="du" id="du" hidden></div>
 </div>
 <div id="tab-trajectory" hidden><h2>Trajectory</h2>
-<div class="sc" id="sc"></div></div><div id="tab-cagr" hidden></div><div id="tab-chips" hidden></div><div id="tab-scorecard" hidden></div><div id="tab-tsla-score" hidden></div><div id="tab-btc-score" hidden></div><div id="tab-mstr-score" hidden></div>
+<div class="sc" id="sc"></div></div><div id="tab-cagr" hidden></div><div id="tab-chips" hidden></div><div id="tab-scorecard" hidden></div><div id="tab-tsla-score" hidden></div>
 </div>
 <script>
 
@@ -84,18 +132,33 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
   if(mk){const u=new Date(mk.updated).toLocaleString("en-AU",{timeZone:"Australia/Melbourne",weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
     $("du").innerHTML="<div class='d'>"+u+" AEDT</div><div class='hl'>"+esc(mk.headline)+"</div>"+["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const x=mk.assets[k];return "<div class='r'><span class='t'>"+k+"</span><span class='m "+(String(x.move).startsWith("-")?"down":"up")+"'>"+esc(x.move)+"</span>"+esc(x.note)+"</div>"}).join("");$("du").hidden=false;$("duh").hidden=false;}
   $("buy").innerHTML=wk?"<b>"+esc(wk.pick==="SPCX"?"SpaceX (SPCX)":wk.pick)+"</b><div style='margin-top:10px'><b>A$"+Math.ceil(wk.amount_aud)+"</b></div>"+(wk.multiplier!=null?"<div style='margin-top:6px'>Multiplier: "+(+wk.multiplier).toFixed(2)+"×</div>":""):"Not available";
+
+  const countRecoup=root=>{if(!root||!root.querySelectorAll)return;const reduce=typeof matchMedia==="function"&&matchMedia("(prefers-reduced-motion: reduce)").matches;root.querySelectorAll(".num").forEach(el=>{const final=el.getAttribute("data-final");if(reduce||typeof requestAnimationFrame!=="function"){el.textContent=final;return;}const n=+el.getAttribute("data-n"),dec=+el.getAttribute("data-d")||0,pre=el.getAttribute("data-p")||"",t0=performance.now();const step=now=>{const u=Math.min(1,(now-t0)/800),e=1-Math.pow(1-u,3),v=n*e;el.textContent=pre+(dec?v.toFixed(dec):Math.round(v).toLocaleString("en-AU"));if(u<1)requestAnimationFrame(step);else el.textContent=final;};requestAnimationFrame(step);});};
+  const yearCagr=key=>{const keys=["BTC","TSLA","MSTR","SEMI","AUDUSD"];if(!d||!d.series||keys.some(k=>!d.series[k]||!d.series[k].length))return null;let last="0000",first="0000";for(const k of keys){const s=d.series[k];if(s[s.length-1][0]>last)last=s[s.length-1][0];if(s[0][0]>first)first=s[0][0];}const e=new Date(last+"T00:00:00Z"),sIso=new Date(Date.UTC(e.getUTCFullYear()-1,e.getUTCMonth(),e.getUTCDate())).toISOString().slice(0,10);if(sIso<first)return null;const at=(k,day)=>{let v=null;const rows=d.series[k];for(let i=0;i<rows.length;i++){if(rows[i][0]<=day)v=rows[i][1];else break;}return v;};const px=(k,day)=>k==="SEMI"?at("SEMI",day):at(k,day)/at("AUDUSD",day);const p0=px(key,sIso),p1=px(key,last),yrs=(Date.parse(last)-Date.parse(sIso))/(365.25*86400000);if(!(p0>0)||!(p1>0)||!(yrs>0))return null;return {start:sIso,end:last,cagr:Math.pow(p1/p0,1/yrs)-1};};
+  const renderPerf=()=>{if(!$("perf"))return;const name={TSLA:"Tesla",SEMI:"SEMI"};const day=iso=>new Date(iso+"T00:00:00Z").toLocaleDateString("en-AU",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"});$("perf").innerHTML=["TSLA","SEMI"].map(k=>{const c=yearCagr(k);let val="";if(V&&V[k]&&V[k].price_aud!=null&&COST[k]){const v=COST[k].units*V[k].price_aud,g=v-COST[k].cost,up=g>=0;val="<div class='pr'><span>Value</span><span>"+A(v)+"</span></div><div class='pr'><span>Up / Down</span><span class='"+(up?"up":"down")+"'>"+(up?"+":"-")+A(g)+"</span></div>";}const cagr=c?"<div class='pr'><span>1 year CAGR</span><span class='"+(c.cagr>=0?"up":"down")+"'>"+(c.cagr>=0?"+":"")+(c.cagr*100).toFixed(1)+"%</span></div><div class='pd'>"+day(c.start)+" – "+day(c.end)+"</div>":"<div class='pd'>Yearly CAGR unavailable</div>";return "<article class='pcard "+k.toLowerCase()+"'><div class='rl'>"+name[k]+"</div>"+val+cagr+"</article>";}).join("");};
   const COST={TSLA:{units:41,cost:25595},SEMI:{units:447,cost:14898.51},SPCX:{units:20.75691899,cost:4114.47}};
   /* Bitcoin (1,356 IBTC) sold 2 Nov 2026 for A$14,929.56 vs A$16,500 put in; A$14,898.51 went into SEMI. Left over: A$1,601.49 put in, A$31.05 cash, realised -A$1,570.44 */
   /* MSTR (21.58735618 shares) sold 2 Nov 2026 for US$2,889.59 net = A$4,114.47 at AUD/USD 0.7023 vs A$4,990 put in; all of it went into 20.75691899 SPCX (SpaceX) at US$139.07. Left over: A$875.53 put in, A$0 cash, realised -A$875.53 */
   const SOLD={cost:(16500-14898.51)+(4990-4114.47),cash:(14929.56-14898.51)+0,realised:(14929.56-16500)+(4114.47-4990)};
   /* Paired recoup targets (Bob, 2 Nov 2026): Bitcoin loss A$1,570.44 recouped by SEMI; MSTR loss A$875.53 recouped by SpaceX. AUD/USD 0.7023 fixed (2 Nov 2026). */
-  const RC=()=>{const ST=(14898.51+1570.44)/447,XT=(4114.47+875.53)/20.75691899*0.7023,sp=V&&V.SEMI?V.SEMI.price_aud:null,xp=d&&d.today&&d.today.SPCX?d.today.SPCX.close:null;const go=(p,t,c)=>p==null?"":" Now "+c+p.toFixed(2)+", "+(p>=t?"target reached":"+"+((t/p-1)*100).toFixed(1)+"% to go")+".";return "<div class='s'>Bitcoin loss (A$1,570) via SEMI: A$"+ST.toFixed(2)+" a share, +"+((ST/33.33-1)*100).toFixed(1)+"% on A$33.33."+go(sp,ST,"A$")+"</div><div class='s'>MSTR loss (A$876) via SpaceX: US$"+XT.toFixed(2)+" a share, +"+((XT/139.07-1)*100).toFixed(1)+"% on US$139.07."+go(xp,XT,"US$")+" At AUD/USD 0.7023.</div>";};
+  const RC=()=>{const ST=(14898.51+1570.44)/447,XT=(4114.47+875.53)/20.75691899*0.7023,sp=V&&V.SEMI?V.SEMI.price_aud:null,xp=d&&d.today&&d.today.SPCX?d.today.SPCX.close:null;const go=(p,t,c)=>p==null?"":" Now "+c+p.toFixed(2)+", "+(p>=t?"target reached":"+"+((t/p-1)*100).toFixed(1)+"% to go")+".";
+    const share=(now,tgt)=>{if(now==null||!(tgt>0)||now!==now)return null;return Math.max(0,Math.min(100,now/tgt*100));};
+    const bar=(now,tgt)=>{const p=share(now,tgt);if(p==null)return "";const s=p.toFixed(1);return "<div class='bar' role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='"+s+"' aria-valuetext='Current price as share of recoup target: "+s+"%' title='Current price as share of recoup target'><i style='--p:"+s+"%'></i></div><div class='bp' aria-hidden='true'>"+s+"%</div>";};
+    const num=(final,n,dec,pre)=>"<span class='rcsr'>"+final+"</span><span class='num' aria-hidden='true' data-final='"+final+"' data-n='"+n+"' data-d='"+dec+"' data-p='"+pre+"'>"+final+"</span>";
+    const ib="<svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='9' fill='#3a3018' stroke='#ffd166' stroke-width='1.6'/></svg>";
+    const isvg="<svg viewBox='0 0 24 24' aria-hidden='true'><rect x='7' y='7' width='10' height='10' rx='2' fill='#173022' stroke='#7ee2a0' stroke-width='1.5'/></svg>";
+    const im="<svg viewBox='0 0 24 24' aria-hidden='true'><rect x='3' y='3' width='18' height='18' rx='5' fill='#3a1e22'/></svg>";
+    const ix="<svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='8' fill='#1b2740' stroke='#9ec5ff' stroke-width='1.5'/></svg>";
+    const semiP="A$"+ST.toFixed(2),spxP="US$"+XT.toFixed(2);
+    return "<div class='rcards'><article class='rcard btc'><div class='rl'>"+ib+"Bitcoin loss</div><div class='rv'>"+num("A$1,570","1570","0","A$")+"</div>"+bar(sp,ST)+"</article><article class='rcard semi'><div class='rl'>"+isvg+"SEMI</div><div class='rv'>"+num(semiP,ST.toFixed(2),"2","A$")+"</div><div class='ru'>per share</div>"+bar(sp,ST)+"</article><article class='rcard mstr'><div class='rl'>"+im+"MSTR loss</div><div class='rv'>"+num("A$876","876","0","A$")+"</div><div class='rl sp'>"+ix+"SpaceX</div><div class='rv sm'>"+num(spxP,XT.toFixed(2),"2","US$")+"</div><div class='ru'>per share</div>"+bar(xp,XT)+"</article></div>";
+  };
   const V=d&&d.value_inputs,A=n=>"A$"+Math.round(Math.abs(n)).toLocaleString("en-AU");
   if(V&&Object.keys(COST).every(k=>V[k]&&V[k].price_aud!=null)){let val=SOLD.cash,inn=SOLD.cost;for(const k in COST){const p=V[k].price_aud;val+=COST[k].units*p;inn+=COST[k].cost;}
     const g=val-inn,c=g>=0?"up":"down",s=g>=0?"+":"-";
     $("tot").innerHTML="<div class='r'><span>Invested</span><span>"+A(inn)+"</span></div><div class='r'><span>Portfolio Value</span><span>"+A(val)+"</span></div><div class='r'><span>Up / Down</span><span class='h "+c+"'>"+s+A(g)+"<small>"+s+Math.abs(g/inn*100).toFixed(1)+"%</small></span></div>"+((mk&&mk.needed&&typeof mk.needed.portfolio_ytd==='number')?(r=>"<div class='r'><span>This year CAGR</span><span class='"+(r>0?"up":r<0?"down":"")+"'>"+(r>0?"+":"")+r+"%</span></div>")(Math.round(mk.needed.portfolio_ytd*100)):"");
-    $("rc").innerHTML=RC();}
+    $("rc").innerHTML=RC();countRecoup($("rc"));}
   else $("tot").innerHTML="<div class='h'>–</div>";
+  renderPerf();
   const T=d&&d.today, f2=v=>v.toFixed(2);
   const btc=cg&&cg.bitcoin&&cg.bitcoin.usd?cg.bitcoin.usd:(T?T.BTC.close:null);
   const P={BTC:btc!=null?"US$"+Math.round(btc).toLocaleString("en-AU"):"–",
@@ -103,9 +166,9 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
 })();
 </script>
 <script>
-(function(){const TABS=["hub","trajectory","cagr","chips","scorecard","tsla-score","btc-score","mstr-score"];let lib=null;
+(function(){const TABS=["hub","trajectory","cagr","chips","scorecard","tsla-score"];let lib=null;
 const need=()=>lib||(lib=new Promise((ok,no)=>{const s=document.createElement("script");s.src="tabs.js?v=17";s.onload=ok;s.onerror=no;document.head.appendChild(s);}));
-async function go(){if(location.hash==="#semireview"){history.replaceState(null,"","#scorecard");}const t=TABS.includes(location.hash.slice(1))?location.hash.slice(1):"hub";
+async function go(){if(location.hash==="#semireview"){history.replaceState(null,"","#scorecard");}const raw=location.hash.slice(1);const t=(raw==="btc"||raw==="mstr"||raw==="btc-score"||raw==="mstr-score")?"hub":(TABS.includes(raw)?raw:"hub");
  TABS.forEach(k=>{document.getElementById("tab-"+k).hidden=k!==t;});
  document.querySelectorAll("nav.tabs a").forEach(a=>a.classList.toggle("on",a.dataset.t===t));
  if(t!=="hub"&&t!=="trajectory"){try{await need();await HubTabs[t]();if(t==="cagr")fixAmts();}catch(e){document.getElementById("tab-"+t).innerHTML="<div class='muted'>Couldn't load ("+(e.message||e)+"). Pull to refresh.</div>";}}}
