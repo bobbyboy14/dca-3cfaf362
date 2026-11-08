@@ -55,7 +55,7 @@ tr.need td{font-size:12px;color:#c9d1e0;padding-top:0;border-bottom:1px solid #2
 #tab-hub .perf{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 #tab-hub .pcard,#tab-hub .rcard{position:relative;overflow:hidden;min-width:0;border:1px solid #2a3550;border-radius:14px;background:linear-gradient(165deg,#1c2538 0%,#141b2c 70%,#121826 100%);padding:16px 18px 14px}
 #tab-hub .pcard.tsla,#tab-hub .rcard.btc{box-shadow:inset 3px 0 0 #ffd166}
-#tab-hub .pcard.semi,#tab-hub .rcard.semi{box-shadow:inset 3px 0 0 #7ee2a0}
+#tab-hub .pcard.semi{box-shadow:inset 3px 0 0 #7ee2a0}
 #tab-hub .rcard.mstr{box-shadow:inset 3px 0 0 #9ec5ff}
 #tab-hub .rl{display:flex;align-items:center;gap:8px;color:#9aa6bd;font-size:15px;font-weight:700}
 #tab-hub .rl svg{width:22px;height:22px;flex:none}
@@ -66,11 +66,10 @@ tr.need td{font-size:12px;color:#c9d1e0;padding-top:0;border-bottom:1px solid #2
 #tab-hub .pr{display:flex;justify-content:space-between;gap:10px;padding:3px 0;font-size:16px}
 #tab-hub .pr span:first-child{color:#9aa6bd}
 #tab-hub .pd{margin-top:6px;color:#9aa6bd;font-size:13px}
-#rc .rcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+#rc .rcards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 #tab-hub .bar{height:8px;margin-top:10px;border-radius:99px;background:#0e1422;overflow:hidden}
 #tab-hub .bar i{display:block;height:100%;width:var(--p);border-radius:99px;background:linear-gradient(90deg,#2d5b8a,#9ec5ff)}
 #tab-hub .rcard.btc .bar i{background:linear-gradient(90deg,#8a6a22,#ffd166)}
-#tab-hub .rcard.semi .bar i{background:linear-gradient(90deg,#1d4a32,#7ee2a0)}
 #tab-hub .bp{margin-top:4px;text-align:right;color:#c9d1e0;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
 .rcsr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 nav.tabs a{position:relative}
@@ -100,10 +99,10 @@ nav.tabs a,nav.tabs a::after,#tab-hub .bar i{transition:none;animation:none}
 <h1>Bob's Hub</h1>
 <nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="#trajectory" data-t="trajectory">Trajectory</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#chips" data-t="chips">Chips</a><a href="#tsla-score" data-t="tsla-score">Tesla Scorecard</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a></nav>
 <div id="tab-hub">
+<h2>This Week's Buy</h2>
+<div class="buy" id="buy">…</div>
 <div class="r1"><div><h2>Portfolio</h2>
-<div class="tot" id="tot"><div class="h">…</div></div></div>
-<div><h2>This Week's Buy</h2>
-<div class="buy" id="buy">…</div></div></div>
+<div class="tot" id="tot"><div class="h">…</div></div></div></div>
 <h2>Performance</h2>
 <div class="perf" id="perf"></div>
 <section class="recoup">
@@ -150,7 +149,7 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
     const im="<svg viewBox='0 0 24 24' aria-hidden='true'><rect x='3' y='3' width='18' height='18' rx='5' fill='#3a1e22'/></svg>";
     const ix="<svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='8' fill='#1b2740' stroke='#9ec5ff' stroke-width='1.5'/></svg>";
     const semiP="A$"+ST.toFixed(2),spxP="US$"+XT.toFixed(2);
-    return "<div class='rcards'><article class='rcard btc'><div class='rl'>"+ib+"Bitcoin loss</div><div class='rv'>"+num("A$1,570","1570","0","A$")+"</div>"+bar(sp,ST)+"</article><article class='rcard semi'><div class='rl'>"+isvg+"SEMI</div><div class='rv'>"+num(semiP,ST.toFixed(2),"2","A$")+"</div><div class='ru'>per share</div>"+bar(sp,ST)+"</article><article class='rcard mstr'><div class='rl'>"+im+"MSTR loss</div><div class='rv'>"+num("A$876","876","0","A$")+"</div><div class='rl sp'>"+ix+"SpaceX</div><div class='rv sm'>"+num(spxP,XT.toFixed(2),"2","US$")+"</div><div class='ru'>per share</div>"+bar(xp,XT)+"</article></div>";
+    return "<div class='rcards'><article class='rcard btc'><div class='rl'>"+ib+"Bitcoin loss</div><div class='rv'>"+num("A$1,570","1570","0","A$")+"</div><div class='rl sp'>"+isvg+"SEMI</div><div class='rv sm'>"+num(semiP,ST.toFixed(2),"2","A$")+"</div><div class='ru'>per share</div>"+bar(sp,ST)+"</article><article class='rcard mstr'><div class='rl'>"+im+"MSTR loss</div><div class='rv'>"+num("A$876","876","0","A$")+"</div><div class='rl sp'>"+ix+"SpaceX</div><div class='rv sm'>"+num(spxP,XT.toFixed(2),"2","US$")+"</div><div class='ru'>per share</div>"+bar(xp,XT)+"</article></div>";
   };
   const V=d&&d.value_inputs,A=n=>"A$"+Math.round(Math.abs(n)).toLocaleString("en-AU");
   if(V&&Object.keys(COST).every(k=>V[k]&&V[k].price_aud!=null)){let val=SOLD.cash,inn=SOLD.cost;for(const k in COST){const p=V[k].price_aud;val+=COST[k].units*p;inn+=COST[k].cost;}
