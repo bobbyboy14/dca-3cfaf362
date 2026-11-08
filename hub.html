@@ -60,8 +60,6 @@ tr.need td{font-size:12px;color:#c9d1e0;padding-top:0;border-bottom:1px solid #2
 <div class="buy" id="buy">…</div></div></div>
 <h2>Trajectory</h2>
 <div class="sc" id="sc"></div>
-<h2>Security</h2>
-<table><thead><tr><th>Asset</th><th>Price</th><th>Security</th></tr></thead><tbody id="rows"><tr><td colspan="3">Loading…</td></tr></tbody></table>
 <h2 id="duh" hidden>Daily Update</h2>
 <div class="du" id="du" hidden></div>
 </div>
@@ -92,15 +90,12 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
   const V=d&&d.value_inputs,A=n=>"A$"+Math.round(Math.abs(n)).toLocaleString("en-AU");
   if(V&&Object.keys(COST).every(k=>V[k]&&V[k].price_aud!=null)){let val=SOLD.cash,inn=SOLD.cost;for(const k in COST){const p=V[k].price_aud;val+=COST[k].units*p;inn+=COST[k].cost;}
     const g=val-inn,c=g>=0?"up":"down",s=g>=0?"+":"-";
-    $("tot").innerHTML="<div class='r'><span>Invested</span><span>"+A(inn)+"</span></div><div class='r'><span>Portfolio Value</span><span>"+A(val)+"</span></div><div class='r'><span>Up / Down</span><span class='h "+c+"'>"+s+A(g)+"<small>"+s+Math.abs(g/inn*100).toFixed(1)+"%</small></span></div>"+((mk&&mk.needed&&typeof mk.needed.portfolio_ytd==='number')?(r=>"<div class='r'><span>This year CAGR</span><span class='"+(r>0?"up":r<0?"down":"")+"'>"+(r>0?"+":"")+r+"%</span></div>")(Math.round(mk.needed.portfolio_ytd*100)):"")+"<div class='s'>Includes Bitcoin and MSTR sold 2 Nov: <span style='white-space:nowrap'>−"+A(SOLD.realised)+"</span> realised loss, A$"+SOLD.cash.toFixed(2)+" cash left. Now TSLA 41, SEMI 447, SpaceX 20.76.</div>"+RC();}
+    $("tot").innerHTML="<div class='r'><span>Invested</span><span>"+A(inn)+"</span></div><div class='r'><span>Portfolio Value</span><span>"+A(val)+"</span></div><div class='r'><span>Up / Down</span><span class='h "+c+"'>"+s+A(g)+"<small>"+s+Math.abs(g/inn*100).toFixed(1)+"%</small></span></div>"+((mk&&mk.needed&&typeof mk.needed.portfolio_ytd==='number')?(r=>"<div class='r'><span>This year CAGR</span><span class='"+(r>0?"up":r<0?"down":"")+"'>"+(r>0?"+":"")+r+"%</span></div>")(Math.round(mk.needed.portfolio_ytd*100)):"")+RC();}
   else $("tot").innerHTML="<div class='h'>–</div>";
   const T=d&&d.today, f2=v=>v.toFixed(2);
   const btc=cg&&cg.bitcoin&&cg.bitcoin.usd?cg.bitcoin.usd:(T?T.BTC.close:null);
   const P={BTC:btc!=null?"US$"+Math.round(btc).toLocaleString("en-AU"):"–",
     TSLA:T?"US$"+f2(T.TSLA.close):"–",MSTR:T?"US$"+f2(T.MSTR.close):"–",SEMI:T?"A$"+f2(T.SEMI.close):"–",SPCX:T&&T.SPCX?"US$"+f2(T.SPCX.close):"–"};
-  $("rows").innerHTML=["BTC","TSLA","MSTR","SEMI","SPCX"].map(k=>{const a=sec&&sec.assets[k];const L=a?(LV[a.level]||LV.watch):null;
-    if(k==="BTC"||k==="MSTR")return "<tr><td><b>"+k+"</b></td><td class='p'>"+P[k]+"</td><td><span class='pill none'>Sold 2 Nov 2026</span><div class='n'>No longer held</div></td></tr>";
-    return "<tr><td><b>"+k+"</b></td><td class='p'>"+P[k]+"</td><td>"+(L?"<span class='pill "+L[0]+"'>"+L[1]+"</span>"+(a.level!=="none"&&a.note?"<div class='n'>"+esc(a.note)+"</div>":""):"–")+"</td></tr>"}).join("");
 })();
 </script>
 <script>
