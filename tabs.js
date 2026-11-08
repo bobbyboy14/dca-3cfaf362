@@ -385,7 +385,37 @@ async function xbt() {
       scales: { x: { ticks: { color: "#9aa6bd", maxTicksLimit: innerWidth > 700 ? 6 : 4, font: { size: big }, callback: function (v) { return new Date(this.getLabelForValue(v) + "T12:00:00Z").toLocaleDateString("en-AU", { month: "short", year: "2-digit" }); } }, grid: { color: "#222b40" } },
         y: { ticks: { color: "#9aa6bd", font: { size: big }, callback: v => "A$" + (v / 1000).toFixed(0) + "k" }, grid: { color: "#222b40" } } } } });
 }
-const NAMES = { TSLA: "Tesla", BTC: "Bitcoin", MSTR: "MSTR" };
+const NAMES = { TSLA: "Tesla", BTC: "Bitcoin", MSTR: "MSTR", SPCX: "SpaceX" };
+async function spcxScore() {
+  const el = $("tab-spcx-score");
+  el.innerHTML = "<div class='muted'>Loading…</div>";
+  let d = null;
+  try { d = await data(); } catch (e) { d = null; }
+  const ser = d && d.series && d.series.SPCX;
+  const v = d && d.value_inputs && d.value_inputs.SPCX;
+  if (!ser || ser.length < 2) {
+    el.innerHTML = "<h2>SpaceX Scorecard</h2><div class='box'><div style='font-size:28px;font-weight:700'>Not scored</div><p class='muted'>No SpaceX price series in the hub price file.</p></div>";
+    return;
+  }
+  const a = ser[0], b = ser[ser.length - 1], chg = b[1] / a[1] - 1;
+  const usd = n => "US$" + Number(n).toLocaleString("en-AU", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const row = (lab, val) => "<tr><td><b>" + lab + "</b></td><td>" + val + "</td></tr>";
+  el.innerHTML = "<h2>SpaceX Scorecard</h2><div class='box'><div style='font-size:28px;font-weight:700'>Not scored</div>" +
+    "<div class='muted' style='margin-top:6px'>The other scorecards use a stored 0–10 mark from fundamentals, news, and a price trend (50-day average, 200-day average, weekly RSI). None of that is stored for SpaceX, and the price file does not cover a full year, so no score is given.</div>" +
+    "<div class='muted' style='margin-top:4px'>As of " + dstr(b[0]) + ". Closes below are US$. The A$ figure is the matching field in the same file.</div></div>" +
+    "<table class='parts'><thead><tr><th>Item</th><th>What the file shows</th></tr></thead><tbody>" +
+    row("Latest close", usd(b[1]) + " on " + dstr(b[0]) + " (US$)") +
+    row("Latest price in A$", v && v.price_aud != null ? aud(v.price_aud, 2) + (v.date ? " on " + dstr(v.date) : "") + " (A$)" : "Not in the file") +
+    row("First close in this file", usd(a[1]) + " on " + dstr(a[0]) + " (US$)") +
+    row("Change since that first close", pct(chg) + ". The move between those two US$ closes. Not a one-year CAGR, and not year-to-date from 31 Dec 2025.") +
+    row("Closes stored", ser.length + " daily closes, " + dstr(a[0]) + " – " + dstr(b[0]) + ".") +
+    row("1 year CAGR", "N/A. The series starts " + dstr(a[0]) + ", less than a year before " + dstr(b[0]) + ".") +
+    row("Year-to-date since 31 Dec 2025", "N/A. This file has no SpaceX close on 31 Dec 2025.") +
+    row("50-day average, 200-day average, weekly RSI", "Not scored. Those inputs are how the other scorecards mark Growth, and they are not stored for SpaceX. " + ser.length + " closes are not turned into a substitute score.") +
+    row("Fundamentals and news", "Not scored. The hub files have no SpaceX earnings, filings, or sourced news items.") +
+    "</tbody></table><h3>Source</h3><ul class='src'><li>Hub price file data.json. Its note says daily closes come from Yahoo Finance via yfinance, adjusted for splits and distributions. SPCX closes are in US$. The A$ price is value_inputs.SPCX in that same file" + (v && v.date ? ", dated " + dstr(v.date) : "") + ".</li></ul>" +
+    "<p class='muted'>General information only, not a buy or sell call.</p>";
+}
 function assetScore(k) {
   return async () => {
     const el = $("tab-" + k.toLowerCase() + "-score");
@@ -408,5 +438,5 @@ function assetScore(k) {
       "<p class='muted'>How it's scored: Fundamentals 0-4 + News 0-3 + Growth (price trend) 0-3. Growth gets 1 point each for price above its 50-day average, above its 200-day average, and weekly RSI between 35 and 70. Overall: 7-10 On track, 6 Mixed, 0-5 Behind. No price targets. General information only, not advice.</p>";
   };
 }
-window.HubTabs = { cagr, chips, scorecard, semireview: review, "tsla-score": assetScore("TSLA"), "btc-score": assetScore("BTC"), "mstr-score": assetScore("MSTR") };
+window.HubTabs = { cagr, chips, scorecard, semireview: review, "tsla-score": assetScore("TSLA"), "btc-score": assetScore("BTC"), "mstr-score": assetScore("MSTR"), "spcx-score": spcxScore };
 })();
