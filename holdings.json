@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-09T04:52+00:00",
+ "generated_utc": "2026-11-09T05:52+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -19,8 +19,8 @@
    "ticker": "2330.TW",
    "currency": "TWD",
    "date": "2026-11-09",
-   "close": 2260.0,
-   "change": 0.05855
+   "close": 2235.0,
+   "change": 0.04684
   },
   "AMD": {
    "ticker": "AMD",
@@ -40,8 +40,8 @@
    "ticker": "000660.KS",
    "currency": "KRW",
    "date": "2026-11-09",
-   "close": 1166000.0,
-   "change": 0.03004
+   "close": 1157000.0,
+   "change": 0.02208
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -117,22 +117,22 @@
    "ticker": "6857.T",
    "currency": "JPY",
    "date": "2026-11-09",
-   "close": 29145.0,
-   "change": 0.04034
+   "close": 28635.0,
+   "change": 0.02213
   },
   "Tokyo Electron": {
    "ticker": "8035.T",
    "currency": "JPY",
    "date": "2026-11-09",
-   "close": 8645.0,
-   "change": 0.04623
+   "close": 8541.0,
+   "change": 0.03364
   },
   "Kioxia": {
    "ticker": "285A.T",
    "currency": "JPY",
    "date": "2026-11-09",
-   "close": 8607.0,
-   "change": 0.01128
+   "close": 8511.0,
+   "change": 0.0
   },
   "Infineon": {
    "ticker": "IFX.DE",
@@ -145,8 +145,8 @@
    "ticker": "3711.TW",
    "currency": "TWD",
    "date": "2026-11-09",
-   "close": 570.0,
-   "change": 0.08159
+   "close": 561.0,
+   "change": 0.06452
   },
   "NXP": {
    "ticker": "NXPI",
@@ -173,8 +173,8 @@
    "ticker": "009150.KS",
    "currency": "KRW",
    "date": "2026-11-09",
-   "close": 869000.0,
-   "change": -0.00115
+   "close": 857000.0,
+   "change": -0.01494
   },
   "Coherent": {
    "ticker": "COHR",
@@ -194,8 +194,8 @@
    "ticker": "2303.TW",
    "currency": "TWD",
    "date": "2026-11-09",
-   "close": 97.9,
-   "change": 0.06413
+   "close": 96.7,
+   "change": 0.05109
   },
   "Astera Labs": {
    "ticker": "ALAB",
@@ -208,8 +208,8 @@
    "ticker": "6723.T",
    "currency": "JPY",
    "date": "2026-11-09",
-   "close": 2611.0,
-   "change": 0.05388
+   "close": 2584.0,
+   "change": 0.04299
   }
  }
 }
