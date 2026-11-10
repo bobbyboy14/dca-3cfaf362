@@ -177,8 +177,8 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
   };
   const V=d&&d.value_inputs,A=n=>"A$"+Math.round(Math.abs(n)).toLocaleString("en-AU");
   if(V&&Object.keys(COST).every(k=>V[k]&&V[k].price_aud!=null)){let val=SOLD.cash,inn=SOLD.cost;for(const k in COST){const p=V[k].price_aud;val+=COST[k].units*p;inn+=COST[k].cost;}
-    const g=val-inn,c=g>=0?"up":"down",s=g>=0?"+":"-";
-    $("tot").innerHTML="<div class='r'><span>Invested</span><span>"+A(inn)+"</span></div><div class='r'><span>Portfolio Value</span><span>"+A(val)+"</span></div><div class='r'><span>Up / Down</span><span class='h "+c+"'>"+s+A(g)+"<small>"+s+Math.abs(g/inn*100).toFixed(1)+"%</small></span></div>";
+    const be=val>0?inn/val-1:null;
+    $("tot").innerHTML="<div class='r'><span>Invested</span><span>"+A(inn)+"</span></div><div class='r'><span>Portfolio Value</span><span>"+A(val)+"</span></div>"+(be==null?"":be<=0?"<div class='r'><span>To break-even</span><span class='up'>In profit</span></div>":"<div class='r'><span>To break-even</span><span class='amber'>+"+(be*100).toFixed(1)+"%</span></div>");
     $("rc").innerHTML=RC();countRecoup($("rc"));}
   else $("tot").innerHTML="<div class='h'>–</div>";
   renderPerf();
