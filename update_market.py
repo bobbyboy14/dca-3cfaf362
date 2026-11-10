@@ -2,8 +2,13 @@
 """Push the hub's Daily update to bobbyboy14/dca-3cfaf362 as market.json (GitHub Pages).
 
 Usage:  python3 update_market.py path/to/market.json [--message "Daily update 1 Nov"] [--no-push]
-Format: {"updated": "2026-11-01T09:30+11:00", "headline": "one short line",
-         "assets": {"BTC": {"move": "+1.2%", "note": "one short line"}, "TSLA": {...}, "MSTR": {...}, "SEMI": {...}}}
+Format: {"updated": "2026-11-01T09:30+11:00", "headline": "one short news line",
+         "assets": {"BTC": {"move": "+1.2%", "note": "one short news line"}, "TSLA": {...}, "MSTR": {...}, "SEMI": {...}}}
+The hub Daily update shows the headline and each note as news only. Before a push, this script
+strips spot prices ("Wed close US$385"), "about US$80k" prices, holding moves ("TSLA -3.3%"),
+and anything that states portfolio worth: total value, a value change, or a P&L figure.
+"move" is still stored (the file check needs it) but the hub does not show it. Market news such as
+"Dow +3%" or "US$6.3bn hack" is kept. Scores and the needed block are not part of that section.
         "scores": {"BTC": {"status": "On track|Mixed|Behind", "score": 0-10, "line": "one line",
                            "points": {"fundamentals": 0-4, "news": 0-3, "trend": 0-3},
                            "parts": {"fundamentals": "why", "news": "why", "trend": "why"},
@@ -16,7 +21,7 @@ Format: {"updated": "2026-11-01T09:30+11:00", "headline": "one short line",
         (hub shows "This year: X%").
         needed.portfolio_ytd (optional fraction): AUD YTD growth of current holdings (BTC, TSLA, MSTR; no SEMI) =
         value at latest prices & AUD/USD / value at 31 Dec 2025 closes & AUD/USD - 1. Hub shows it under Up / Down. It does NOT feed the score.
-"move" must start with + or - (shown green/red). Needs the box's `gh` login.
+"move" must start with + or - (kept in the file; the Daily update does not show it). Needs the box's `gh` login.
 
 SCORING RULE (same for all four; total 0-10; no price targets):
   Fundamentals 0-4: Strong 4, Good 3, Mixed 2, Weak or Not verified 1, Bad 0.
@@ -28,70 +33,105 @@ SCORING RULE (same for all four; total 0-10; no price targets):
      +1 weekly RSI (14-wk Wilder) between 35 and 70.  Hub label: 3 On track, 2 Mixed, 0-1 Behind.
   Status: 7-10 On track, 6 Mixed, 0-5 Behind.  score must equal the sum of points.
 """
-import argparse, base64, json, subprocess, sys
+import argparse, base64, json, re, subprocess, sys
 from datetime import datetime
+
+_MONEY = r"(?:A\$|US\$|\$)\s?[\d,]+(?:\.\d+)?(?:\s?[kKmMbB]n?)?"
+_CLAUSE = r"(?:[^.;]|\.(?=\d))*"
+
+def news_only(text):
+    """News sentence for the hub Daily update. No portfolio value, value change, or P&L."""
+    s = str(text or "")
+    s = re.sub(rf"\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)(?:day)? close\s+{_MONEY}", "", s, flags=re.I)
+    s = re.sub(rf"\bAbout\s+{_MONEY}", "", s, flags=re.I)
+    s = re.sub(rf"\b(?:portfolio|total)\s+(?:value|worth)\b{_CLAUSE}", "", s, flags=re.I)
+    s = re.sub(rf"\bportfolio\b{_CLAUSE}?(?:{_MONEY}|\d+(?:\.\d+)?%){_CLAUSE}", "", s, flags=re.I)
+    s = re.sub(rf"\b(?:start\s+)?{_MONEY}\s*(?:->|to)\s*(?:now\s+)?(?:about\s+)?{_MONEY}", "", s, flags=re.I)
+    s = re.sub(rf"\bnow\s+(?:about\s+)?{_MONEY}", "", s, flags=re.I)
+    s = re.sub(rf"\b(?:up\s*/\s*down|P&L|profit or loss)\b{_CLAUSE}", "", s, flags=re.I)
+    s = re.sub(r"\b(?:TSLA|SPCX|SEMI|BTC|MSTR|SpaceX|Tesla)\s+[+-]?\d+(?:\.\d+)?%", "", s, flags=re.I)
+    s = re.sub(r"\.\s*;", ".", s)
+    s = re.sub(r"\s{2,}", " ", s)
+    s = re.sub(r"\s+([,.;])", r"\1", s)
+    s = re.sub(r"([,;]){2,}", r"\1", s)
+    s = re.sub(r"^[\s,;.\-–]+", "", s)
+    s = re.sub(r"(^|[.!?;]\s+)with\b", lambda m: m.group(1) + "Moved with", s)
+    s = re.sub(r"(^|[.!?]\s+)([a-z])", lambda m: m.group(1) + m.group(2).upper(), s)
+    s = re.sub(r"[\s,;]+$", "", s)
+    s = re.sub(r"\s+([,.;])", r"\1", s)
+    return s.strip()
 
 REPO, PATH, BRANCH = "bobbyboy14/dca-3cfaf362", "market.json", "main"
 ASSETS = ["BTC", "TSLA", "MSTR", "SEMI"]
-ap = argparse.ArgumentParser(); ap.add_argument("file"); ap.add_argument("--message"); ap.add_argument("--no-push", action="store_true")
-a = ap.parse_args()
-data = json.load(open(a.file))
-for k in ("updated", "headline", "assets"):
-    if k not in data: sys.exit(f"needs '{k}'")
-try: datetime.fromisoformat(data["updated"])
-except ValueError: sys.exit("'updated' must be ISO, e.g. 2026-11-01T09:30+11:00")
-for k in ASSETS:
-    x = data["assets"].get(k)
-    if not x: sys.exit(f"missing asset {k}")
-    if not str(x.get("move", "")).startswith(("+", "-")): sys.exit(f"{k}: move must start with + or -, e.g. +1.2%")
-    x.setdefault("note", "")
-PARTS = {"fundamentals": 4, "news": 3, "trend": 3}  # part -> max points
-sc = data.get("scores")
-if not isinstance(sc, dict): sys.exit("needs 'scores'")
-for k in ASSETS:
-    x = sc.get(k)
-    if not x: sys.exit(f"scores: missing {k}")
-    if x.get("status") not in ("On track", "Mixed", "Behind"): sys.exit(f"scores.{k}: bad status")
-    n = x.get("score")
-    if not isinstance(n, (int, float)) or not 0 <= n <= 10: sys.exit(f"scores.{k}: score must be 0-10")
-    want = "On track" if n >= 7 else "Mixed" if n >= 6 else "Behind"
-    if x["status"] != want: sys.exit(f"scores.{k}: score {n} means '{want}'")
-    pts = x.get("points", {})
-    for p, mx in PARTS.items():
-        if not x.get("parts", {}).get(p): sys.exit(f"scores.{k}: missing part '{p}'")
-        if not isinstance(pts.get(p), int) or not 0 <= pts[p] <= mx: sys.exit(f"scores.{k}: points.{p} must be 0-{mx}")
-    if sum(pts[p] for p in PARTS) != n: sys.exit(f"scores.{k}: score {n} must equal points total {sum(pts[p] for p in PARTS)}")
-    rs = x.get("reasons", {})
-    for p in ("fundamentals", "news", "growth"):
-        if not str(rs.get(p, "")).strip(): sys.exit(f"scores.{k}: missing reasons.{p}")
-    gd = x.get("growth_detail", {})
-    for f in ("price", "ma50", "ma200", "rsi_week"):
-        if not isinstance(gd.get(f), (int, float)): sys.exit(f"scores.{k}: growth_detail.{f} must be a number")
-    if not isinstance(gd.get("currency"), str): sys.exit(f"scores.{k}: growth_detail.currency needed")
-    want_t = (gd["price"] > gd["ma50"]) + (gd["price"] > gd["ma200"]) + (35 <= gd["rsi_week"] <= 70)
-    if pts["trend"] != want_t: sys.exit(f"scores.{k}: points.trend {pts['trend']} but growth_detail gives {want_t}")
-    try: datetime.fromisoformat(x.get("as_of", ""))
-    except ValueError: sys.exit(f"scores.{k}: as_of must be YYYY-MM-DD")
-    src = x.get("sources")
-    if not isinstance(src, list) or not src or not all(str(z.get("url", "")).startswith("http") and z.get("label") for z in src):
-        sys.exit(f"scores.{k}: sources must be a non-empty list of {{label, url}}")
-    x.setdefault("line", "")
-nd = data.get("needed")  # optional: {"as_of","source","assets":{K:{"target","needed","recent","verdict"[,"placeholder"]}}}
-if nd is not None:
+def main():
+    ap = argparse.ArgumentParser(); ap.add_argument("file"); ap.add_argument("--message"); ap.add_argument("--no-push", action="store_true")
+    a = ap.parse_args()
+    data = json.load(open(a.file))
+    for k in ("updated", "headline", "assets"):
+        if k not in data: sys.exit(f"needs '{k}'")
+    try: datetime.fromisoformat(data["updated"])
+    except ValueError: sys.exit("'updated' must be ISO, e.g. 2026-11-01T09:30+11:00")
     for k in ASSETS:
-        x = nd.get("assets", {}).get(k)
-        if not x: sys.exit(f"needed: missing {k}")
-        if x.get("verdict") not in ("On track", "Stretch", "Behind"): sys.exit(f"needed.{k}: verdict must be On track, Stretch or Behind")
-        if not all(isinstance(x.get(f), (int, float)) for f in ("needed", "recent")): sys.exit(f"needed.{k}: needed/recent must be fractions, e.g. 0.376 (recent = YTD growth since 31 Dec 2025, not annualised)")
-    if "portfolio_ytd" in nd and not isinstance(nd["portfolio_ytd"], (int, float)): sys.exit("needed.portfolio_ytd must be a fraction, e.g. -0.157 (AUD YTD growth of current BTC/TSLA/MSTR holdings vs 31 Dec 2025 closes and AUD/USD)")
-    if nd.get("basis") != "ytd": sys.exit("needed.basis must be \"ytd\" (recent is year-to-date growth, not a 3-year CAGR)")
-commit = None
-if not a.no_push:
-    sha = subprocess.run(["gh", "api", f"repos/{REPO}/contents/{PATH}?ref={BRANCH}", "--jq", ".sha"], capture_output=True, text=True).stdout.strip()
-    p = {"message": a.message or f"Update market.json ({data['updated']})", "branch": BRANCH,
-         "content": base64.b64encode((json.dumps(data, indent=2, ensure_ascii=False) + "\n").encode()).decode()}
-    if sha: p["sha"] = sha
-    r = subprocess.run(["gh", "api", "-X", "PUT", f"repos/{REPO}/contents/{PATH}", "--input", "-", "--jq", ".commit.sha"], input=json.dumps(p), capture_output=True, text=True)
-    if r.returncode: sys.exit("push failed: " + r.stderr)
-    commit = r.stdout.strip()
-print(json.dumps({"pushed": bool(commit), "commit": commit, "live": "https://bobbyboy14.github.io/dca-3cfaf362/market.json"}))
+        x = data["assets"].get(k)
+        if not x: sys.exit(f"missing asset {k}")
+        if not str(x.get("move", "")).startswith(("+", "-")): sys.exit(f"{k}: move must start with + or -, e.g. +1.2%")
+        x.setdefault("note", "")
+    data["headline"] = news_only(data["headline"])
+    if not data["headline"]: sys.exit("headline has no news left after removing prices, portfolio value, value changes, and P&L")
+    for k in ASSETS:
+        note = news_only(data["assets"][k].get("note", ""))
+        if not note: sys.exit(f"{k}: note has no news left after removing prices, portfolio value, value changes, and P&L")
+        data["assets"][k]["note"] = note
+    PARTS = {"fundamentals": 4, "news": 3, "trend": 3}  # part -> max points
+    sc = data.get("scores")
+    if not isinstance(sc, dict): sys.exit("needs 'scores'")
+    for k in ASSETS:
+        x = sc.get(k)
+        if not x: sys.exit(f"scores: missing {k}")
+        if x.get("status") not in ("On track", "Mixed", "Behind"): sys.exit(f"scores.{k}: bad status")
+        n = x.get("score")
+        if not isinstance(n, (int, float)) or not 0 <= n <= 10: sys.exit(f"scores.{k}: score must be 0-10")
+        want = "On track" if n >= 7 else "Mixed" if n >= 6 else "Behind"
+        if x["status"] != want: sys.exit(f"scores.{k}: score {n} means '{want}'")
+        pts = x.get("points", {})
+        for p, mx in PARTS.items():
+            if not x.get("parts", {}).get(p): sys.exit(f"scores.{k}: missing part '{p}'")
+            if not isinstance(pts.get(p), int) or not 0 <= pts[p] <= mx: sys.exit(f"scores.{k}: points.{p} must be 0-{mx}")
+        if sum(pts[p] for p in PARTS) != n: sys.exit(f"scores.{k}: score {n} must equal points total {sum(pts[p] for p in PARTS)}")
+        rs = x.get("reasons", {})
+        for p in ("fundamentals", "news", "growth"):
+            if not str(rs.get(p, "")).strip(): sys.exit(f"scores.{k}: missing reasons.{p}")
+        gd = x.get("growth_detail", {})
+        for f in ("price", "ma50", "ma200", "rsi_week"):
+            if not isinstance(gd.get(f), (int, float)): sys.exit(f"scores.{k}: growth_detail.{f} must be a number")
+        if not isinstance(gd.get("currency"), str): sys.exit(f"scores.{k}: growth_detail.currency needed")
+        want_t = (gd["price"] > gd["ma50"]) + (gd["price"] > gd["ma200"]) + (35 <= gd["rsi_week"] <= 70)
+        if pts["trend"] != want_t: sys.exit(f"scores.{k}: points.trend {pts['trend']} but growth_detail gives {want_t}")
+        try: datetime.fromisoformat(x.get("as_of", ""))
+        except ValueError: sys.exit(f"scores.{k}: as_of must be YYYY-MM-DD")
+        src = x.get("sources")
+        if not isinstance(src, list) or not src or not all(str(z.get("url", "")).startswith("http") and z.get("label") for z in src):
+            sys.exit(f"scores.{k}: sources must be a non-empty list of {{label, url}}")
+        x.setdefault("line", "")
+    nd = data.get("needed")  # optional: {"as_of","source","assets":{K:{"target","needed","recent","verdict"[,"placeholder"]}}}
+    if nd is not None:
+        for k in ASSETS:
+            x = nd.get("assets", {}).get(k)
+            if not x: sys.exit(f"needed: missing {k}")
+            if x.get("verdict") not in ("On track", "Stretch", "Behind"): sys.exit(f"needed.{k}: verdict must be On track, Stretch or Behind")
+            if not all(isinstance(x.get(f), (int, float)) for f in ("needed", "recent")): sys.exit(f"needed.{k}: needed/recent must be fractions, e.g. 0.376 (recent = YTD growth since 31 Dec 2025, not annualised)")
+        if "portfolio_ytd" in nd and not isinstance(nd["portfolio_ytd"], (int, float)): sys.exit("needed.portfolio_ytd must be a fraction, e.g. -0.157 (AUD YTD growth of current BTC/TSLA/MSTR holdings vs 31 Dec 2025 closes and AUD/USD)")
+        if nd.get("basis") != "ytd": sys.exit("needed.basis must be \"ytd\" (recent is year-to-date growth, not a 3-year CAGR)")
+    commit = None
+    if not a.no_push:
+        sha = subprocess.run(["gh", "api", f"repos/{REPO}/contents/{PATH}?ref={BRANCH}", "--jq", ".sha"], capture_output=True, text=True).stdout.strip()
+        p = {"message": a.message or f"Update market.json ({data['updated']})", "branch": BRANCH,
+             "content": base64.b64encode((json.dumps(data, indent=2, ensure_ascii=False) + "\n").encode()).decode()}
+        if sha: p["sha"] = sha
+        r = subprocess.run(["gh", "api", "-X", "PUT", f"repos/{REPO}/contents/{PATH}", "--input", "-", "--jq", ".commit.sha"], input=json.dumps(p), capture_output=True, text=True)
+        if r.returncode: sys.exit("push failed: " + r.stderr)
+        commit = r.stdout.strip()
+    print(json.dumps({"pushed": bool(commit), "commit": commit, "live": "https://bobbyboy14.github.io/dca-3cfaf362/market.json"}))
+
+if __name__ == "__main__":
+    main()

@@ -99,7 +99,7 @@ nav.tabs a,nav.tabs a::after,#tab-hub .bar i{transition:none;animation:none}
 }
 </style></head><body><div class="w">
 <h1>Bob's Hub</h1>
-<nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="#trajectory" data-t="trajectory">Trajectory</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#tsla-score" data-t="tsla-score">Tesla Scorecard</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a><a href="#spcx-score" data-t="spcx-score">SpaceX Scorecard</a></nav>
+<nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="#trajectory" data-t="trajectory">Trajectory</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#tsla-score" data-t="tsla-score">Tesla Scorecard</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a></nav>
 <div id="tab-hub">
 <div class="r1"><div><h2>This Week's Buy</h2>
 <div class="buy" id="buy">…</div></div>
@@ -115,12 +115,29 @@ nav.tabs a,nav.tabs a::after,#tab-hub .bar i{transition:none;animation:none}
 <div class="du" id="du" hidden></div>
 </div>
 <div id="tab-trajectory" hidden><h2>Trajectory</h2>
-<div class="sc" id="sc"></div></div><div id="tab-cagr" hidden></div><div id="tab-scorecard" hidden></div><div id="tab-tsla-score" hidden></div><div id="tab-spcx-score" hidden></div>
+<div class="sc" id="sc"></div></div><div id="tab-cagr" hidden></div><div id="tab-scorecard" hidden></div><div id="tab-tsla-score" hidden></div>
 </div>
 <script>
 
 const $=id=>document.getElementById(id);
 const esc=t=>String(t||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+/* Daily update is news only. Drop spot prices, holding moves, and any portfolio value, value change, or P&L. */
+function newsOnly(t){let s=String(t||"");
+  const money="(?:A\\$|US\\$|\\$)\\s?[\\d,]+(?:\\.\\d+)?(?:\\s?[kKmMbB]n?)?";
+  const clause="(?:[^.;]|\\.(?=\\d))*";
+  s=s.replace(new RegExp("\\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)(?:day)? close\\s+"+money,"gi"),"");
+  s=s.replace(new RegExp("\\bAbout\\s+"+money,"gi"),"");
+  s=s.replace(new RegExp("\\b(?:portfolio|total)\\s+(?:value|worth)\\b"+clause,"gi"),"");
+  s=s.replace(new RegExp("\\bportfolio\\b"+clause+"?(?:"+money+"|\\d+(?:\\.\\d+)?%)"+clause,"gi"),"");
+  s=s.replace(new RegExp("\\b(?:start\\s+)?"+money+"\\s*(?:->|to)\\s*(?:now\\s+)?(?:about\\s+)?"+money,"gi"),"");
+  s=s.replace(new RegExp("\\bnow\\s+(?:about\\s+)?"+money,"gi"),"");
+  s=s.replace(new RegExp("\\b(?:up\\s*/\\s*down|P&L|profit or loss)\\b"+clause,"gi"),"");
+  s=s.replace(/\b(?:TSLA|SPCX|SEMI|BTC|MSTR|SpaceX|Tesla)\s+[+-]?\d+(?:\.\d+)?%/gi,"");
+  s=s.replace(/\.\s*;/g,".");
+  s=s.replace(/\s{2,}/g," ").replace(/\s+([,.;])/g,"$1").replace(/([,;]){2,}/g,"$1").replace(/^[\s,;.\-–]+/,"");
+  s=s.replace(/(^|[.!?;]\s+)with\b/g,(m,a)=>a+"Moved with");
+  s=s.replace(/(^|[.!?]\s+)([a-z])/g,(m,a,b)=>a+b.toUpperCase());
+  return s.replace(/[\s,;]+$/,"").replace(/\s+([,.;])/g,"$1").trim();}
 const LV={none:["none","Zero threats"],watch:["watch","Watch"],alert:["alert","Alert"]};
 const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>null);
 (async()=>{
@@ -129,15 +146,10 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
     get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud,usd"),
     get("security.json?t="+t),get("weekly.json?t="+t),get("market.json?t="+t)]);
   if(mk&&mk.scores){const C={"On track":"up","Mixed":"amber","Behind":"down"},N=(mk.needed&&mk.needed.assets)||{},NC={"On track":"up","Stretch":"amber","Behind":"down"};
-    const dayIso=iso=>new Date(iso+"T00:00:00Z").toLocaleDateString("en-AU",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"});
-    const ser=d&&d.series&&d.series.SPCX;
-    let spxCard="";
-    if(ser&&ser.length>1){const a=ser[0],b=ser[ser.length-1],chg=b[1]/a[1]-1,pct=(chg>=0?"+":"")+(chg*100).toFixed(1)+"%";
-      spxCard="<div><div class='t'>SpaceX</div><div class='sv'><span class='st'>Not scored</span></div><div class='bt "+(chg<0?"down":"up")+"'>Since "+dayIso(a[0])+": "+pct+"</div><div class='bd'>Not a one-year CAGR. No close on 31 Dec 2025. Closes in this file: "+dayIso(a[0])+" – "+dayIso(b[0])+".</div></div>";}
-    else spxCard="<div><div class='t'>SpaceX</div><div class='bd'>1 year CAGR: N/A. No SpaceX closes in the price file.</div></div>";
-    $("sc").innerHTML=["TSLA","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];const P=x.points||{},g=Number(x.score),G=isNaN(g)?null:g>=7?["On track","up"]:g>=6?["Mixed","amber"]:["Behind","down"];return "<div><div class='t'>"+k+"</div>"+(G?"<div class='gr "+G[1]+"'>Growth: "+G[0]+"</div>":"")+"<div class='sv'>"+"<span class='st "+(G?G[1]:(C[x.status]||""))+"' title='"+esc(G?G[0]:x.status)+"'>"+x.score+"/10</span>"+"</div>"+(N[k]?(r=>"<div class='bt "+(r>0?"up":r<0?"down":"")+"' data-k='"+k+"'>This year CAGR: "+(r>0?"+":"")+r+"%</div>")(Math.round(N[k].recent*100)):"")+"</div>"}).join("")+spxCard;}
+    $("sc").innerHTML=["TSLA","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];const P=x.points||{},g=Number(x.score),G=isNaN(g)?null:g>=7?["On track","up"]:g>=6?["Mixed","amber"]:["Behind","down"];return "<div><div class='t'>"+k+"</div>"+(G?"<div class='gr "+G[1]+"'>Growth: "+G[0]+"</div>":"")+"<div class='sv'>"+"<span class='st "+(G?G[1]:(C[x.status]||""))+"' title='"+esc(G?G[0]:x.status)+"'>"+x.score+"/10</span>"+"</div>"+(N[k]?(r=>"<div class='bt "+(r>0?"up":r<0?"down":"")+"' data-k='"+k+"'>This year CAGR: "+(r>0?"+":"")+r+"%</div>")(Math.round(N[k].recent*100)):"")+"</div>"}).join("");}
   if(mk){const u=new Date(mk.updated).toLocaleString("en-AU",{timeZone:"Australia/Melbourne",weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
-    $("du").innerHTML="<div class='d'>"+u+" AEDT</div><div class='hl'>"+esc(mk.headline)+"</div>"+["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const x=mk.assets[k];return "<div class='r'><span class='t'>"+k+"</span><span class='m "+(String(x.move).startsWith("-")?"down":"up")+"'>"+esc(x.move)+"</span>"+esc(x.note)+"</div>"}).join("");$("du").hidden=false;$("duh").hidden=false;}
+    const rows=["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const note=newsOnly(mk.assets[k].note);return note?"<div class='r'><span class='t'>"+k+"</span> "+esc(note)+"</div>":"";}).join("");
+    $("du").innerHTML="<div class='d'>"+u+" AEDT</div><div class='hl'>"+esc(newsOnly(mk.headline))+"</div>"+rows;$("du").hidden=false;$("duh").hidden=false;}
   $("buy").innerHTML=wk?"<b>"+esc(wk.pick==="SPCX"?"SpaceX (SPCX)":wk.pick)+"</b><div style='margin-top:10px'><b>A$"+Math.ceil(wk.amount_aud)+"</b></div>"+(wk.multiplier!=null?"<div style='margin-top:6px'>Multiplier: "+(+wk.multiplier).toFixed(2)+"×</div>":""):"Not available";
 
   const countRecoup=root=>{if(!root||!root.querySelectorAll)return;const reduce=typeof matchMedia==="function"&&matchMedia("(prefers-reduced-motion: reduce)").matches;root.querySelectorAll(".num").forEach(el=>{const final=el.getAttribute("data-final");if(reduce||typeof requestAnimationFrame!=="function"){el.textContent=final;return;}const n=+el.getAttribute("data-n"),dec=+el.getAttribute("data-d")||0,pre=el.getAttribute("data-p")||"",t0=performance.now();const step=now=>{const u=Math.min(1,(now-t0)/800),e=1-Math.pow(1-u,3),v=n*e;el.textContent=pre+(dec?v.toFixed(dec):Math.round(v).toLocaleString("en-AU"));if(u<1)requestAnimationFrame(step);else el.textContent=final;};requestAnimationFrame(step);});};
@@ -189,9 +201,9 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
 })();
 </script>
 <script>
-(function(){const TABS=["hub","trajectory","cagr","scorecard","tsla-score","spcx-score"];let lib=null;
-const need=()=>lib||(lib=new Promise((ok,no)=>{const s=document.createElement("script");s.src="tabs.js?v=18";s.onload=ok;s.onerror=no;document.head.appendChild(s);}));
-async function go(){if(location.hash==="#semireview"){history.replaceState(null,"","#scorecard");}const raw=location.hash.slice(1);const t=(raw==="btc"||raw==="mstr"||raw==="btc-score"||raw==="mstr-score"||raw==="chips")?"hub":(TABS.includes(raw)?raw:"hub");
+(function(){const TABS=["hub","trajectory","cagr","scorecard","tsla-score"];let lib=null;
+const need=()=>lib||(lib=new Promise((ok,no)=>{const s=document.createElement("script");s.src="tabs.js?v=19";s.onload=ok;s.onerror=no;document.head.appendChild(s);}));
+async function go(){if(location.hash==="#semireview"){history.replaceState(null,"","#scorecard");}const raw=location.hash.slice(1);const t=(raw==="btc"||raw==="mstr"||raw==="btc-score"||raw==="mstr-score"||raw==="chips"||raw==="spcx-score")?"hub":(TABS.includes(raw)?raw:"hub");
  TABS.forEach(k=>{document.getElementById("tab-"+k).hidden=k!==t;});
  document.querySelectorAll("nav.tabs a").forEach(a=>a.classList.toggle("on",a.dataset.t===t));
  if(t!=="hub"&&t!=="trajectory"){try{await need();await HubTabs[t]();if(t==="cagr")fixAmts();}catch(e){document.getElementById("tab-"+t).innerHTML="<div class='muted'>Couldn't load ("+(e.message||e)+"). Pull to refresh.</div>";}}}
