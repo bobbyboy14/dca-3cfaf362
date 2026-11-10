@@ -142,7 +142,7 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
 
   const countRecoup=root=>{if(!root||!root.querySelectorAll)return;const reduce=typeof matchMedia==="function"&&matchMedia("(prefers-reduced-motion: reduce)").matches;root.querySelectorAll(".num").forEach(el=>{const final=el.getAttribute("data-final");if(reduce||typeof requestAnimationFrame!=="function"){el.textContent=final;return;}const n=+el.getAttribute("data-n"),dec=+el.getAttribute("data-d")||0,pre=el.getAttribute("data-p")||"",t0=performance.now();const step=now=>{const u=Math.min(1,(now-t0)/800),e=1-Math.pow(1-u,3),v=n*e;el.textContent=pre+(dec?v.toFixed(dec):Math.round(v).toLocaleString("en-AU"));if(u<1)requestAnimationFrame(step);else el.textContent=final;};requestAnimationFrame(step);});};
   const renderPerf=()=>{if(!$("perf"))return;const name={TSLA:"Tesla",SEMI:"SEMI",SPCX:"SpaceX"};
-    const money=a=>a.ccy+a.px.toLocaleString("en-AU",{minimumFractionDigits:a.dp,maximumFractionDigits:a.dp});
+    const money=a=>a.ccy+Math.round(a.px).toLocaleString("en-AU");
     const pct=x=>(x*100).toFixed(1)+"%";
     $("perf").innerHTML=["TSLA","SEMI","SPCX"].map(k=>{
       let val="";
@@ -158,8 +158,8 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
       return "<article class='pcard "+k.toLowerCase()+"'><div class='rl'>"+name[k]+"</div>"+val+px+"</article>";
     }).join("");};
   const COST={TSLA:{units:41,cost:25595},SEMI:{units:453,cost:15066.45},SPCX:{units:20.75691899,cost:4114.47}};
-  /* Avg buy in native currency. TSLA US$420.64 confirmed by Bob (index.html still stores a rounded US$421 and is unchanged). SEMI is 15,066.45/453 = A$33.2593, including 6 units bought 6 Nov 2026 at A$27.99. SPCX US$139.07 is the 2 Nov 2026 fill noted below. Recoup targets still use the 447-unit bitcoin-proceeds lot. */
-  const AVG={TSLA:{px:420.64,ccy:"US$",dp:2},SEMI:{px:15066.45/453,ccy:"A$",dp:4},SPCX:{px:139.07,ccy:"US$",dp:2}};
+  /* Avg buy shown rounded to the nearest whole unit. Drawdown and break-even use the exact prices: TSLA US$420.64, SEMI 15,066.45/453 = A$33.2593, SPCX US$139.07. Recoup targets still use the 447-unit bitcoin-proceeds lot. */
+  const AVG={TSLA:{px:420.64,ccy:"US$"},SEMI:{px:15066.45/453,ccy:"A$"},SPCX:{px:139.07,ccy:"US$"}};
   /* Bitcoin (1,356 IBTC) sold 2 Nov 2026 for A$14,929.56 vs A$16,500 put in; A$14,898.51 went into SEMI. Left over: A$1,601.49 put in, A$31.05 cash, realised -A$1,570.44 */
   /* MSTR (21.58735618 shares) sold 2 Nov 2026 for US$2,889.59 net = A$4,114.47 at AUD/USD 0.7023 vs A$4,990 put in; all of it went into 20.75691899 SPCX (SpaceX) at US$139.07. Left over: A$875.53 put in, A$0 cash, realised -A$875.53 */
   const SOLD={cost:(16500-14898.51)+(4990-4114.47),cash:(14929.56-14898.51)+0,realised:(14929.56-16500)+(4114.47-4990)};
