@@ -1,22 +1,22 @@
 {
   "updated": "2026-11-05T09:55+11:00",
-  "headline": "Wall St jumped after Democrats won Congress (Dow +3%), but chips fell to a six-month low (SOXX -3.1%); TSLA -3.3%, SpaceX -3.8%",
+  "headline": "Wall St jumped after Democrats won Congress (Dow +3%), but chips fell to a six-month low (SOXX -3.1%)",
   "assets": {
     "BTC": {
       "move": "+4.5%",
-      "note": "Sold 2 Nov 2026 – market context only. About US$80.8k; Binance details US$6.3bn hack, Bitcoin itself unaffected"
+      "note": "Sold 2 Nov 2026 – market context only. Binance details US$6.3bn hack, Bitcoin itself unaffected"
     },
     "TSLA": {
       "move": "-3.3%",
-      "note": "Wed close US$385.19; fell as Musk-backed Republicans lost Congress"
+      "note": "Fell as Musk-backed Republicans lost Congress"
     },
     "MSTR": {
       "move": "+5.1%",
-      "note": "Sold 2 Nov 2026 – market context only. Wed close US$142.54 with Bitcoin's bounce"
+      "note": "Sold 2 Nov 2026 – market context only. Moved with Bitcoin's bounce"
     },
     "SEMI": {
       "move": "+0.3%",
-      "note": "Wed close A$32.23, below its 200-day; US chips fell 3.1% overnight on AI-buildout fears"
+      "note": "Below its 200-day; US chips fell 3.1% overnight on AI-buildout fears"
     }
   },
   "scores": {
