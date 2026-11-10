@@ -152,8 +152,8 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
       if(avg&&cur>0){const from=cur/avg.px-1,back=avg.px/cur-1,profit=from>=0;
         px="<div class='px'><div class='pr'><span>Avg buy</span><span>"+money(avg)+"</span></div>"
           +(profit
-            ?"<div class='pr'><span>In profit</span><span class='up'>+"+pct(from)+"</span></div><div class='pr'><span>To break-even</span><span class='up'>In profit</span></div>"
-            :"<div class='pr'><span>Drawdown</span><span class='down'>"+pct(from)+"</span></div><div class='pr'><span>To break-even</span><span class='amber'>+"+pct(back)+"</span></div>")
+            ?"<div class='pr'><span>To break-even</span><span class='up'>In profit +"+pct(from)+"</span></div>"
+            :"<div class='pr'><span>To break-even</span><span class='amber'>+"+pct(back)+"</span></div>")
           +"</div>";}
       return "<article class='pcard "+k.toLowerCase()+"'><div class='rl'>"+name[k]+"</div>"+val+px+"</article>";
     }).join("");};
