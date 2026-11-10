@@ -56,6 +56,8 @@ tr.need td{font-size:12px;color:#c9d1e0;padding-top:0;border-bottom:1px solid #2
 #tab-hub .pcard,#tab-hub .rcard{position:relative;overflow:hidden;min-width:0;border:1px solid #2a3550;border-radius:14px;background:linear-gradient(165deg,#1c2538 0%,#141b2c 70%,#121826 100%);padding:16px 18px 14px}
 #tab-hub .pcard.tsla,#tab-hub .rcard.btc{box-shadow:inset 3px 0 0 #ffd166}
 #tab-hub .pcard.semi{box-shadow:inset 3px 0 0 #7ee2a0}#tab-hub .pcard.spcx{box-shadow:inset 3px 0 0 #9ec5ff}
+#tab-hub .pcard .px{margin-top:8px;padding-top:8px;border-top:1px solid #222b40}
+#tab-hub .pr span:last-child{text-align:right;font-variant-numeric:tabular-nums}
 #tab-hub .rcard.mstr{box-shadow:inset 3px 0 0 #9ec5ff}
 #tab-hub .rl{display:flex;align-items:center;gap:8px;color:#9aa6bd;font-size:15px;font-weight:700}
 #tab-hub .rl svg{width:22px;height:22px;flex:none}
@@ -139,9 +141,25 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
   $("buy").innerHTML=wk?"<b>"+esc(wk.pick==="SPCX"?"SpaceX (SPCX)":wk.pick)+"</b><div style='margin-top:10px'><b>A$"+Math.ceil(wk.amount_aud)+"</b></div>"+(wk.multiplier!=null?"<div style='margin-top:6px'>Multiplier: "+(+wk.multiplier).toFixed(2)+"×</div>":""):"Not available";
 
   const countRecoup=root=>{if(!root||!root.querySelectorAll)return;const reduce=typeof matchMedia==="function"&&matchMedia("(prefers-reduced-motion: reduce)").matches;root.querySelectorAll(".num").forEach(el=>{const final=el.getAttribute("data-final");if(reduce||typeof requestAnimationFrame!=="function"){el.textContent=final;return;}const n=+el.getAttribute("data-n"),dec=+el.getAttribute("data-d")||0,pre=el.getAttribute("data-p")||"",t0=performance.now();const step=now=>{const u=Math.min(1,(now-t0)/800),e=1-Math.pow(1-u,3),v=n*e;el.textContent=pre+(dec?v.toFixed(dec):Math.round(v).toLocaleString("en-AU"));if(u<1)requestAnimationFrame(step);else el.textContent=final;};requestAnimationFrame(step);});};
-  const yearCagr=key=>{const keys=["BTC","TSLA","MSTR","SEMI","AUDUSD"];if(!d||!d.series||keys.some(k=>!d.series[k]||!d.series[k].length))return null;let last="0000",first="0000";for(const k of keys){const s=d.series[k];if(s[s.length-1][0]>last)last=s[s.length-1][0];if(s[0][0]>first)first=s[0][0];}const e=new Date(last+"T00:00:00Z"),sIso=new Date(Date.UTC(e.getUTCFullYear()-1,e.getUTCMonth(),e.getUTCDate())).toISOString().slice(0,10);if(sIso<first)return null;const at=(k,day)=>{let v=null;const rows=d.series[k];for(let i=0;i<rows.length;i++){if(rows[i][0]<=day)v=rows[i][1];else break;}return v;};const px=(k,day)=>k==="SEMI"?at("SEMI",day):at(k,day)/at("AUDUSD",day);const p0=px(key,sIso),p1=px(key,last),yrs=(Date.parse(last)-Date.parse(sIso))/(365.25*86400000);if(!(p0>0)||!(p1>0)||!(yrs>0))return null;return {start:sIso,end:last,cagr:Math.pow(p1/p0,1/yrs)-1};};
-  const renderPerf=()=>{if(!$("perf"))return;const name={TSLA:"Tesla",SEMI:"SEMI",SPCX:"SpaceX"};const day=iso=>new Date(iso+"T00:00:00Z").toLocaleDateString("en-AU",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"});$("perf").innerHTML=["TSLA","SEMI","SPCX"].map(k=>{const c=yearCagr(k);let val="";if(V&&V[k]&&V[k].price_aud!=null&&COST[k]){const v=COST[k].units*V[k].price_aud,g=v-COST[k].cost,up=g>=0;val="<div class='pr'><span>Value</span><span>"+A(v)+"</span></div><div class='pr'><span>Up / Down</span><span class='"+(up?"up":"down")+"'>"+(up?"+":"-")+A(g)+"</span></div>";}const cagr=c?"<div class='pr'><span>1 year CAGR</span><span class='"+(c.cagr>=0?"up":"down")+"'>"+(c.cagr>=0?"+":"")+(c.cagr*100).toFixed(1)+"%</span></div><div class='pd'>"+day(c.start)+" – "+day(c.end)+"</div>":"<div class='pd'>Yearly CAGR unavailable</div>";return "<article class='pcard "+k.toLowerCase()+"'><div class='rl'>"+name[k]+"</div>"+val+cagr+"</article>";}).join("");};
-  const COST={TSLA:{units:41,cost:25595},SEMI:{units:447,cost:14898.51},SPCX:{units:20.75691899,cost:4114.47}};
+  const renderPerf=()=>{if(!$("perf"))return;const name={TSLA:"Tesla",SEMI:"SEMI",SPCX:"SpaceX"};
+    const money=a=>a.ccy+a.px.toLocaleString("en-AU",{minimumFractionDigits:a.dp,maximumFractionDigits:a.dp});
+    const pct=x=>(x*100).toFixed(1)+"%";
+    $("perf").innerHTML=["TSLA","SEMI","SPCX"].map(k=>{
+      let val="";
+      if(V&&V[k]&&V[k].price_aud!=null&&COST[k]){const v=COST[k].units*V[k].price_aud,g=v-COST[k].cost,up=g>=0;val="<div class='pr'><span>Value</span><span>"+A(v)+"</span></div><div class='pr'><span>Up / Down</span><span class='"+(up?"up":"down")+"'>"+(up?"+":"-")+A(g)+"</span></div>";}
+      const avg=AVG[k],cur=d&&d.today&&d.today[k]?d.today[k].close:null;
+      let px="<div class='pd'>Average buy unavailable</div>";
+      if(avg&&cur>0){const from=cur/avg.px-1,back=avg.px/cur-1,profit=from>=0;
+        px="<div class='px'><div class='pr'><span>Avg buy</span><span>"+money(avg)+"</span></div>"
+          +(profit
+            ?"<div class='pr'><span>In profit</span><span class='up'>+"+pct(from)+"</span></div><div class='pr'><span>To break-even</span><span class='up'>In profit</span></div>"
+            :"<div class='pr'><span>Drawdown</span><span class='down'>"+pct(from)+"</span></div><div class='pr'><span>To break-even</span><span class='amber'>+"+pct(back)+"</span></div>")
+          +"</div>";}
+      return "<article class='pcard "+k.toLowerCase()+"'><div class='rl'>"+name[k]+"</div>"+val+px+"</article>";
+    }).join("");};
+  const COST={TSLA:{units:41,cost:25595},SEMI:{units:453,cost:15066.45},SPCX:{units:20.75691899,cost:4114.47}};
+  /* Avg buy in native currency. TSLA US$420.64 confirmed by Bob (index.html still stores a rounded US$421 and is unchanged). SEMI is 15,066.45/453 = A$33.2593, including 6 units bought 6 Nov 2026 at A$27.99. SPCX US$139.07 is the 2 Nov 2026 fill noted below. Recoup targets still use the 447-unit bitcoin-proceeds lot. */
+  const AVG={TSLA:{px:420.64,ccy:"US$",dp:2},SEMI:{px:15066.45/453,ccy:"A$",dp:4},SPCX:{px:139.07,ccy:"US$",dp:2}};
   /* Bitcoin (1,356 IBTC) sold 2 Nov 2026 for A$14,929.56 vs A$16,500 put in; A$14,898.51 went into SEMI. Left over: A$1,601.49 put in, A$31.05 cash, realised -A$1,570.44 */
   /* MSTR (21.58735618 shares) sold 2 Nov 2026 for US$2,889.59 net = A$4,114.47 at AUD/USD 0.7023 vs A$4,990 put in; all of it went into 20.75691899 SPCX (SpaceX) at US$139.07. Left over: A$875.53 put in, A$0 cash, realised -A$875.53 */
   const SOLD={cost:(16500-14898.51)+(4990-4114.47),cash:(14929.56-14898.51)+0,realised:(14929.56-16500)+(4114.47-4990)};
@@ -160,7 +178,7 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
   const V=d&&d.value_inputs,A=n=>"A$"+Math.round(Math.abs(n)).toLocaleString("en-AU");
   if(V&&Object.keys(COST).every(k=>V[k]&&V[k].price_aud!=null)){let val=SOLD.cash,inn=SOLD.cost;for(const k in COST){const p=V[k].price_aud;val+=COST[k].units*p;inn+=COST[k].cost;}
     const g=val-inn,c=g>=0?"up":"down",s=g>=0?"+":"-";
-    $("tot").innerHTML="<div class='r'><span>Invested</span><span>"+A(inn)+"</span></div><div class='r'><span>Portfolio Value</span><span>"+A(val)+"</span></div><div class='r'><span>Up / Down</span><span class='h "+c+"'>"+s+A(g)+"<small>"+s+Math.abs(g/inn*100).toFixed(1)+"%</small></span></div>"+((mk&&mk.needed&&typeof mk.needed.portfolio_ytd==='number')?(r=>"<div class='r'><span>This year CAGR</span><span class='"+(r>0?"up":r<0?"down":"")+"'>"+(r>0?"+":"")+r+"%</span></div>")(Math.round(mk.needed.portfolio_ytd*100)):"");
+    $("tot").innerHTML="<div class='r'><span>Invested</span><span>"+A(inn)+"</span></div><div class='r'><span>Portfolio Value</span><span>"+A(val)+"</span></div><div class='r'><span>Up / Down</span><span class='h "+c+"'>"+s+A(g)+"<small>"+s+Math.abs(g/inn*100).toFixed(1)+"%</small></span></div>";
     $("rc").innerHTML=RC();countRecoup($("rc"));}
   else $("tot").innerHTML="<div class='h'>–</div>";
   renderPerf();
