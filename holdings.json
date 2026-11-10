@@ -1,19 +1,19 @@
 {
- "generated_utc": "2026-11-10T18:34+00:00",
+ "generated_utc": "2026-11-10T19:41+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 168.18,
-   "change": -0.05868
+   "close": 167.02,
+   "change": -0.06518
   },
   "Micron": {
    "ticker": "MU",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 709.41,
-   "change": -0.03238
+   "close": 710.13,
+   "change": -0.0314
   },
   "TSMC": {
    "ticker": "2330.TW",
@@ -26,15 +26,15 @@
    "ticker": "AMD",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 510.1,
-   "change": 0.00299
+   "close": 511.92,
+   "change": 0.00658
   },
   "Broadcom": {
    "ticker": "AVGO",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 327.26,
-   "change": 0.02435
+   "close": 330.51,
+   "change": 0.03452
   },
   "SK hynix": {
    "ticker": "000660.KS",
@@ -54,57 +54,57 @@
    "ticker": "INTC",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 57.38,
-   "change": -0.03345
+   "close": 57.42,
+   "change": -0.03285
   },
   "Applied Materials": {
    "ticker": "AMAT",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 368.98,
-   "change": -0.00424
+   "close": 369.06,
+   "change": -0.00402
   },
   "Lam Research": {
    "ticker": "LRCX",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 221.46,
-   "change": 0.00068
+   "close": 221.96,
+   "change": 0.00294
   },
   "Texas Instruments": {
    "ticker": "TXN",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 298.04,
-   "change": 0.00781
+   "close": 298.37,
+   "change": 0.00893
   },
   "KLA": {
    "ticker": "KLAC",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 151.63,
-   "change": 0.00165
+   "close": 151.53,
+   "change": 0.00099
   },
   "Analog Devices": {
    "ticker": "ADI",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 389.22,
-   "change": -0.01378
+   "close": 391.33,
+   "change": -0.00844
   },
   "Qualcomm": {
    "ticker": "QCOM",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 170.49,
-   "change": -0.00572
+   "close": 171.8,
+   "change": 0.00192
   },
   "Marvell": {
    "ticker": "MRVL",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 151.49,
-   "change": -0.02012
+   "close": 152.46,
+   "change": -0.01387
   },
   "MediaTek": {
    "ticker": "2454.TW",
@@ -152,22 +152,22 @@
    "ticker": "NXPI",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 260.37,
-   "change": 0.0154
+   "close": 260.6,
+   "change": 0.01628
   },
   "TE Connectivity": {
    "ticker": "TEL",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 217.07,
-   "change": -0.00766
+   "close": 217.94,
+   "change": -0.0037
   },
   "Monolithic Power": {
    "ticker": "MPWR",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 1334.87,
-   "change": -0.03831
+   "close": 1342.62,
+   "change": -0.03273
   },
   "Samsung Electro-Mechanics": {
    "ticker": "009150.KS",
@@ -180,15 +180,15 @@
    "ticker": "COHR",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 211.2,
-   "change": -0.06215
+   "close": 212.82,
+   "change": -0.05491
   },
   "Teradyne": {
    "ticker": "TER",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 243.16,
-   "change": -0.01154
+   "close": 244.51,
+   "change": -0.00604
   },
   "UMC": {
    "ticker": "2303.TW",
@@ -201,8 +201,8 @@
    "ticker": "ALAB",
    "currency": "USD",
    "date": "2026-11-10",
-   "close": 212.25,
-   "change": -0.0213
+   "close": 212.32,
+   "change": -0.02096
   },
   "Renesas": {
    "ticker": "6723.T",
