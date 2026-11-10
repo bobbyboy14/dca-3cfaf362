@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-10T06:47+00:00",
+ "generated_utc": "2026-11-10T08:00+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -40,8 +40,8 @@
    "ticker": "000660.KS",
    "currency": "KRW",
    "date": "2026-11-10",
-   "close": 1218000.0,
-   "change": 0.07218
+   "close": 1212000.0,
+   "change": 0.0669
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -173,8 +173,8 @@
    "ticker": "009150.KS",
    "currency": "KRW",
    "date": "2026-11-10",
-   "close": 878000.0,
-   "change": 0.04152
+   "close": 882000.0,
+   "change": 0.04626
   },
   "Coherent": {
    "ticker": "COHR",
