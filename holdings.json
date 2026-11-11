@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-11T01:51+00:00",
+ "generated_utc": "2026-11-11T02:38+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -19,8 +19,8 @@
    "ticker": "2330.TW",
    "currency": "TWD",
    "date": "2026-11-11",
-   "close": 2315.0,
-   "change": 0.01313
+   "close": 2340.0,
+   "change": 0.02407
   },
   "AMD": {
    "ticker": "AMD",
@@ -40,8 +40,8 @@
    "ticker": "000660.KS",
    "currency": "KRW",
    "date": "2026-11-11",
-   "close": 1230000.0,
-   "change": 0.01485
+   "close": 1236000.0,
+   "change": 0.0198
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -117,22 +117,22 @@
    "ticker": "6857.T",
    "currency": "JPY",
    "date": "2026-11-11",
-   "close": 30840.0,
-   "change": 0.03873
+   "close": 30320.0,
+   "change": 0.02122
   },
   "Tokyo Electron": {
    "ticker": "8035.T",
    "currency": "JPY",
    "date": "2026-11-11",
-   "close": 9289.0,
-   "change": 0.03142
+   "close": 9223.0,
+   "change": 0.0241
   },
   "Kioxia": {
    "ticker": "285A.T",
    "currency": "JPY",
    "date": "2026-11-11",
-   "close": 9488.0,
-   "change": 0.04632
+   "close": 9331.0,
+   "change": 0.029
   },
   "Infineon": {
    "ticker": "IFX.DE",
@@ -145,8 +145,8 @@
    "ticker": "3711.TW",
    "currency": "TWD",
    "date": "2026-11-11",
-   "close": 598.0,
-   "change": -0.01157
+   "close": 600.0,
+   "change": -0.00826
   },
   "NXP": {
    "ticker": "NXPI",
@@ -173,8 +173,8 @@
    "ticker": "009150.KS",
    "currency": "KRW",
    "date": "2026-11-11",
-   "close": 883000.0,
-   "change": 0.00113
+   "close": 884000.0,
+   "change": 0.00227
   },
   "Coherent": {
    "ticker": "COHR",
@@ -194,22 +194,22 @@
    "ticker": "2303.TW",
    "currency": "TWD",
    "date": "2026-11-11",
-   "close": 100.0,
-   "change": -0.00498
+   "close": 101.0,
+   "change": 0.00498
   },
   "Astera Labs": {
    "ticker": "ALAB",
    "currency": "USD",
-   "date": "2026-11-09",
-   "close": 216.87,
-   "change": 0.13717
+   "date": "2026-11-10",
+   "close": 216.18,
+   "change": -0.00318
   },
   "Renesas": {
    "ticker": "6723.T",
    "currency": "JPY",
    "date": "2026-11-11",
-   "close": 2876.5,
-   "change": 0.04867
+   "close": 2893.0,
+   "change": 0.05468
   }
  }
 }
