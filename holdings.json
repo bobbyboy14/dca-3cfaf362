@@ -1,19 +1,19 @@
 {
- "generated_utc": "2026-11-12T16:49+00:00",
+ "generated_utc": "2026-11-12T17:43+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 164.82,
-   "change": -0.05129
+   "close": 165.53,
+   "change": -0.0472
   },
   "Micron": {
    "ticker": "MU",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 788.0,
-   "change": -0.02872
+   "close": 793.07,
+   "change": -0.02247
   },
   "TSMC": {
    "ticker": "2330.TW",
@@ -26,15 +26,15 @@
    "ticker": "AMD",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 586.21,
-   "change": 0.06025
+   "close": 580.49,
+   "change": 0.04991
   },
   "Broadcom": {
    "ticker": "AVGO",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 364.95,
-   "change": 0.05717
+   "close": 365.3,
+   "change": 0.05817
   },
   "SK hynix": {
    "ticker": "000660.KS",
@@ -47,64 +47,64 @@
    "ticker": "ASML.AS",
    "currency": "EUR",
    "date": "2026-11-12",
-   "close": 1380.4,
-   "change": -0.01667
+   "close": 1376.8,
+   "change": -0.01923
   },
   "Intel": {
    "ticker": "INTC",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 61.92,
-   "change": -0.0092
+   "close": 62.1,
+   "change": -0.00632
   },
   "Applied Materials": {
    "ticker": "AMAT",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 391.92,
-   "change": -0.00801
+   "close": 392.58,
+   "change": -0.00633
   },
   "Lam Research": {
    "ticker": "LRCX",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 235.61,
-   "change": -0.00114
+   "close": 235.04,
+   "change": -0.00356
   },
   "Texas Instruments": {
    "ticker": "TXN",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 313.73,
-   "change": 0.01264
+   "close": 313.62,
+   "change": 0.0123
   },
   "KLA": {
    "ticker": "KLAC",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 159.37,
-   "change": -0.01019
+   "close": 159.71,
+   "change": -0.00809
   },
   "Analog Devices": {
    "ticker": "ADI",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 410.45,
-   "change": 0.00335
+   "close": 409.59,
+   "change": 0.00125
   },
   "Qualcomm": {
    "ticker": "QCOM",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 180.41,
-   "change": 0.02175
+   "close": 178.75,
+   "change": 0.01235
   },
   "Marvell": {
    "ticker": "MRVL",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 166.02,
-   "change": -0.01644
+   "close": 166.21,
+   "change": -0.01534
   },
   "MediaTek": {
    "ticker": "2454.TW",
@@ -138,8 +138,8 @@
    "ticker": "IFX.DE",
    "currency": "EUR",
    "date": "2026-11-12",
-   "close": 52.29,
-   "change": 0.00326
+   "close": 52.11,
+   "change": -0.00019
   },
   "ASE Technology": {
    "ticker": "3711.TW",
@@ -152,22 +152,22 @@
    "ticker": "NXPI",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 267.01,
-   "change": -0.00926
+   "close": 267.58,
+   "change": -0.00716
   },
   "TE Connectivity": {
    "ticker": "TEL",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 220.5,
-   "change": 0.00497
+   "close": 220.81,
+   "change": 0.00638
   },
   "Monolithic Power": {
    "ticker": "MPWR",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 1443.88,
-   "change": -0.02354
+   "close": 1448.04,
+   "change": -0.02073
   },
   "Samsung Electro-Mechanics": {
    "ticker": "009150.KS",
@@ -180,15 +180,15 @@
    "ticker": "COHR",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 236.46,
-   "change": 0.00829
+   "close": 236.1,
+   "change": 0.00678
   },
   "Teradyne": {
    "ticker": "TER",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 266.74,
-   "change": 0.00361
+   "close": 266.17,
+   "change": 0.00147
   },
   "UMC": {
    "ticker": "2303.TW",
@@ -201,8 +201,8 @@
    "ticker": "ALAB",
    "currency": "USD",
    "date": "2026-11-12",
-   "close": 229.39,
-   "change": -0.0066
+   "close": 229.51,
+   "change": -0.00606
   },
   "Renesas": {
    "ticker": "6723.T",
