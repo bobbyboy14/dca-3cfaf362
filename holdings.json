@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-12T02:40+00:00",
+ "generated_utc": "2026-11-12T03:41+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -19,8 +19,8 @@
    "ticker": "2330.TW",
    "currency": "TWD",
    "date": "2026-11-12",
-   "close": 2395.0,
-   "change": 0.0
+   "close": 2385.0,
+   "change": -0.00418
   },
   "AMD": {
    "ticker": "AMD",
@@ -40,8 +40,8 @@
    "ticker": "000660.KS",
    "currency": "KRW",
    "date": "2026-11-12",
-   "close": 1304000.0,
-   "change": 0.02114
+   "close": 1289000.0,
+   "change": 0.0094
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -110,29 +110,29 @@
    "ticker": "2454.TW",
    "currency": "TWD",
    "date": "2026-11-12",
-   "close": 4065.0,
-   "change": 0.0188
+   "close": 4010.0,
+   "change": 0.00501
   },
   "Advantest": {
    "ticker": "6857.T",
    "currency": "JPY",
    "date": "2026-11-12",
-   "close": 31070.0,
-   "change": -0.01177
+   "close": 30990.0,
+   "change": -0.01431
   },
   "Tokyo Electron": {
    "ticker": "8035.T",
    "currency": "JPY",
    "date": "2026-11-12",
-   "close": 9685.0,
-   "change": 0.04454
+   "close": 9679.0,
+   "change": 0.0439
   },
   "Kioxia": {
    "ticker": "285A.T",
    "currency": "JPY",
    "date": "2026-11-12",
-   "close": 9940.0,
-   "change": 0.03855
+   "close": 9910.0,
+   "change": 0.03542
   },
   "Infineon": {
    "ticker": "IFX.DE",
@@ -145,8 +145,8 @@
    "ticker": "3711.TW",
    "currency": "TWD",
    "date": "2026-11-12",
-   "close": 624.0,
-   "change": 0.01135
+   "close": 614.0,
+   "change": -0.00486
   },
   "NXP": {
    "ticker": "NXPI",
@@ -173,8 +173,8 @@
    "ticker": "009150.KS",
    "currency": "KRW",
    "date": "2026-11-12",
-   "close": 943000.0,
-   "change": 0.02167
+   "close": 927000.0,
+   "change": 0.00433
   },
   "Coherent": {
    "ticker": "COHR",
@@ -208,8 +208,8 @@
    "ticker": "6723.T",
    "currency": "JPY",
    "date": "2026-11-12",
-   "close": 2962.0,
-   "change": 0.01369
+   "close": 2957.0,
+   "change": 0.01198
   }
  }
 }
