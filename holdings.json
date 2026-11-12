@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-12T08:11+00:00",
+ "generated_utc": "2026-11-12T09:26+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -46,9 +46,9 @@
   "ASML": {
    "ticker": "ASML.AS",
    "currency": "EUR",
-   "date": "2026-11-10",
-   "close": 1361.0,
-   "change": 0.0128
+   "date": "2026-11-12",
+   "close": 1367.2,
+   "change": -0.02607
   },
   "Intel": {
    "ticker": "INTC",
@@ -137,9 +137,9 @@
   "Infineon": {
    "ticker": "IFX.DE",
    "currency": "EUR",
-   "date": "2026-11-10",
-   "close": 49.05,
-   "change": 0.00874
+   "date": "2026-11-12",
+   "close": 51.18,
+   "change": -0.01804
   },
   "ASE Technology": {
    "ticker": "3711.TW",
