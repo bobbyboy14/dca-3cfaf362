@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-12T23:30+00:00",
+ "generated_utc": "2026-11-13T00:40+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -39,9 +39,9 @@
   "SK hynix": {
    "ticker": "000660.KS",
    "currency": "KRW",
-   "date": "2026-11-12",
-   "close": 1254000.0,
-   "change": -0.01801
+   "date": "2026-11-13",
+   "close": 1300000.0,
+   "change": 0.03668
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -116,23 +116,23 @@
   "Advantest": {
    "ticker": "6857.T",
    "currency": "JPY",
-   "date": "2026-11-12",
-   "close": 29985.0,
-   "change": -0.04628
+   "date": "2026-11-13",
+   "close": 31780.0,
+   "change": 0.05986
   },
   "Tokyo Electron": {
    "ticker": "8035.T",
    "currency": "JPY",
-   "date": "2026-11-12",
-   "close": 9304.0,
-   "change": 0.00345
+   "date": "2026-11-13",
+   "close": 9557.0,
+   "change": 0.02719
   },
   "Kioxia": {
    "ticker": "285A.T",
    "currency": "JPY",
-   "date": "2026-11-12",
-   "close": 9300.0,
-   "change": -0.02831
+   "date": "2026-11-13",
+   "close": 9667.0,
+   "change": 0.03946
   },
   "Infineon": {
    "ticker": "IFX.DE",
@@ -172,9 +172,9 @@
   "Samsung Electro-Mechanics": {
    "ticker": "009150.KS",
    "currency": "KRW",
-   "date": "2026-11-12",
-   "close": 886000.0,
-   "change": -0.04009
+   "date": "2026-11-13",
+   "close": 922500.0,
+   "change": 0.0412
   },
   "Coherent": {
    "ticker": "COHR",
@@ -207,9 +207,9 @@
   "Renesas": {
    "ticker": "6723.T",
    "currency": "JPY",
-   "date": "2026-11-12",
-   "close": 2840.0,
-   "change": -0.02806
+   "date": "2026-11-13",
+   "close": 2889.0,
+   "change": 0.01725
   }
  }
 }
