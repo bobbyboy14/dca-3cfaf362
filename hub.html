@@ -99,7 +99,7 @@ nav.tabs a,nav.tabs a::after,#tab-hub .bar i{transition:none;animation:none}
 }
 </style></head><body><div class="w">
 <h1>Bob's Hub</h1>
-<nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="tesla-2030.html">Tesla 2030</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#tsla-score" data-t="tsla-score">Tesla Scorecard</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a></nav>
+<nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="tesla-2030.html">Tesla 2030</a><a href="#tsla-score" data-t="tsla-score">Tesla Scorecard</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a></nav>
 <div id="tab-hub">
 <div class="r1"><div><h2>This Week's Buy</h2>
 <div class="buy" id="buy">…</div></div>
@@ -114,7 +114,7 @@ nav.tabs a,nav.tabs a::after,#tab-hub .bar i{transition:none;animation:none}
 <h2 id="duh" hidden>Daily Update</h2>
 <div class="du" id="du" hidden></div>
 </div>
-<div id="tab-cagr" hidden></div><div id="tab-scorecard" hidden></div><div id="tab-tsla-score" hidden></div>
+<div id="tab-scorecard" hidden></div><div id="tab-tsla-score" hidden></div>
 </div>
 <script>
 
@@ -200,23 +200,12 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
 })();
 </script>
 <script>
-(function(){const TABS=["hub","cagr","scorecard","tsla-score"];let lib=null;
+(function(){const TABS=["hub","scorecard","tsla-score"];let lib=null;
 const need=()=>lib||(lib=new Promise((ok,no)=>{const s=document.createElement("script");s.src="tabs.js?v=19";s.onload=ok;s.onerror=no;document.head.appendChild(s);}));
-async function go(){if(location.hash==="#semireview"){history.replaceState(null,"","#scorecard");}const raw=location.hash.slice(1);const t=(raw==="btc"||raw==="mstr"||raw==="btc-score"||raw==="mstr-score"||raw==="chips"||raw==="spcx-score"||raw==="trajectory")?"hub":(TABS.includes(raw)?raw:"hub");
+async function go(){if(location.hash==="#semireview"){history.replaceState(null,"","#scorecard");}const raw=location.hash.slice(1);const t=(raw==="btc"||raw==="mstr"||raw==="btc-score"||raw==="mstr-score"||raw==="chips"||raw==="spcx-score"||raw==="trajectory"||raw==="cagr")?"hub":(TABS.includes(raw)?raw:"hub");
  TABS.forEach(k=>{document.getElementById("tab-"+k).hidden=k!==t;});
  document.querySelectorAll("nav.tabs a").forEach(a=>a.classList.toggle("on",a.dataset.t===t));
- if(t!=="hub"){try{await need();await HubTabs[t]();if(t==="cagr")fixAmts();}catch(e){document.getElementById("tab-"+t).innerHTML="<div class='muted'>Couldn't load ("+(e.message||e)+"). Pull to refresh.</div>";}}}
+ if(t!=="hub"){try{await need();await HubTabs[t]();}catch(e){document.getElementById("tab-"+t).innerHTML="<div class='muted'>Couldn't load ("+(e.message||e)+"). Pull to refresh.</div>";}}}
 addEventListener("hashchange",go);go();})();
 </script>
-<script>
-/* Editable amount fields on CAGR tab: accept commas/$/decimals, remember last values */
-function fixAmts(){const box=document.getElementById("tab-cagr");if(!box)return;const KEY="hubCagrAmts";let saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
-const els=[...box.querySelectorAll('input[id^="amt_"],#cTop')];
-els.forEach(el=>{el.type="text";el.setAttribute("inputmode","decimal");el.removeAttribute("min");el.removeAttribute("step");el.autocomplete="off";el.style.pointerEvents="auto";
- if(saved[el.id]!=null)el.value=saved[el.id];});
-if(!box.dataset.amtfix){box.dataset.amtfix=1;
- box.addEventListener("input",e=>{const el=e.target;if(!el.matches||!el.matches('input[id^="amt_"],#cTop'))return;const c=el.value.replace(/[^0-9.]/g,"").replace(/(\..*)\./g,"$1");if(c!==el.value)el.value=c;
-  const o={};box.querySelectorAll('input[id^="amt_"],#cTop').forEach(x=>o[x.id]=x.value);try{localStorage.setItem(KEY,JSON.stringify(o))}catch(_){}} ,true);
- box.addEventListener("click",e=>{if(e.target.closest&&e.target.closest(".seg button"))setTimeout(()=>{const o={};box.querySelectorAll('input[id^="amt_"],#cTop').forEach(x=>o[x.id]=x.value);try{localStorage.setItem(KEY,JSON.stringify(o))}catch(_){}},50)});}
-if(Object.keys(saved).length&&els.length)els[els.length-1].dispatchEvent(new Event("input",{bubbles:true}));}
-</script></body></html>
+</body></html>
