@@ -59,6 +59,7 @@ canvas{width:100%;height:380px;display:block}.legend{display:flex;gap:14px;font-
   <label>Semi-annual return rate (%), both assets</label>
   <div class="row"><input id="rateR" type="range" min="-20" max="60" step="0.5" value="25"><input id="rate" type="number" step="0.5" value="25"></div>
   <label>AUD/USD rate (for converting Tesla and SpaceX into A$)</label><input id="fx" type="number" step="0.001" value="0.6774">
+  <label>Realised losses already absorbed (A$, Bitcoin ETF + MSTR, from your sheet)</label><input id="loss" type="number" step="0.01" value="2445.97">
   <div class="btns"><button id="exp">Export settings</button><label>Load settings<input id="imp" type="file" accept=".json" class="hide"></label></div>
  </div>
  <div class="card">
@@ -145,14 +146,14 @@ function calc(){
  const T=sim({p0:g("t_p0")||1,held:g("t_held"),cost:g("t_cost"),dep:g("t_dep"),dca:g("t_dca"),tgt:g("t_tgt")||1},start,r);
  const S=sim({p0:g("s_p0")||1,held:g("s_held"),cost:g("s_cost"),dep:g("s_dep"),dca:g("s_dca"),tgt:g("s_tgt")||1},start,r);
  const Mx=sim({p0:g("m_p0")||1,held:g("m_held"),cost:g("m_cost"),dep:g("m_dep"),dca:g("m_dca"),tgt:g("m_tgt")||1},start,r), fx=g("fx")||0.677;
- const inv=T.inv+S.inv+Mx.inv*fx, val=T.val+S.val+Mx.val*fx, invNow=T.invNow+S.invNow+Mx.invNow*fx;
+ const inv=T.inv+S.inv+Mx.inv*fx+g("loss")*fx, val=T.val+S.val+Mx.val*fx, invNow=T.invNow+S.invNow+Mx.invNow*fx;
  $("iMnow").textContent="A"+fmt(Mx.invNow);$("iM30").textContent="A"+fmt(Mx.inv)+" by Dec 2030";
  $("rMP").textContent="A"+fmt(Mx.price,2);$("rMX").textContent=(Mx.price/(g("m_p0")||1)).toFixed(1)+"x the start price";$("rMB").textContent=Mx.sh>0?"A"+fmt(Mx.be,2):"n/a";$("rMS").textContent=Mx.sh.toFixed(1)+" units";
  $("cNM").textContent=pc(Mx.needCagr);$("cNMs").textContent="Or "+pc(Math.pow(1+Mx.needCagr,.5)-1)+" every six months";
  track("trM","SEMI",Mx,1);draw("cM",Mx,"#2dd4bf");
  const A=v=>"A"+fmt(v/fx);$("iTnow").textContent=A(T.invNow);$("iT30").textContent=A(T.inv)+" by Dec 2030 (US"+fmt(T.invNow)+" so far)";
  if(S){$("iSnow").textContent=A(S.invNow);$("iS30").textContent=A(S.inv)+" by Dec 2030 (US"+fmt(S.invNow)+" so far)"}
- $("iAll").textContent=A(invNow);$("iAll30").textContent=A(inv)+" by Dec 2030";$("heroAll30").textContent="On this projection: "+A(inv)+" put in by Dec 2030 if you keep your weekly buys going, worth about "+A(val)+" then.";
+ $("iAll").textContent=A(invNow);$("iAll30").textContent=A(inv)+" by Dec 2030";$("heroAll30").textContent="On this projection: "+A(inv)+" put in by Dec 2030 if you keep your weekly buys going, worth about "+A(val)+" then. This includes A"+fmt(g("loss"))+" of realised Bitcoin ETF and MSTR losses.";
  $("rTP").textContent=A(T.price);$("rTX").textContent="US"+fmt(T.price)+", "+(T.price/(g("t_p0")||1)).toFixed(1)+"x the start price";
  $("rTB").textContent="A"+fmt(T.be/fx,2);$("rTS").textContent="US"+fmt(T.be,2)+", "+T.sh.toFixed(2)+" shares";
  $("rVal").textContent=A(val);$("rValS").textContent="From "+A(inv)+" put in";
@@ -191,7 +192,7 @@ function draw(id,A,col){
  x.font="bold 14px -apple-system,sans-serif";x.textAlign="right";x.fillStyle=PC;x.fillText("2030: "+fmt(A.P[n]),X(n)-10,Math.max(T+14,YP(A.P[n])-10));
  if(A.BE[n]!==null){x.fillStyle=BC;x.fillText("Break-even "+fmt(A.BE[n]),L+w-6,Math.min(T+h-8,YP(A.BE[n])+22))}
 }
-const KEYS=["start","rate","fx","m_dca","m_held","m_cost","m_dep","m_p0","m_tgt","t_dca","t_held","t_cost","t_dep","t_p0","t_tgt","s_dca","s_held","s_cost","s_dep","s_p0","s_tgt"];
+const KEYS=["start","rate","fx","loss","m_dca","m_held","m_cost","m_dep","m_p0","m_tgt","t_dca","t_held","t_cost","t_dep","t_p0","t_tgt","s_dca","s_held","s_cost","s_dep","s_p0","s_tgt"];
 $("exp").onclick=()=>{const o={saved:new Date().toISOString(),scenario:mode==="M"?"Merged Tesla + SpaceX":"Standalone",mode,end_date:"2030-12-31",settings:{}};
  KEYS.forEach(k=>o.settings[k]=$(k).value);
  o.summary={tesla_price_2030:$("rTP").textContent,position_value_2030:$("rVal").textContent,total_invested_so_far:$("iAll").textContent,total_invested_by_2030:$("iAll30").textContent,your_position_cagr:$("cY").textContent};
