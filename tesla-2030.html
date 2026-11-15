@@ -21,7 +21,8 @@ input[type=number],input[type=date]{width:100%;background:#0f1115;color:var(--tx
 .small{font-size:12px;color:var(--mut);line-height:1.45}
 .track{border-radius:12px;padding:14px;border:1px solid var(--line);margin-top:10px;background:#14171d}
 .track .t{font-weight:700;font-size:15px}.bar{height:10px;background:#0f1115;border-radius:8px;overflow:hidden;margin:8px 0 6px}.bar i{display:block;height:100%;border-radius:8px}
-canvas{width:100%;height:360px;display:block}.legend{display:flex;gap:14px;font-size:12px;color:var(--mut);margin-top:8px;flex-wrap:wrap}.legend b{display:inline-block;width:12px;height:3px;vertical-align:middle;margin-right:6px}
+.ct{margin:0 0 8px;font-size:17px;font-weight:600}.legend2{display:flex;flex-direction:column;gap:6px;font-size:14px;color:#c9cfda;margin-top:12px;line-height:1.4}.legend2>div{display:flex;gap:10px;align-items:flex-start}.legend2 b{flex:0 0 22px;height:4px;margin-top:9px;border-radius:2px}.legend2 b.dash{background:none!important;height:0;border-top:3px dashed}.legend2 strong{color:#e8eaf0}
+canvas{width:100%;height:380px;display:block}.legend{display:flex;gap:14px;font-size:12px;color:var(--mut);margin-top:8px;flex-wrap:wrap}.legend b{display:inline-block;width:12px;height:3px;vertical-align:middle;margin-right:6px}
 .inv{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}@media(max-width:650px){.inv{grid-template-columns:1fr}}
 .btns{display:flex;gap:8px;margin-top:14px}.btns button,.btns label{flex:1;margin:0;text-align:center;background:#0f1115;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px;font-size:13px;cursor:pointer}.btns button:hover,.btns label:hover{border-color:var(--red)}
 .hide{display:none!important}.note{font-size:12px;color:var(--mut);line-height:1.55}
@@ -74,14 +75,14 @@ canvas{width:100%;height:360px;display:block}.legend{display:flex;gap:14px;font-
  </div>
 </div>
 <div>
- <div class="card"><canvas id="cT"></canvas>
-  <div class="legend"><span><b style="background:var(--red)"></b>Projected TSLA price</span><span><b style="background:var(--amb)"></b>Path needed for target</span><span><b style="background:var(--blu)"></b>Break-even (your average cost)</span><span><b style="background:var(--grn)"></b>Position value (right axis)</span><span><b style="background:#5b6475"></b>Total put in (right axis)</span></div>
+ <div class="card"><h3 class="ct">Tesla (TSLA) price, US$</h3><canvas id="cT"></canvas>
+  <div class="legend2"><div><b style="background:#38bdf8"></b><span><strong>Blue line, projected price:</strong> where Tesla could go at the growth rate you set above (25% every six months by default).</span></div><div><b style="background:#f5b301"></b><span><strong>Yellow line, break-even:</strong> your average cost per share as you keep buying. Above it you're in profit.</span></div><div><b class="dash" style="border-color:#f87171"></b><span><strong>Red dashed line, target:</strong> the 2030 price you're aiming for. If the blue line ends above it, you're on track.</span></div></div>
  </div>
- <div class="card" id="spxChart"><canvas id="cS"></canvas>
-  <div class="legend"><span><b style="background:var(--pur)"></b>Projected SPCX price</span><span><b style="background:var(--amb)"></b>Path needed for target</span><span><b style="background:var(--blu)"></b>Break-even</span><span><b style="background:var(--grn)"></b>SPCX position value (right axis)</span><span><b style="background:#5b6475"></b>SPCX put in (right axis)</span></div>
+ <div class="card" id="spxChart"><h3 class="ct">SpaceX (SPCX) price, US$</h3><canvas id="cS"></canvas>
+  <div class="legend2"><div><b style="background:#38bdf8"></b><span><strong>Blue line, projected price:</strong> where SpaceX could go at the growth rate you set above (25% every six months by default).</span></div><div><b style="background:#f5b301"></b><span><strong>Yellow line, break-even:</strong> your average cost per share as you keep buying. Above it you're in profit.</span></div><div><b class="dash" style="border-color:#f87171"></b><span><strong>Red dashed line, target:</strong> the 2030 price you're aiming for. If the blue line ends above it, you're on track.</span></div></div>
  </div>
- <div class="card"><canvas id="cM"></canvas>
-  <div class="legend"><span><b style="background:var(--teal)"></b>Projected SEMI price (A$)</span><span><b style="background:var(--amb)"></b>Path needed for target</span><span><b style="background:var(--blu)"></b>Break-even</span><span><b style="background:var(--grn)"></b>SEMI position value (right axis, A$)</span><span><b style="background:#5b6475"></b>SEMI put in (right axis, A$)</span></div>
+ <div class="card"><h3 class="ct">SEMI ETF price, A$</h3><canvas id="cM"></canvas>
+  <div class="legend2"><div><b style="background:#38bdf8"></b><span><strong>Blue line, projected price:</strong> where SEMI could go at the growth rate you set above (25% every six months by default).</span></div><div><b style="background:#f5b301"></b><span><strong>Yellow line, break-even:</strong> your average cost per unit as you keep buying. Above it you're in profit.</span></div><div><b class="dash" style="border-color:#f87171"></b><span><strong>Red dashed line, target:</strong> the 2030 price you're aiming for. If the blue line ends above it, you're on track.</span></div></div>
  </div>
  <div class="card"><h3>Total investment</h3>
   <div class="inv" style="grid-template-columns:repeat(4,1fr)">
@@ -174,21 +175,24 @@ function track(id,name,A){
 function draw(id,A,col){
  const c=$(id),dpr=window.devicePixelRatio||1,W=c.clientWidth,H=c.clientHeight;c.width=W*dpr;c.height=H*dpr;
  const x=c.getContext("2d");x.scale(dpr,dpr);x.clearRect(0,0,W,H);
- const L=58,R=72,T=16,B=30,w=W-L-R,h=H-T-B,n=A.P.length-1;
+ const PC="#38bdf8",BC="#f5b301",TC="#f87171";
+ const L=70,R=20,T=20,B=36,w=W-L-R,h=H-T-B,n=A.P.length-1;
  const bes=A.BE.filter(v=>v!==null);
- const maxP=Math.max(...A.P,...A.N,A.tgt,...bes)*1.08, maxV=Math.max(...A.V,...A.I,1)*1.08;
- const X=i=>L+i/n*w, YP=v=>T+h-v/maxP*h, YV=v=>T+h-v/maxV*h;
- x.font="11px -apple-system,sans-serif";x.strokeStyle="#2a2f3a";x.fillStyle="#9aa3b2";x.lineWidth=1;
- for(let k=0;k<=5;k++){const y=T+h*k/5;x.beginPath();x.moveTo(L,y);x.lineTo(L+w,y);x.stroke();
-  x.textAlign="right";x.fillText(fmt(maxP*(1-k/5)),L-6,y+4);x.textAlign="left";x.fillText(fmt(maxV*(1-k/5)),L+w+6,y+4)}
- x.textAlign="center";A.D.forEach((d,i)=>{if(i>0&&d.getFullYear()!==A.D[i-1].getFullYear()){x.fillStyle="#9aa3b2";x.fillText(d.getFullYear(),X(i),H-10);x.strokeStyle="#2a2f3a";x.beginPath();x.moveTo(X(i),T);x.lineTo(X(i),T+h);x.stroke()}});
- x.setLineDash([6,5]);x.strokeStyle="#e8eaf0";x.beginPath();x.moveTo(L,YP(A.tgt));x.lineTo(L+w,YP(A.tgt));x.stroke();x.setLineDash([]);
- x.fillStyle="#e8eaf0";x.textAlign="left";x.fillText("Target "+fmt(A.tgt),L+6,YP(A.tgt)-6);
- const line=(arr,Y,c2,wd,dash)=>{x.strokeStyle=c2;x.lineWidth=wd;x.setLineDash(dash||[]);x.beginPath();let s=false;arr.forEach((v,i)=>{if(v===null)return;s?x.lineTo(X(i),Y(v)):(x.moveTo(X(i),Y(v)),s=true)});x.stroke();x.setLineDash([])};
- line(A.I,YV,"#5b6475",1.5);line(A.V,YV,"#22c55e",2);line(A.N,YP,"#f5b301",1.5,[4,4]);line(A.BE,YP,"#38bdf8",2);line(A.P,YP,col,3);
- if(A.BE[n]!==null){x.fillStyle="#38bdf8";x.textAlign="right";x.fillText("Break-even "+fmt(A.BE[n]),L+w-4,YP(A.BE[n])+14)}
- const now=new Date();if(now>A.D[0]&&now<A.D[n]){const i=Math.round((now-A.D[0])/(7*DAY));x.strokeStyle="#e8eaf0";x.setLineDash([2,3]);x.beginPath();x.moveTo(X(i),T);x.lineTo(X(i),T+h);x.stroke();x.setLineDash([]);x.fillStyle="#e8eaf0";x.textAlign="center";x.fillText("Today",X(i)+18,T+h-6)}
- x.fillStyle=col;x.beginPath();x.arc(X(n),YP(A.P[n]),4,0,7);x.fill();
+ const maxP=Math.max(...A.P,A.tgt,...bes)*1.12;
+ const X=i=>L+i/n*w, YP=v=>T+h-v/maxP*h;
+ x.font="14px -apple-system,sans-serif";x.strokeStyle="#262b35";x.fillStyle="#b6bdca";x.lineWidth=1;
+ for(let k=0;k<=4;k++){const y=T+h*k/4;x.beginPath();x.moveTo(L,y);x.lineTo(L+w,y);x.stroke();x.textAlign="right";x.fillText(fmt(maxP*(1-k/4)),L-8,y+5)}
+ x.textAlign="center";A.D.forEach((d,i)=>{if(i>0&&d.getFullYear()!==A.D[i-1].getFullYear()){x.fillStyle="#b6bdca";x.fillText(d.getFullYear(),X(i),H-10)}});
+ const line=(arr,c2,wd,dash)=>{x.strokeStyle=c2;x.lineWidth=wd;x.setLineDash(dash||[]);x.beginPath();let s=false;arr.forEach((v,i)=>{if(v===null)return;s?x.lineTo(X(i),YP(v)):(x.moveTo(X(i),YP(v)),s=true)});x.stroke();x.setLineDash([])};
+ line(A.P.map(()=>A.tgt),TC,2,[8,6]);
+ line(A.BE,BC,3);
+ line(A.P,PC,4);
+ const tag=(txt,yy,c2)=>{x.font="bold 14px -apple-system,sans-serif";const tw=x.measureText(txt).width+12;let xx=L+8;x.fillStyle="rgba(15,17,21,.85)";x.fillRect(xx,yy-12,tw,22);x.fillStyle=c2;x.textAlign="left";x.fillText(txt,xx+6,yy+4)};
+ const now=new Date();if(now>A.D[0]&&now<A.D[n]){const i=Math.round((now-A.D[0])/(7*DAY));x.strokeStyle="#6b7280";x.setLineDash([2,4]);x.lineWidth=1;x.beginPath();x.moveTo(X(i),T);x.lineTo(X(i),T+h);x.stroke();x.setLineDash([])}
+ tag("Target "+fmt(A.tgt),YP(A.tgt)-16,TC);
+ x.fillStyle=PC;x.beginPath();x.arc(X(n),YP(A.P[n]),6,0,7);x.fill();
+ x.font="bold 14px -apple-system,sans-serif";x.textAlign="right";x.fillStyle=PC;x.fillText("2030: "+fmt(A.P[n]),X(n)-10,Math.max(T+14,YP(A.P[n])-10));
+ if(A.BE[n]!==null){x.fillStyle=BC;x.fillText("Break-even "+fmt(A.BE[n]),L+w-6,Math.min(T+h-8,YP(A.BE[n])+22))}
 }
 const KEYS=["start","rate","fx","m_dca","m_held","m_cost","m_dep","m_p0","m_tgt","t_dca","t_held","t_cost","t_dep","t_p0","t_tgt","s_dca","s_held","s_cost","s_dep","s_p0","s_tgt"];
 $("exp").onclick=()=>{const o={saved:new Date().toISOString(),scenario:mode==="M"?"Merged Tesla + SpaceX":"Standalone",mode,end_date:"2030-12-31",settings:{}};
