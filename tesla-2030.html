@@ -36,13 +36,10 @@ canvas{width:100%;height:380px;display:block}.legend{display:flex;gap:14px;font-
 <div class="hero"><div class="k">Projected at 31 Dec 2030, Tesla + SpaceX + SEMI (A$)</div><div class="h3c" style="grid-template-columns:1fr 1fr"><div><div class="k">Total position value</div><div class="big" id="rVal"></div><div class="small" id="rValS"></div></div><div><div class="k">Profit on position</div><div class="big" id="rPr"></div><div class="small" id="rPrS"></div></div></div></div>
 <div class="hero"><div class="h3c" style="grid-template-columns:1fr 1fr"><div><div class="k">Future weekly buys until 31 Dec 2030</div><div class="big" id="futDca"></div><div class="small" id="futDcaS"></div></div></div><div class="small" id="heroAll30"></div></div>
  <div class="card"><h3>Total investment</h3>
-  <div class="inv" style="grid-template-columns:repeat(4,1fr)">
-   <div class="stat"><div class="k">Tesla invested so far (A$)</div><div class="v" id="iTnow"></div><div class="small" id="iT30"></div></div>
-   <div class="stat" id="iSbox"><div class="k">SpaceX invested so far (A$)</div><div class="v" id="iSnow"></div><div class="small" id="iS30"></div></div>
-   <div class="stat"><div class="k">SEMI invested so far (A$)</div><div class="v" id="iMnow"></div><div class="small" id="iM30"></div></div>
+  <div class="inv" style="grid-template-columns:1fr">
    <div class="stat"><div class="k">Total invested so far (A$)</div><div class="v" id="iAll"></div><div class="small" id="iAll30"></div></div>
   </div>
-  <div class="small" style="margin-top:8px">All invested figures here are in Aussie dollars. Tesla and SpaceX are converted from US$ using the AUD/USD rate above. "So far" counts your shares at the price you paid, plus any deposit, plus every weekly DCA from the start date up to today. Starting holdings come from your portfolio sheet on 15 Nov 2026: 41 TSLA at US$420.64, 20.7569 SPCX at US$139.21 and 453 SEMI at A$33.26. Your sheet records A$25,595, A$4,114 and A$15,066 actually put in (A$44,776 in total); the US$ figures here differ slightly because of exchange rates at the time you bought.</div>
+  <div class="small" style="margin-top:8px">All invested figures here are in Aussie dollars. Tesla and SpaceX are converted from US$ using the AUD/USD rate above. "So far" counts your shares at the price you paid, plus any deposit, plus every weekly DCA from the start date up to today. Starting holdings come from your portfolio sheet on 15 Nov 2026: 41 TSLA at US$420.64, 20.7569 SPCX at US$139.21 and 453 SEMI at A$33.26. Your sheet records A$44,776 actually put in; the figure here differs slightly because of exchange rates at the time you bought.</div>
  </div>
  <div class="card"><h3>Results at 31 Dec 2030 (all in A$)</h3>
   <div class="pairs"><div class="pair"><div class="pn t">Tesla (TSLA)</div><div class="pr"><div><div class="k">Projected price</div><div class="v" id="rTP"></div><div class="small" id="rTX"></div></div><div><div class="k">Your position value</div><div class="v" id="pvT"></div><div class="small" id="pvTs"></div></div></div></div><div class="pair"><div class="pn s">SpaceX (SPCX)</div><div class="pr"><div><div class="k">Projected price</div><div class="v" id="rSP"></div><div class="small" id="rSX"></div></div><div><div class="k">Your position value</div><div class="v" id="pvS"></div><div class="small" id="pvSs"></div></div></div></div><div class="pair"><div class="pn m">SEMI ETF</div><div class="pr"><div><div class="k">Projected price</div><div class="v" id="rMP"></div><div class="small" id="rMX"></div></div><div><div class="k">Your position value</div><div class="v" id="pvM"></div><div class="small" id="pvMs"></div></div></div></div></div><div style="display:none" class="stat"><div class="k">TSLA break-even price (A$)</div><div class="v" id="rTB"></div><div class="small" id="rTS"></div></div><div style="display:none" class="stat sp"><div class="k">SPCX break-even price (A$)</div><div class="v" id="rSB"></div><div class="small" id="rSS"></div></div><div style="display:none" class="stat"><div class="k">SEMI break-even price (A$)</div><div class="v" id="rMB"></div><div class="small" id="rMS"></div></div>
@@ -147,12 +144,12 @@ function calc(){
  const S=sim({p0:g("s_p0")||1,held:g("s_held"),cost:g("s_cost"),dep:g("s_dep"),dca:g("s_dca"),tgt:g("s_tgt")||1},start,r);
  const Mx=sim({p0:g("m_p0")||1,held:g("m_held"),cost:g("m_cost"),dep:g("m_dep"),dca:g("m_dca"),tgt:g("m_tgt")||1},start,r), fx=g("fx")||0.677;
  const inv=T.inv+S.inv+Mx.inv*fx+g("loss")*fx, val=T.val+S.val+Mx.val*fx, invNow=T.invNow+S.invNow+Mx.invNow*fx;
- $("iMnow").textContent="A"+fmt(Mx.invNow);$("iM30").textContent="A"+fmt(Mx.inv)+" by Dec 2030";
+ 
  $("rMP").textContent="A"+fmt(Mx.price,2);$("rMX").textContent=(Mx.price/(g("m_p0")||1)).toFixed(1)+"x the start price";$("rMB").textContent=Mx.sh>0?"A"+fmt(Mx.be,2):"n/a";$("rMS").textContent=Mx.sh.toFixed(1)+" units";
  $("cNM").textContent=pc(Mx.needCagr);$("cNMs").textContent="Or "+pc(Math.pow(1+Mx.needCagr,.5)-1)+" every six months";
  track("trM","SEMI",Mx,1);draw("cM",Mx,"#2dd4bf");
- const A=v=>"A"+fmt(v/fx);$("iTnow").textContent=A(T.invNow);$("iT30").textContent=A(T.inv)+" by Dec 2030 (US"+fmt(T.invNow)+" so far)";
- if(S){$("iSnow").textContent=A(S.invNow);$("iS30").textContent=A(S.inv)+" by Dec 2030 (US"+fmt(S.invNow)+" so far)"}
+ const A=v=>"A"+fmt(v/fx);
+ 
  $("iAll").textContent=A(invNow);$("iAll30").textContent=A(inv)+" by Dec 2030";$("heroAll30").textContent="On this projection: "+A(inv)+" put in by Dec 2030 if you keep your weekly buys going, worth about "+A(val)+" then. This includes A"+fmt(g("loss"))+" of realised Bitcoin ETF and MSTR losses.";
  $("rTP").textContent=A(T.price);$("rTX").textContent="US"+fmt(T.price)+", "+(T.price/(g("t_p0")||1)).toFixed(1)+"x the start price";
  $("rTB").textContent="A"+fmt(T.be/fx,2);$("rTS").textContent="US"+fmt(T.be,2)+", "+T.sh.toFixed(2)+" shares";
