@@ -44,20 +44,20 @@ canvas{width:100%;height:360px;display:block}.legend{display:flex;gap:14px;font-
   <h3 class="t">Tesla (TSLA)</h3>
   <label class="f">Weekly DCA (US$)</label>
   <div class="row"><input id="t_dcaR" type="range" min="0" max="1000" step="5" value="75"><input id="t_dca" type="number" min="0" step="5" value="75"></div>
-  <div class="two"><div><label>Shares you own</label><input id="t_held" type="number" min="0" step="0.01" value="1"></div>
-  <div><label>Average price paid (US$)</label><input id="t_cost" type="number" min="0" step="1" value="385"></div></div>
+  <div class="two"><div><label>Shares you own</label><input id="t_held" type="number" min="0" step="0.01" value="41"></div>
+  <div><label>Average price paid (US$)</label><input id="t_cost" type="number" min="0" step="0.01" value="420.64"></div></div>
   <div class="two"><div><label>One-time deposit (US$)</label><input id="t_dep" type="number" min="0" step="50" value="0"></div>
-  <div><label>Price at start date (US$)</label><input id="t_p0" type="number" min="1" step="1" value="385"></div></div>
+  <div><label>Price at start date (US$)</label><input id="t_p0" type="number" min="1" step="0.01" value="390.22"></div></div>
   <label>2030 target per share (US$)</label><input id="t_tgt" type="number" step="1" value="2530">
  </div>
  <div class="card" id="spxCard">
   <h3 class="s">SpaceX (SPCX)</h3>
   <label class="f">Weekly DCA (US$)</label>
   <div class="row"><input id="s_dcaR" type="range" min="0" max="1000" step="5" value="75"><input id="s_dca" type="number" min="0" step="5" value="75"></div>
-  <div class="two"><div><label>Shares you own</label><input id="s_held" type="number" min="0" step="0.01" value="0"></div>
-  <div><label>Average price paid (US$)</label><input id="s_cost" type="number" min="0" step="1" value="136"></div></div>
+  <div class="two"><div><label>Shares you own</label><input id="s_held" type="number" min="0" step="0.0001" value="20.7569"></div>
+  <div><label>Average price paid (US$)</label><input id="s_cost" type="number" min="0" step="0.01" value="139.21"></div></div>
   <div class="two"><div><label>One-time deposit (US$)</label><input id="s_dep" type="number" min="0" step="50" value="0"></div>
-  <div><label>Price at start date (US$)</label><input id="s_p0" type="number" min="1" step="1" value="136"></div></div>
+  <div><label>Price at start date (US$)</label><input id="s_p0" type="number" min="1" step="0.01" value="139.11"></div></div>
   <label>2030 target per share (US$)</label><input id="s_tgt" type="number" step="1" value="1105">
   <div class="small" style="margin-top:6px" id="spxNote"></div>
  </div>
@@ -65,8 +65,8 @@ canvas{width:100%;height:360px;display:block}.legend{display:flex;gap:14px;font-
   <h3 class="m">Global X Semiconductor ETF (SEMI.ASX), A$</h3>
   <label class="f">Weekly DCA (A$)</label>
   <div class="row"><input id="m_dcaR" type="range" min="0" max="1000" step="5" value="75"><input id="m_dca" type="number" min="0" step="5" value="75"></div>
-  <div class="two"><div><label>Units you own</label><input id="m_held" type="number" min="0" step="1" value="0"></div>
-  <div><label>Average price paid (A$)</label><input id="m_cost" type="number" min="0" step="0.01" value="32.99"></div></div>
+  <div class="two"><div><label>Units you own</label><input id="m_held" type="number" min="0" step="1" value="453"></div>
+  <div><label>Average price paid (A$)</label><input id="m_cost" type="number" min="0" step="0.01" value="33.26"></div></div>
   <div class="two"><div><label>One-time deposit (A$)</label><input id="m_dep" type="number" min="0" step="50" value="0"></div>
   <div><label>Price at start date (A$)</label><input id="m_p0" type="number" min="0.01" step="0.01" value="32.99"></div></div>
   <label>2030 target per unit (A$)</label><input id="m_tgt" type="number" step="0.5" value="79">
@@ -90,7 +90,7 @@ canvas{width:100%;height:360px;display:block}.legend{display:flex;gap:14px;font-
    <div class="stat"><div class="k">SEMI invested so far (A$)</div><div class="v" id="iMnow"></div><div class="small" id="iM30"></div></div>
    <div class="stat"><div class="k">Total invested so far (US$)</div><div class="v" id="iAll"></div><div class="small" id="iAll30"></div></div>
   </div>
-  <div class="small" style="margin-top:8px">SEMI is converted into US$ for the total using the AUD/USD rate above. "So far" counts your shares at the price you paid, plus any deposit, plus every weekly DCA from the start date up to today.</div>
+  <div class="small" style="margin-top:8px">SEMI is converted into US$ for the total using the AUD/USD rate above. "So far" counts your shares at the price you paid, plus any deposit, plus every weekly DCA from the start date up to today. Starting holdings come from your portfolio sheet on 15 Nov 2026: 41 TSLA at US$420.64, 20.7569 SPCX at US$139.21 and 453 SEMI at A$33.26. Your sheet records A$25,595, A$4,114 and A$15,066 actually put in (A$44,776 in total); the US$ figures here differ slightly because of exchange rates at the time you bought.</div>
  </div>
  <div class="card"><h3>Results at 31 Dec 2030</h3>
   <div class="stats">
