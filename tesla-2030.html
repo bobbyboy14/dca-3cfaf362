@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tesla & SpaceX 2030 Projection</title>
+<title>Tesla, SpaceX & SEMI 2030 Projection</title>
 <style>
-:root{--bg:#0f1115;--card:#181b22;--line:#2a2f3a;--txt:#e8eaf0;--mut:#9aa3b2;--red:#e82127;--grn:#22c55e;--amb:#f5b301;--blu:#38bdf8;--pur:#a78bfa}
+:root{--bg:#0f1115;--card:#181b22;--line:#2a2f3a;--txt:#e8eaf0;--mut:#9aa3b2;--red:#e82127;--grn:#22c55e;--amb:#f5b301;--blu:#38bdf8;--pur:#a78bfa;--teal:#2dd4bf}
 *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt)}
 .wrap{max-width:1180px;margin:0 auto;padding:28px 20px}
 h1{margin:0 0 4px;font-size:26px}h1 span{color:var(--red)}.sub{color:var(--mut);margin-bottom:22px;font-size:14px}
 .grid{display:grid;grid-template-columns:340px 1fr;gap:18px}@media(max-width:900px){.grid{grid-template-columns:1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
-.card h3{margin:0 0 10px;font-size:15px}.card h3.t{color:var(--red)}.card h3.s{color:var(--pur)}
+.card h3{margin:0 0 10px;font-size:15px}.card h3.t{color:var(--red)}.card h3.s{color:var(--pur)}.card h3.m{color:var(--teal)}
 label{display:block;font-size:12.5px;color:var(--mut);margin:12px 0 5px}label.f{margin-top:0}
 .row{display:flex;gap:10px;align-items:center}input[type=range]{flex:1;accent-color:var(--red)}
 input[type=number],input[type=date]{width:100%;background:#0f1115;color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:7px 8px;font-size:14px;color-scheme:dark}
@@ -26,7 +26,7 @@ canvas{width:100%;height:360px;display:block}.legend{display:flex;gap:14px;font-
 .btns{display:flex;gap:8px;margin-top:14px}.btns button,.btns label{flex:1;margin:0;text-align:center;background:#0f1115;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px;font-size:13px;cursor:pointer}.btns button:hover,.btns label:hover{border-color:var(--red)}
 .hide{display:none!important}.note{font-size:12px;color:var(--mut);line-height:1.55}
 </style></head><body><div class="wrap">
-<h1>Tesla &amp; SpaceX <span>2030</span> Projection</h1>
+<h1>Tesla, SpaceX &amp; SEMI <span>2030</span> Projection</h1>
 <div class="sub" id="sub"></div>
 <div class="grid">
 <div>
@@ -37,6 +37,7 @@ canvas{width:100%;height:360px;display:block}.legend{display:flex;gap:14px;font-
   <div class="small" style="margin-top:6px">The projection runs from the start date to 31 Dec 2030.</div>
   <label>Semi-annual return rate (%), both assets</label>
   <div class="row"><input id="rateR" type="range" min="-20" max="60" step="0.5" value="25"><input id="rate" type="number" step="0.5" value="25"></div>
+  <label>AUD/USD rate (for adding SEMI into the US$ totals)</label><input id="fx" type="number" step="0.001" value="0.677">
   <div class="btns"><button id="exp">Export settings</button><label>Load settings<input id="imp" type="file" accept=".json" class="hide"></label></div>
  </div>
  <div class="card">
@@ -60,6 +61,17 @@ canvas{width:100%;height:360px;display:block}.legend{display:flex;gap:14px;font-
   <label>2030 target per share (US$)</label><input id="s_tgt" type="number" step="1" value="1105">
   <div class="small" style="margin-top:6px" id="spxNote"></div>
  </div>
+ <div class="card">
+  <h3 class="m">Global X Semiconductor ETF (SEMI.ASX), A$</h3>
+  <label class="f">Weekly DCA (A$)</label>
+  <div class="row"><input id="m_dcaR" type="range" min="0" max="1000" step="5" value="75"><input id="m_dca" type="number" min="0" step="5" value="75"></div>
+  <div class="two"><div><label>Units you own</label><input id="m_held" type="number" min="0" step="1" value="0"></div>
+  <div><label>Average price paid (A$)</label><input id="m_cost" type="number" min="0" step="0.01" value="32.99"></div></div>
+  <div class="two"><div><label>One-time deposit (A$)</label><input id="m_dep" type="number" min="0" step="50" value="0"></div>
+  <div><label>Price at start date (A$)</label><input id="m_p0" type="number" min="0.01" step="0.01" value="32.99"></div></div>
+  <label>2030 target per unit (A$)</label><input id="m_tgt" type="number" step="0.5" value="79">
+  <div class="small" style="margin-top:6px">There's no analyst target for an ETF. A$79 is SEMI's 5-year growth rate (about 23.6% a year, from A$11.56 in Dec 2021 to A$32.99 on 13 Nov 2026) carried forward to Dec 2030. It's volatile: it hit about A$46.61 in mid-2026 before falling back. The merger toggle doesn't affect SEMI.</div>
+ </div>
 </div>
 <div>
  <div class="card"><canvas id="cT"></canvas>
@@ -68,30 +80,37 @@ canvas{width:100%;height:360px;display:block}.legend{display:flex;gap:14px;font-
  <div class="card" id="spxChart"><canvas id="cS"></canvas>
   <div class="legend"><span><b style="background:var(--pur)"></b>Projected SPCX price</span><span><b style="background:var(--amb)"></b>Path needed for target</span><span><b style="background:var(--blu)"></b>Break-even</span><span><b style="background:var(--grn)"></b>SPCX position value (right axis)</span><span><b style="background:#5b6475"></b>SPCX put in (right axis)</span></div>
  </div>
+ <div class="card"><canvas id="cM"></canvas>
+  <div class="legend"><span><b style="background:var(--teal)"></b>Projected SEMI price (A$)</span><span><b style="background:var(--amb)"></b>Path needed for target</span><span><b style="background:var(--blu)"></b>Break-even</span><span><b style="background:var(--grn)"></b>SEMI position value (right axis, A$)</span><span><b style="background:#5b6475"></b>SEMI put in (right axis, A$)</span></div>
+ </div>
  <div class="card"><h3>Total investment</h3>
-  <div class="inv">
+  <div class="inv" style="grid-template-columns:repeat(4,1fr)">
    <div class="stat"><div class="k">Tesla invested so far</div><div class="v" id="iTnow"></div><div class="small" id="iT30"></div></div>
    <div class="stat" id="iSbox"><div class="k">SpaceX invested so far</div><div class="v" id="iSnow"></div><div class="small" id="iS30"></div></div>
-   <div class="stat"><div class="k">Total invested so far</div><div class="v" id="iAll"></div><div class="small" id="iAll30"></div></div>
+   <div class="stat"><div class="k">SEMI invested so far (A$)</div><div class="v" id="iMnow"></div><div class="small" id="iM30"></div></div>
+   <div class="stat"><div class="k">Total invested so far (US$)</div><div class="v" id="iAll"></div><div class="small" id="iAll30"></div></div>
   </div>
-  <div class="small" style="margin-top:8px">"So far" counts your shares at the price you paid, plus any deposit, plus every weekly DCA from the start date up to today.</div>
+  <div class="small" style="margin-top:8px">SEMI is converted into US$ for the total using the AUD/USD rate above. "So far" counts your shares at the price you paid, plus any deposit, plus every weekly DCA from the start date up to today.</div>
  </div>
  <div class="card"><h3>Results at 31 Dec 2030</h3>
   <div class="stats">
    <div class="stat"><div class="k">Projected TSLA price</div><div class="v" id="rTP"></div><div class="small" id="rTX"></div></div>
    <div class="stat"><div class="k">TSLA break-even price</div><div class="v" id="rTB"></div><div class="small" id="rTS"></div></div>
-   <div class="stat"><div class="k">Position value</div><div class="v" id="rVal"></div><div class="small" id="rValS"></div></div>
+   <div class="stat"><div class="k">Total position value (US$)</div><div class="v" id="rVal"></div><div class="small" id="rValS"></div></div>
    <div class="stat sp"><div class="k">Projected SPCX price</div><div class="v" id="rSP"></div><div class="small" id="rSX"></div></div>
    <div class="stat sp"><div class="k">SPCX break-even price</div><div class="v" id="rSB"></div><div class="small" id="rSS"></div></div>
-   <div class="stat"><div class="k">Profit on position</div><div class="v" id="rPr"></div><div class="small" id="rPrS"></div></div>
+   <div class="stat"><div class="k">Projected SEMI price (A$)</div><div class="v" id="rMP"></div><div class="small" id="rMX"></div></div>
+   <div class="stat"><div class="k">SEMI break-even price (A$)</div><div class="v" id="rMB"></div><div class="small" id="rMS"></div></div>
+   <div class="stat"><div class="k">Profit on position (US$)</div><div class="v" id="rPr"></div><div class="small" id="rPrS"></div></div>
   </div>
-  <div id="trT" class="track"></div><div id="trS" class="track"></div>
+  <div id="trT" class="track"></div><div id="trS" class="track"></div><div id="trM" class="track"></div>
  </div>
  <div class="card"><h3>CAGR (compound annual growth rate)</h3>
   <div class="stats">
    <div class="stat"><div class="k">Projected price CAGR</div><div class="v" id="cP"></div><div class="small">The semi-annual rate compounded twice a year</div></div>
    <div class="stat"><div class="k">TSLA CAGR needed for target</div><div class="v" id="cNT"></div><div class="small" id="cNTs"></div></div>
    <div class="stat sp"><div class="k">SPCX CAGR needed for target</div><div class="v" id="cNS"></div><div class="small" id="cNSs"></div></div>
+   <div class="stat"><div class="k">SEMI CAGR needed for target</div><div class="v" id="cNM"></div><div class="small" id="cNMs"></div></div>
    <div class="stat"><div class="k">Your position's CAGR</div><div class="v" id="cY"></div><div class="small">2030 value against total put in, annualised from the start date</div></div>
   </div>
  </div>
@@ -104,7 +123,7 @@ const fmt=(n,d=0)=>(n<0?"-":"")+"$"+Math.abs(n).toLocaleString("en-US",{maximumF
 const pc=n=>(n*100).toFixed(1)+"%", mo=d=>d.toLocaleString("en-AU",{month:"short",year:"numeric"});
 let mode="T";
 function link(a,b){$(a).addEventListener("input",()=>{$(b).value=$(a).value;calc()});$(b).addEventListener("input",()=>{$(a).value=$(b).value;calc()})}
-link("rateR","rate");link("t_dcaR","t_dca");link("s_dcaR","s_dca");
+link("rateR","rate");link("t_dcaR","t_dca");link("s_dcaR","s_dca");link("m_dcaR","m_dca");
 document.querySelectorAll("input[type=number],input[type=date]").forEach(i=>i.addEventListener("input",calc));
 function setMode(m){mode=m;$("mT").classList.toggle("on",m==="T");$("mM").classList.toggle("on",m==="M");
  $("t_tgt").value=m==="T"?2530:2935;$("s_tgt").value=m==="T"?1105:990;calc()}
@@ -127,7 +146,12 @@ function calc(){
  $("sub").innerHTML="From "+start.toLocaleDateString("en-AU",{day:"numeric",month:"short",year:"numeric"})+" to 31 Dec 2030. The benchmark is "+(M?"<b>the merged Tesla and SpaceX company</b>: about US$2,935 per current Tesla share (7.6 times) and US$990 per SpaceX share (7.3 times).":"<b>each company on its own</b>: Tesla at US$2,530 a share (US$10T market cap, 6.6 times) and SpaceX at US$1,105 a share (US$15T market cap, 8.1 times).");
  const T=sim({p0:g("t_p0")||1,held:g("t_held"),cost:g("t_cost"),dep:g("t_dep"),dca:g("t_dca"),tgt:g("t_tgt")||1},start,r);
  const S=sim({p0:g("s_p0")||1,held:g("s_held"),cost:g("s_cost"),dep:g("s_dep"),dca:g("s_dca"),tgt:g("s_tgt")||1},start,r);
- const inv=T.inv+(S?S.inv:0), val=T.val+(S?S.val:0), invNow=T.invNow+(S?S.invNow:0);
+ const Mx=sim({p0:g("m_p0")||1,held:g("m_held"),cost:g("m_cost"),dep:g("m_dep"),dca:g("m_dca"),tgt:g("m_tgt")||1},start,r), fx=g("fx")||0.677;
+ const inv=T.inv+S.inv+Mx.inv*fx, val=T.val+S.val+Mx.val*fx, invNow=T.invNow+S.invNow+Mx.invNow*fx;
+ $("iMnow").textContent=fmt(Mx.invNow);$("iM30").textContent=fmt(Mx.inv)+" by Dec 2030";
+ $("rMP").textContent=fmt(Mx.price,2);$("rMX").textContent=(Mx.price/(g("m_p0")||1)).toFixed(1)+"x the start price";$("rMB").textContent=Mx.sh>0?fmt(Mx.be,2):"n/a";$("rMS").textContent=Mx.sh.toFixed(1)+" units";
+ $("cNM").textContent=pc(Mx.needCagr);$("cNMs").textContent="Or "+pc(Math.pow(1+Mx.needCagr,.5)-1)+" every six months";
+ track("trM","SEMI (A$)",Mx);draw("cM",Mx,"#2dd4bf");
  $("iTnow").textContent=fmt(T.invNow);$("iT30").textContent=fmt(T.inv)+" by Dec 2030";
  if(S){$("iSnow").textContent=fmt(S.invNow);$("iS30").textContent=fmt(S.inv)+" by Dec 2030"}
  $("iAll").textContent=fmt(invNow);$("iAll30").textContent=fmt(inv)+" by Dec 2030";
@@ -166,14 +190,14 @@ function draw(id,A,col){
  const now=new Date();if(now>A.D[0]&&now<A.D[n]){const i=Math.round((now-A.D[0])/(7*DAY));x.strokeStyle="#e8eaf0";x.setLineDash([2,3]);x.beginPath();x.moveTo(X(i),T);x.lineTo(X(i),T+h);x.stroke();x.setLineDash([]);x.fillStyle="#e8eaf0";x.textAlign="center";x.fillText("Today",X(i)+18,T+h-6)}
  x.fillStyle=col;x.beginPath();x.arc(X(n),YP(A.P[n]),4,0,7);x.fill();
 }
-const KEYS=["start","rate","t_dca","t_held","t_cost","t_dep","t_p0","t_tgt","s_dca","s_held","s_cost","s_dep","s_p0","s_tgt"];
+const KEYS=["start","rate","fx","m_dca","m_held","m_cost","m_dep","m_p0","m_tgt","t_dca","t_held","t_cost","t_dep","t_p0","t_tgt","s_dca","s_held","s_cost","s_dep","s_p0","s_tgt"];
 $("exp").onclick=()=>{const o={saved:new Date().toISOString(),scenario:mode==="M"?"Merged Tesla + SpaceX":"Standalone",mode,end_date:"2030-12-31",settings:{}};
  KEYS.forEach(k=>o.settings[k]=$(k).value);
  o.summary={tesla_price_2030:$("rTP").textContent,position_value_2030:$("rVal").textContent,total_invested_so_far:$("iAll").textContent,total_invested_by_2030:$("iAll30").textContent,your_position_cagr:$("cY").textContent};
  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(o,null,2)],{type:"application/json"}));
  a.download="tesla-projection-"+new Date().toISOString().slice(0,10)+".json";a.click()};
 $("imp").onchange=e=>{const fl=e.target.files[0];if(!fl)return;fl.text().then(t=>{try{const o=JSON.parse(t);KEYS.forEach(k=>{if(o.settings&&o.settings[k]!=null)$(k).value=o.settings[k]});
- $("rateR").value=$("rate").value;$("t_dcaR").value=$("t_dca").value;$("s_dcaR").value=$("s_dca").value;mode=o.mode==="M"?"M":"T";
+ $("rateR").value=$("rate").value;$("t_dcaR").value=$("t_dca").value;$("s_dcaR").value=$("s_dca").value;$("m_dcaR").value=$("m_dca").value;mode=o.mode==="M"?"M":"T";
  $("mT").classList.toggle("on",mode==="T");$("mM").classList.toggle("on",mode==="M");calc()}catch(err){alert("That file isn't a saved projection.")}});e.target.value=""};
 window.addEventListener("resize",calc);calc();
 </script></body></html>
