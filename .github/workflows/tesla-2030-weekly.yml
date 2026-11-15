@@ -1,0 +1,29 @@
+name: Tesla 2030 weekly price refresh
+on:
+  schedule:
+    - cron: "0 21 * * 6"   # Saturday 21:00 UTC = Sunday 8am Melbourne (AEDT)
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: tesla-2030
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet yfinance
+      - run: python scripts/update_tesla2030.py
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tesla-2030.html
+          if git diff --cached --quiet; then echo "No change"; exit 0; fi
+          git commit -m "Tesla 2030: weekly price refresh"
+          git pull --rebase origin main
+          git push
