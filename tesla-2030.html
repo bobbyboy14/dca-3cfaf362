@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tesla 2030 Projection</title>
+<title>Tesla & SpaceX 2030 Projection</title>
 <style>
 :root{--bg:#0f1115;--card:#181b22;--line:#2a2f3a;--txt:#e8eaf0;--mut:#9aa3b2;--red:#e82127;--grn:#22c55e;--amb:#f5b301;--blu:#38bdf8;--pur:#a78bfa}
 *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt)}
@@ -26,13 +26,13 @@ canvas{width:100%;height:360px;display:block}.legend{display:flex;gap:14px;font-
 .btns{display:flex;gap:8px;margin-top:14px}.btns button,.btns label{flex:1;margin:0;text-align:center;background:#0f1115;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px;font-size:13px;cursor:pointer}.btns button:hover,.btns label:hover{border-color:var(--red)}
 .hide{display:none!important}.note{font-size:12px;color:var(--mut);line-height:1.55}
 </style></head><body><div class="wrap">
-<h1>Tesla <span>2030</span> Projection</h1>
+<h1>Tesla &amp; SpaceX <span>2030</span> Projection</h1>
 <div class="sub" id="sub"></div>
 <div class="grid">
 <div>
  <div class="card">
   <label class="f">2030 target scenario</label>
-  <div class="tog"><button id="mT" class="on">Tesla only ($2,530)</button><button id="mM">Merged with SpaceX</button></div>
+  <div class="tog"><button id="mT" class="on">Standalone</button><button id="mM">Merged</button></div>
   <label>Start date (when you first bought in)</label><input id="start" type="date" value="2026-11-15">
   <div class="small" style="margin-top:6px">The projection runs from the start date to 31 Dec 2030.</div>
   <label>Semi-annual return rate (%), both assets</label>
@@ -49,23 +49,23 @@ canvas{width:100%;height:360px;display:block}.legend{display:flex;gap:14px;font-
   <div><label>Price at start date (US$)</label><input id="t_p0" type="number" min="1" step="1" value="385"></div></div>
   <label>2030 target per share (US$)</label><input id="t_tgt" type="number" step="1" value="2530">
  </div>
- <div class="card hide" id="spxCard">
+ <div class="card" id="spxCard">
   <h3 class="s">SpaceX (SPCX)</h3>
   <label class="f">Weekly DCA (US$)</label>
-  <div class="row"><input id="s_dcaR" type="range" min="0" max="1000" step="5" value="0"><input id="s_dca" type="number" min="0" step="5" value="0"></div>
+  <div class="row"><input id="s_dcaR" type="range" min="0" max="1000" step="5" value="75"><input id="s_dca" type="number" min="0" step="5" value="75"></div>
   <div class="two"><div><label>Shares you own</label><input id="s_held" type="number" min="0" step="0.01" value="0"></div>
   <div><label>Average price paid (US$)</label><input id="s_cost" type="number" min="0" step="1" value="136"></div></div>
   <div class="two"><div><label>One-time deposit (US$)</label><input id="s_dep" type="number" min="0" step="50" value="0"></div>
   <div><label>Price at start date (US$)</label><input id="s_p0" type="number" min="1" step="1" value="136"></div></div>
-  <label>2030 target per share (US$)</label><input id="s_tgt" type="number" step="1" value="990">
-  <div class="small" style="margin-top:6px">Merged: each SPCX share becomes one merged share worth about US$990 (7.3 times).</div>
+  <label>2030 target per share (US$)</label><input id="s_tgt" type="number" step="1" value="1105">
+  <div class="small" style="margin-top:6px" id="spxNote"></div>
  </div>
 </div>
 <div>
  <div class="card"><canvas id="cT"></canvas>
   <div class="legend"><span><b style="background:var(--red)"></b>Projected TSLA price</span><span><b style="background:var(--amb)"></b>Path needed for target</span><span><b style="background:var(--blu)"></b>Break-even (your average cost)</span><span><b style="background:var(--grn)"></b>Position value (right axis)</span><span><b style="background:#5b6475"></b>Total put in (right axis)</span></div>
  </div>
- <div class="card hide" id="spxChart"><canvas id="cS"></canvas>
+ <div class="card" id="spxChart"><canvas id="cS"></canvas>
   <div class="legend"><span><b style="background:var(--pur)"></b>Projected SPCX price</span><span><b style="background:var(--amb)"></b>Path needed for target</span><span><b style="background:var(--blu)"></b>Break-even</span><span><b style="background:var(--grn)"></b>SPCX position value (right axis)</span><span><b style="background:#5b6475"></b>SPCX put in (right axis)</span></div>
  </div>
  <div class="card"><h3>Total investment</h3>
@@ -85,7 +85,7 @@ canvas{width:100%;height:360px;display:block}.legend{display:flex;gap:14px;font-
    <div class="stat sp"><div class="k">SPCX break-even price</div><div class="v" id="rSB"></div><div class="small" id="rSS"></div></div>
    <div class="stat"><div class="k">Profit on position</div><div class="v" id="rPr"></div><div class="small" id="rPrS"></div></div>
   </div>
-  <div id="trT" class="track"></div><div id="trS" class="track hide"></div>
+  <div id="trT" class="track"></div><div id="trS" class="track"></div>
  </div>
  <div class="card"><h3>CAGR (compound annual growth rate)</h3>
   <div class="stats">
@@ -107,7 +107,7 @@ function link(a,b){$(a).addEventListener("input",()=>{$(b).value=$(a).value;calc
 link("rateR","rate");link("t_dcaR","t_dca");link("s_dcaR","s_dca");
 document.querySelectorAll("input[type=number],input[type=date]").forEach(i=>i.addEventListener("input",calc));
 function setMode(m){mode=m;$("mT").classList.toggle("on",m==="T");$("mM").classList.toggle("on",m==="M");
- $("t_tgt").value=m==="T"?2530:2935;calc()}
+ $("t_tgt").value=m==="T"?2530:2935;$("s_tgt").value=m==="T"?1105:990;calc()}
 $("mT").onclick=()=>setMode("T");$("mM").onclick=()=>setMode("M");
 function sim(p,start,r){
  const weeks=Math.max(1,Math.floor((END-start)/(7*DAY))), wk=Math.pow(1+r,1/26), now=new Date();
@@ -123,10 +123,10 @@ function sim(p,start,r){
 const g=(k)=>+$(k).value||0;
 function calc(){
  const M=mode==="M", r=g("rate")/100, start=new Date($("start").value||"2026-11-15");
- ["spxCard","spxChart","trS","iSbox"].forEach(i=>$(i).classList.toggle("hide",!M));document.querySelectorAll(".sp").forEach(e=>e.classList.toggle("hide",!M));
- $("sub").innerHTML="From "+start.toLocaleDateString("en-AU",{day:"numeric",month:"short",year:"numeric"})+" to 31 Dec 2030. The benchmark is "+(M?"<b>the merged Tesla and SpaceX company</b>: about US$2,935 per current Tesla share (7.6 times) and US$990 per SpaceX share (7.3 times).":"<b>Tesla on its own at US$2,530 a share</b> (US$10T market cap).");
+ $("spxNote").textContent=M?"Merged: each SPCX share becomes one merged share worth about US$990 (7.3 times).":"Standalone: SpaceX at a US$15T market cap is about US$1,105 a share (8.1 times from US$136).";
+ $("sub").innerHTML="From "+start.toLocaleDateString("en-AU",{day:"numeric",month:"short",year:"numeric"})+" to 31 Dec 2030. The benchmark is "+(M?"<b>the merged Tesla and SpaceX company</b>: about US$2,935 per current Tesla share (7.6 times) and US$990 per SpaceX share (7.3 times).":"<b>each company on its own</b>: Tesla at US$2,530 a share (US$10T market cap, 6.6 times) and SpaceX at US$1,105 a share (US$15T market cap, 8.1 times).");
  const T=sim({p0:g("t_p0")||1,held:g("t_held"),cost:g("t_cost"),dep:g("t_dep"),dca:g("t_dca"),tgt:g("t_tgt")||1},start,r);
- const S=M?sim({p0:g("s_p0")||1,held:g("s_held"),cost:g("s_cost"),dep:g("s_dep"),dca:g("s_dca"),tgt:g("s_tgt")||1},start,r):null;
+ const S=sim({p0:g("s_p0")||1,held:g("s_held"),cost:g("s_cost"),dep:g("s_dep"),dca:g("s_dca"),tgt:g("s_tgt")||1},start,r);
  const inv=T.inv+(S?S.inv:0), val=T.val+(S?S.val:0), invNow=T.invNow+(S?S.invNow:0);
  $("iTnow").textContent=fmt(T.invNow);$("iT30").textContent=fmt(T.inv)+" by Dec 2030";
  if(S){$("iSnow").textContent=fmt(S.invNow);$("iS30").textContent=fmt(S.inv)+" by Dec 2030"}
@@ -167,7 +167,7 @@ function draw(id,A,col){
  x.fillStyle=col;x.beginPath();x.arc(X(n),YP(A.P[n]),4,0,7);x.fill();
 }
 const KEYS=["start","rate","t_dca","t_held","t_cost","t_dep","t_p0","t_tgt","s_dca","s_held","s_cost","s_dep","s_p0","s_tgt"];
-$("exp").onclick=()=>{const o={saved:new Date().toISOString(),scenario:mode==="M"?"Merged Tesla + SpaceX":"Tesla only",mode,end_date:"2030-12-31",settings:{}};
+$("exp").onclick=()=>{const o={saved:new Date().toISOString(),scenario:mode==="M"?"Merged Tesla + SpaceX":"Standalone",mode,end_date:"2030-12-31",settings:{}};
  KEYS.forEach(k=>o.settings[k]=$(k).value);
  o.summary={tesla_price_2030:$("rTP").textContent,position_value_2030:$("rVal").textContent,total_invested_so_far:$("iAll").textContent,total_invested_by_2030:$("iAll30").textContent,your_position_cagr:$("cY").textContent};
  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(o,null,2)],{type:"application/json"}));
