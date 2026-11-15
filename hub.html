@@ -111,8 +111,6 @@ nav.tabs a,nav.tabs a::after,#tab-hub .bar i{transition:none;animation:none}
 <h2>Recoup targets</h2>
 <div id="rc"></div>
 </section>
-<h2 id="duh" hidden>Daily Update</h2>
-<div class="du" id="du" hidden></div>
 </div>
 
 </div>
@@ -146,7 +144,7 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
     get("security.json?t="+t),get("weekly.json?t="+t),get("market.json?t="+t)]);
   if(mk&&mk.scores){const C={"On track":"up","Mixed":"amber","Behind":"down"},N=(mk.needed&&mk.needed.assets)||{},NC={"On track":"up","Stretch":"amber","Behind":"down"};
     if($("sc"))$("sc").innerHTML=["TSLA","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];const P=x.points||{},g=Number(x.score),G=isNaN(g)?null:g>=7?["On track","up"]:g>=6?["Mixed","amber"]:["Behind","down"];return "<div><div class='t'>"+k+"</div>"+(G?"<div class='gr "+G[1]+"'>Growth: "+G[0]+"</div>":"")+"<div class='sv'>"+"<span class='st "+(G?G[1]:(C[x.status]||""))+"' title='"+esc(G?G[0]:x.status)+"'>"+x.score+"/10</span>"+"</div>"+(N[k]?(r=>"<div class='bt "+(r>0?"up":r<0?"down":"")+"' data-k='"+k+"'>This year CAGR: "+(r>0?"+":"")+r+"%</div>")(Math.round(N[k].recent*100)):"")+"</div>"}).join("");}
-  if(mk){const u=new Date(mk.updated).toLocaleString("en-AU",{timeZone:"Australia/Melbourne",weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
+  if(mk&&$("du")){const u=new Date(mk.updated).toLocaleString("en-AU",{timeZone:"Australia/Melbourne",weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
     const rows=["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const note=newsOnly(mk.assets[k].note);return note?"<div class='r'><span class='t'>"+k+"</span> "+esc(note)+"</div>":"";}).join("");
     $("du").innerHTML="<div class='d'>"+u+" AEDT</div><div class='hl'>"+esc(newsOnly(mk.headline))+"</div>"+rows;$("du").hidden=false;$("duh").hidden=false;}
   $("buy").innerHTML=wk?"<b>"+esc(wk.pick==="SPCX"?"SpaceX (SPCX)":wk.pick)+"</b><div style='margin-top:10px'><b>A$"+Math.ceil(wk.amount_aud)+"</b></div>"+(wk.multiplier!=null?"<div style='margin-top:6px'>Multiplier: "+(+wk.multiplier).toFixed(2)+"×</div>":""):"Not available";
