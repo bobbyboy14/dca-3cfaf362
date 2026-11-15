@@ -27,11 +27,12 @@ canvas{width:100%;height:380px;display:block}.legend{display:flex;gap:14px;font-
 .btns{display:flex;gap:8px;margin-top:14px}.btns button,.btns label{flex:1;margin:0;text-align:center;background:#0f1115;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px;font-size:13px;cursor:pointer}.btns button:hover,.btns label:hover{border-color:var(--red)}
 .hide{display:none!important}.note{font-size:12px;color:var(--mut);line-height:1.55}
 .top{margin:14px 0 18px}.hero{background:linear-gradient(135deg,#1b2230,#14171d);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px}.hero .k{color:var(--mut);font-size:14px}.hero .big{font-size:42px;font-weight:800;margin:4px 0}.top .card{margin-bottom:14px}.top .inv{grid-template-columns:repeat(4,1fr)!important}.top .stats{grid-template-columns:repeat(4,1fr)}@media(max-width:800px){.top .inv,.top .stats{grid-template-columns:1fr 1fr!important}}
+.h3c{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:8px 0 6px}.h3c .big{font-size:36px}@media(max-width:700px){.h3c{grid-template-columns:1fr}}
 </style></head><body><div class="wrap">
 <h1>Tesla, SpaceX &amp; SEMI <span>2030</span> Projection</h1>
 <div class="sub" id="sub"></div><div class="sub" id="pxinfo"><!--PX-->Starting prices are closing prices from 13 Nov 2026 (refreshed 15 Nov 2026) and refresh automatically every Sunday morning.<!--/PX--></div>
 <div class="top">
-<div class="hero"><div class="k">Total invested so far, Tesla + SpaceX + SEMI</div><div class="big" id="heroAll"></div><div class="small" id="heroAll30"></div></div>
+<div class="hero"><div class="k">Your portfolio, from your Google Sheet (15 Nov 2026)</div><div class="h3c"><div><div class="k">Amount put in</div><div class="big">A$47,222</div></div><div><div class="k">Total value</div><div class="big">A$42,834</div></div><div><div class="k">Gain / loss</div><div class="big" style="color:var(--red)">-A$4,388</div></div></div><div class="small" id="heroAll30"></div></div>
  <div class="card"><h3>Total investment</h3>
   <div class="inv" style="grid-template-columns:repeat(4,1fr)">
    <div class="stat"><div class="k">Tesla invested so far (A$)</div><div class="v" id="iTnow"></div><div class="small" id="iT30"></div></div>
@@ -159,7 +160,7 @@ function calc(){
  track("trM","SEMI",Mx,1);draw("cM",Mx,"#2dd4bf");
  const A=v=>"A"+fmt(v/fx);$("iTnow").textContent=A(T.invNow);$("iT30").textContent=A(T.inv)+" by Dec 2030 (US"+fmt(T.invNow)+" so far)";
  if(S){$("iSnow").textContent=A(S.invNow);$("iS30").textContent=A(S.inv)+" by Dec 2030 (US"+fmt(S.invNow)+" so far)"}
- $("iAll").textContent=A(invNow);$("iAll30").textContent=A(inv)+" by Dec 2030";$("heroAll").textContent=A(invNow);$("heroAll30").textContent=A(inv)+" put in by Dec 2030 if you keep your weekly buys going. Projected value then: "+A(val)+".";
+ $("iAll").textContent=A(invNow);$("iAll30").textContent=A(inv)+" by Dec 2030";$("heroAll30").textContent="On this projection: "+A(inv)+" put in by Dec 2030 if you keep your weekly buys going, worth about "+A(val)+" then.";
  $("rTP").textContent=A(T.price);$("rTX").textContent="US"+fmt(T.price)+", "+(T.price/(g("t_p0")||1)).toFixed(1)+"x the start price";
  $("rTB").textContent="A"+fmt(T.be/fx,2);$("rTS").textContent="US"+fmt(T.be,2)+", "+T.sh.toFixed(2)+" shares";
  $("rVal").textContent=A(val);$("rValS").textContent="From "+A(inv)+" put in";
