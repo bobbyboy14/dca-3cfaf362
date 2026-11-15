@@ -99,7 +99,7 @@ nav.tabs a,nav.tabs a::after,#tab-hub .bar i{transition:none;animation:none}
 }
 </style></head><body><div class="w">
 <h1>Bob's Hub</h1>
-<nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="#trajectory" data-t="trajectory">Trajectory</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#tsla-score" data-t="tsla-score">Tesla Scorecard</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a><a href="tesla-2030.html">Tesla 2030</a></nav>
+<nav class="tabs"><a href="#hub" data-t="hub">Hub</a><a href="#cagr" data-t="cagr">CAGR</a><a href="#tsla-score" data-t="tsla-score">Tesla Scorecard</a><a href="#scorecard" data-t="scorecard">SEMI Scorecard</a><a href="tesla-2030.html">Tesla 2030</a></nav>
 <div id="tab-hub">
 <div class="r1"><div><h2>This Week's Buy</h2>
 <div class="buy" id="buy">…</div></div>
@@ -114,8 +114,7 @@ nav.tabs a,nav.tabs a::after,#tab-hub .bar i{transition:none;animation:none}
 <h2 id="duh" hidden>Daily Update</h2>
 <div class="du" id="du" hidden></div>
 </div>
-<div id="tab-trajectory" hidden><h2>Trajectory</h2>
-<div class="sc" id="sc"></div></div><div id="tab-cagr" hidden></div><div id="tab-scorecard" hidden></div><div id="tab-tsla-score" hidden></div>
+<div id="tab-cagr" hidden></div><div id="tab-scorecard" hidden></div><div id="tab-tsla-score" hidden></div>
 </div>
 <script>
 
@@ -146,7 +145,7 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
     get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=aud,usd"),
     get("security.json?t="+t),get("weekly.json?t="+t),get("market.json?t="+t)]);
   if(mk&&mk.scores){const C={"On track":"up","Mixed":"amber","Behind":"down"},N=(mk.needed&&mk.needed.assets)||{},NC={"On track":"up","Stretch":"amber","Behind":"down"};
-    $("sc").innerHTML=["TSLA","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];const P=x.points||{},g=Number(x.score),G=isNaN(g)?null:g>=7?["On track","up"]:g>=6?["Mixed","amber"]:["Behind","down"];return "<div><div class='t'>"+k+"</div>"+(G?"<div class='gr "+G[1]+"'>Growth: "+G[0]+"</div>":"")+"<div class='sv'>"+"<span class='st "+(G?G[1]:(C[x.status]||""))+"' title='"+esc(G?G[0]:x.status)+"'>"+x.score+"/10</span>"+"</div>"+(N[k]?(r=>"<div class='bt "+(r>0?"up":r<0?"down":"")+"' data-k='"+k+"'>This year CAGR: "+(r>0?"+":"")+r+"%</div>")(Math.round(N[k].recent*100)):"")+"</div>"}).join("");}
+    if($("sc"))$("sc").innerHTML=["TSLA","SEMI"].filter(k=>mk.scores[k]).map(k=>{const x=mk.scores[k];const P=x.points||{},g=Number(x.score),G=isNaN(g)?null:g>=7?["On track","up"]:g>=6?["Mixed","amber"]:["Behind","down"];return "<div><div class='t'>"+k+"</div>"+(G?"<div class='gr "+G[1]+"'>Growth: "+G[0]+"</div>":"")+"<div class='sv'>"+"<span class='st "+(G?G[1]:(C[x.status]||""))+"' title='"+esc(G?G[0]:x.status)+"'>"+x.score+"/10</span>"+"</div>"+(N[k]?(r=>"<div class='bt "+(r>0?"up":r<0?"down":"")+"' data-k='"+k+"'>This year CAGR: "+(r>0?"+":"")+r+"%</div>")(Math.round(N[k].recent*100)):"")+"</div>"}).join("");}
   if(mk){const u=new Date(mk.updated).toLocaleString("en-AU",{timeZone:"Australia/Melbourne",weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
     const rows=["BTC","TSLA","MSTR","SEMI"].filter(k=>mk.assets[k]).map(k=>{const note=newsOnly(mk.assets[k].note);return note?"<div class='r'><span class='t'>"+k+"</span> "+esc(note)+"</div>":"";}).join("");
     $("du").innerHTML="<div class='d'>"+u+" AEDT</div><div class='hl'>"+esc(newsOnly(mk.headline))+"</div>"+rows;$("du").hidden=false;$("duh").hidden=false;}
@@ -201,12 +200,12 @@ const get=u=>fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json
 })();
 </script>
 <script>
-(function(){const TABS=["hub","trajectory","cagr","scorecard","tsla-score"];let lib=null;
+(function(){const TABS=["hub","cagr","scorecard","tsla-score"];let lib=null;
 const need=()=>lib||(lib=new Promise((ok,no)=>{const s=document.createElement("script");s.src="tabs.js?v=19";s.onload=ok;s.onerror=no;document.head.appendChild(s);}));
-async function go(){if(location.hash==="#semireview"){history.replaceState(null,"","#scorecard");}const raw=location.hash.slice(1);const t=(raw==="btc"||raw==="mstr"||raw==="btc-score"||raw==="mstr-score"||raw==="chips"||raw==="spcx-score")?"hub":(TABS.includes(raw)?raw:"hub");
+async function go(){if(location.hash==="#semireview"){history.replaceState(null,"","#scorecard");}const raw=location.hash.slice(1);const t=(raw==="btc"||raw==="mstr"||raw==="btc-score"||raw==="mstr-score"||raw==="chips"||raw==="spcx-score"||raw==="trajectory")?"hub":(TABS.includes(raw)?raw:"hub");
  TABS.forEach(k=>{document.getElementById("tab-"+k).hidden=k!==t;});
  document.querySelectorAll("nav.tabs a").forEach(a=>a.classList.toggle("on",a.dataset.t===t));
- if(t!=="hub"&&t!=="trajectory"){try{await need();await HubTabs[t]();if(t==="cagr")fixAmts();}catch(e){document.getElementById("tab-"+t).innerHTML="<div class='muted'>Couldn't load ("+(e.message||e)+"). Pull to refresh.</div>";}}}
+ if(t!=="hub"){try{await need();await HubTabs[t]();if(t==="cagr")fixAmts();}catch(e){document.getElementById("tab-"+t).innerHTML="<div class='muted'>Couldn't load ("+(e.message||e)+"). Pull to refresh.</div>";}}}
 addEventListener("hashchange",go);go();})();
 </script>
 <script>
