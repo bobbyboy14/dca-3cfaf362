@@ -33,7 +33,7 @@ canvas{width:100%;height:380px;display:block}.legend{display:flex;gap:14px;font-
 .roll{border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px;background:#14171d}.roll h4{margin:0 0 4px;font-size:15px;color:#22c55e}.roll .st{font-weight:700;font-size:15px;margin:4px 0 10px}.rg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.rg>div{background:#0f1115;border:1px solid var(--line);border-radius:10px;padding:8px 10px}.rg .k{font-size:11.5px;color:var(--mut)}.rg .v{font-size:17px;font-weight:700;margin-top:2px}.rg .na{color:var(--mut);font-weight:500;font-size:13px}@media(max-width:650px){.rg{grid-template-columns:1fr 1fr}}
 .cg2 input[type=range]{accent-color:#f472b6;min-width:0}.cg2 .row input[type=number]{width:78px;flex:0 0 78px}.cg2 label{color:#f472b6}.cgb{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:6px}.cgb .small{flex:1;font-size:11.5px}.cgb button{background:#0f1115;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:5px 8px;font-size:12px;cursor:pointer;white-space:nowrap;flex:0 0 auto}.cgb button:hover{border-color:#f472b6}.cg2 .cs{font-weight:600;font-size:12.5px;margin-top:6px;line-height:1.4}</style></head><body><div class="wrap">
 <h1>Tesla, SpaceX &amp; SEMI <span>2030</span> Projection</h1>
-<div class="sub" id="sub"></div><div class="sub" id="pxinfo"><!--PX-->Starting prices are closing prices from 13 Nov 2026 (refreshed 15 Nov 2026) and refresh automatically every Sunday morning.<!--/PX--></div>
+<div class="sub" id="sub"></div><div class="sub" id="pxinfo"><!--PX-->Starting prices are closing prices from 16 Nov 2026 (refreshed 17 Nov 2026) and refresh automatically every Sunday morning.<!--/PX--></div>
 <div class="top">
 <div class="card"><h3>Projected at 31 Dec 2030 (all in A$)</h3><div class="pair"><div class="pn">Tesla + SpaceX + SEMI</div><div class="pr" style="grid-template-columns:1fr 1fr 1fr;gap:18px"><div><div class="k">Total position value</div><div class="v" id="rVal" style="font-size:30px;color:var(--grn)"></div><div class="small" id="rValS"></div></div><div><div class="k">Profit on position</div><div class="v" id="rPr" style="font-size:30px"></div><div class="small" id="rPrS"></div></div><div><div class="k">Future weekly buys until 31 Dec 2030</div><div class="v" id="futDca" style="font-size:30px"></div><div class="small" id="futDcaS"></div></div></div></div></div>
  <div class="card"><h3>Your custom projection at 31 Dec 2030 (slider growth rates, all in A$)</h3><div class="pair"><div class="pn" style="color:#f472b6">Tesla + SpaceX + SEMI at the growth rates set on the sliders</div><div class="pr" style="grid-template-columns:1fr 1fr 1fr;gap:18px"><div><div class="k">Total position value at your rates</div><div class="v" id="trVal" style="font-size:30px;color:#f472b6"></div><div class="small" id="trValS"></div></div><div><div class="k">Profit or loss at your rates</div><div class="v" id="trPr" style="font-size:30px"></div><div class="small" id="trPrS"></div></div><div><div class="k">Each asset at your rates</div><div id="trRg" style="font-size:13.5px;line-height:1.6;margin-top:4px"></div><div class="small" id="trRgS" style="margin-top:4px"></div></div></div></div></div>
@@ -46,11 +46,11 @@ canvas{width:100%;height:380px;display:block}.legend{display:flex;gap:14px;font-
  <div class="card">
   <label class="f">2030 target scenario</label>
   <div class="tog"><button id="mT" class="on">Standalone</button><button id="mM">Merged</button></div>
-  <label>Start date (when you first bought in)</label><input id="start" type="date" value="2026-11-15">
+  <label>Start date (when you first bought in)</label><input id="start" type="date" value="2026-11-17">
   <div class="small" style="margin-top:6px">The projection runs from the start date to 31 Dec 2030.</div>
   <label>Semi-annual return rate (%), both assets</label>
   <div class="row"><input id="rateR" type="range" min="-20" max="60" step="0.5" value="25"><input id="rate" type="number" step="0.5" value="25"></div>
-  <label>AUD/USD rate (for converting Tesla and SpaceX into A$)</label><input id="fx" type="number" step="0.001" value="0.6774">
+  <label>AUD/USD rate (for converting Tesla and SpaceX into A$)</label><input id="fx" type="number" step="0.001" value="0.6738">
   <label>Realised losses already absorbed (A$, Bitcoin ETF + MSTR, from your sheet)</label><input id="loss" type="number" step="0.01" value="2445.97">
   <div class="btns"><button id="exp">Export settings</button><label>Load settings<input id="imp" type="file" accept=".json" class="hide"></label></div>
  </div>
@@ -61,7 +61,7 @@ canvas{width:100%;height:380px;display:block}.legend{display:flex;gap:14px;font-
   <div class="two"><div><label>Shares you own</label><input id="t_held" type="number" min="0" step="0.01" value="41"></div>
   <div><label>Average price paid (US$)</label><input id="t_cost" type="number" min="0" step="0.01" value="420.64"></div></div>
   <div class="two"><div><label>One-time deposit (US$)</label><input id="t_dep" type="number" min="0" step="50" value="0"></div>
-  <div><label>Price at start date (US$)</label><input id="t_p0" type="number" min="1" step="0.01" value="390.22"></div></div>
+  <div><label>Price at start date (US$)</label><input id="t_p0" type="number" min="1" step="0.01" value="378.72"></div></div>
   <label>2030 target per share (US$)</label><input id="t_tgt" type="number" step="1" value="2530"><div class="cg2"><label>Your growth rate (% a year)</label><div class="row"><input id="t_cgR" type="range" min="-40" max="100" step="1" value="0"><input id="t_cg" type="number" min="-40" max="100" step="0.1" value=""></div><div class="cgb"><span class="small">Starts on the trend rate. Draws the pink dashed line; the target stays fixed.</span><button id="t_cgB" type="button">Reset to trend</button></div><div id="t_cgS" class="cs"></div></div>
  </div>
  <div class="card" id="spxCard">
@@ -71,7 +71,7 @@ canvas{width:100%;height:380px;display:block}.legend{display:flex;gap:14px;font-
   <div class="two"><div><label>Shares you own</label><input id="s_held" type="number" min="0" step="0.0001" value="20.7569"></div>
   <div><label>Average price paid (US$)</label><input id="s_cost" type="number" min="0" step="0.01" value="139.21"></div></div>
   <div class="two"><div><label>One-time deposit (US$)</label><input id="s_dep" type="number" min="0" step="50" value="0"></div>
-  <div><label>Price at start date (US$)</label><input id="s_p0" type="number" min="1" step="0.01" value="139.11"></div></div>
+  <div><label>Price at start date (US$)</label><input id="s_p0" type="number" min="1" step="0.01" value="139.83"></div></div>
   <label>2030 target per share (US$)</label><input id="s_tgt" type="number" step="1" value="1105"><div class="cg2"><label>Your growth rate (% a year)</label><div class="row"><input id="s_cgR" type="range" min="-40" max="100" step="1" value="0"><input id="s_cg" type="number" min="-40" max="100" step="0.1" value=""></div><div class="cgb"><span class="small">Starts on the trend rate. Draws the pink dashed line; the target stays fixed.</span><button id="s_cgB" type="button">Reset to trend</button></div><div id="s_cgS" class="cs"></div></div>
   <div class="small" style="margin-top:6px" id="spxNote"></div>
  </div>
@@ -82,7 +82,7 @@ canvas{width:100%;height:380px;display:block}.legend{display:flex;gap:14px;font-
   <div class="two"><div><label>Units you own</label><input id="m_held" type="number" min="0" step="1" value="453"></div>
   <div><label>Average price paid (A$)</label><input id="m_cost" type="number" min="0" step="0.01" value="33.26"></div></div>
   <div class="two"><div><label>One-time deposit (A$)</label><input id="m_dep" type="number" min="0" step="50" value="0"></div>
-  <div><label>Price at start date (A$)</label><input id="m_p0" type="number" min="0.01" step="0.01" value="32.99"></div></div>
+  <div><label>Price at start date (A$)</label><input id="m_p0" type="number" min="0.01" step="0.01" value="31.14"></div></div>
   <label>2030 target per unit (A$)</label><input id="m_tgt" type="number" step="0.5" value="79"><div class="cg2"><label>Your growth rate (% a year)</label><div class="row"><input id="m_cgR" type="range" min="-40" max="100" step="1" value="0"><input id="m_cg" type="number" min="-40" max="100" step="0.1" value=""></div><div class="cgb"><span class="small">Starts on the trend rate. Draws the pink dashed line; the target stays fixed.</span><button id="m_cgB" type="button">Reset to trend</button></div><div id="m_cgS" class="cs"></div></div>
   <div class="small" style="margin-top:6px">There's no analyst target for an ETF. A$79 is SEMI's 5-year growth rate (about 23.6% a year, from A$11.56 in Dec 2021 to A$32.99 on 13 Nov 2026) carried forward to Dec 2030. It's volatile: it hit about A$46.61 in mid-2026 before falling back. The merger toggle doesn't affect SEMI.</div>
  </div>
@@ -100,7 +100,7 @@ canvas{width:100%;height:380px;display:block}.legend{display:flex;gap:14px;font-
 </div></div>
 </div>
 <script>
-const ROLL=/*ROLL*/{"t":{"asof":"2026-11-13","cur":390.22,"years":4.1314,"r6m":-0.23198,"r12m":-0.02928,"r3y":0.20376,"used":["6m","12m","3y"],"weights":{"6m":0.25,"12m":0.5,"3y":0.25},"since":null,"blend_raw":-0.02169,"blend":-0.02169,"low":-0.23198,"high":0.20376,"capped":false,"p_blend":356.42,"p_low":131.14,"p_high":839.56},"s":{"asof":"2026-11-13","cur":139.11,"years":4.1314,"r6m":null,"r12m":null,"r3y":null,"used":[],"weights":{},"since":{"from":"2026-06-12","months":5.1,"cagr":-0.2924},"blend_raw":-0.2924,"blend":-0.2924,"low":-0.2924,"high":-0.2924,"capped":false,"p_blend":33.32,"p_low":33.32,"p_high":33.32},"m":{"asof":"2026-11-16","cur":31.51,"years":4.1232,"r6m":-0.16967,"r12m":0.48969,"r3y":0.43872,"used":["6m","12m","3y"],"weights":{"6m":0.25,"12m":0.5,"3y":0.25},"since":null,"blend_raw":0.31211,"blend":0.31211,"low":-0.16967,"high":0.48969,"capped":false,"p_blend":96.57,"p_low":14.64,"p_high":162.99}}/*/ROLL*/;
+const ROLL=/*ROLL*/{"t":{"asof":"2026-11-16","cur":378.73,"years":4.1232,"r6m":-0.19547,"r12m":-0.06336,"r3y":0.17479,"used":["6m","12m","3y"],"weights":{"6m":0.25,"12m":0.5,"3y":0.25},"since":null,"blend_raw":-0.03685,"blend":-0.03685,"low":-0.19547,"high":0.17479,"capped":false,"p_blend":324.41,"p_low":154.48,"p_high":735.85},"s":{"asof":"2026-11-16","cur":139.8311,"years":4.1232,"r6m":null,"r12m":null,"r3y":null,"used":[],"weights":{},"since":{"from":"2026-06-12","months":5.2,"cagr":-0.27908},"blend_raw":-0.27908,"blend":-0.27908,"low":-0.27908,"high":-0.27908,"capped":false,"p_blend":36.28,"p_low":36.28,"p_high":36.28},"m":{"asof":"2026-11-16","cur":31.14,"years":4.1232,"r6m":-0.18906,"r12m":0.4722,"r3y":0.43307,"used":["6m","12m","3y"],"weights":{"6m":0.25,"12m":0.5,"3y":0.25},"since":null,"blend_raw":0.2971,"blend":0.2971,"low":-0.18906,"high":0.4722,"capped":false,"p_blend":91.02,"p_low":13.12,"p_high":153.42}}/*/ROLL*/;
 const $=id=>document.getElementById(id), DAY=864e5, END=new Date(2030,11,31);
 const fmt=(n,d=0)=>(n<0?"-":"")+"$"+Math.abs(n).toLocaleString("en-US",{maximumFractionDigits:d,minimumFractionDigits:d});
 const pc=n=>(n*100).toFixed(1)+"%", mo=d=>d.toLocaleString("en-AU",{month:"short",year:"numeric"});
