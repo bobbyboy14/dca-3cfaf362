@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-17T04:47+00:00",
+ "generated_utc": "2026-11-17T05:50+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -19,8 +19,8 @@
    "ticker": "2330.TW",
    "currency": "TWD",
    "date": "2026-11-17",
-   "close": 2180.0,
-   "change": -0.0158
+   "close": 2170.0,
+   "change": -0.02032
   },
   "AMD": {
    "ticker": "AMD",
@@ -40,8 +40,8 @@
    "ticker": "000660.KS",
    "currency": "KRW",
    "date": "2026-11-17",
-   "close": 1116000.0,
-   "change": -0.00357
+   "close": 1110000.0,
+   "change": -0.00893
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -110,15 +110,15 @@
    "ticker": "2454.TW",
    "currency": "TWD",
    "date": "2026-11-17",
-   "close": 3845.0,
-   "change": 0.01318
+   "close": 3840.0,
+   "change": 0.01186
   },
   "Advantest": {
    "ticker": "6857.T",
    "currency": "JPY",
    "date": "2026-11-17",
-   "close": 25990.0,
-   "change": -0.04466
+   "close": 25950.0,
+   "change": -0.04613
   },
   "Tokyo Electron": {
    "ticker": "8035.T",
@@ -131,8 +131,8 @@
    "ticker": "285A.T",
    "currency": "JPY",
    "date": "2026-11-17",
-   "close": 7878.0,
-   "change": -0.06125
+   "close": 7976.0,
+   "change": -0.04957
   },
   "Infineon": {
    "ticker": "IFX.DE",
@@ -145,8 +145,8 @@
    "ticker": "3711.TW",
    "currency": "TWD",
    "date": "2026-11-17",
-   "close": 519.0,
-   "change": -0.05636
+   "close": 520.0,
+   "change": -0.05455
   },
   "NXP": {
    "ticker": "NXPI",
@@ -173,8 +173,8 @@
    "ticker": "009150.KS",
    "currency": "KRW",
    "date": "2026-11-17",
-   "close": 759000.0,
-   "change": -0.03312
+   "close": 756000.0,
+   "change": -0.03694
   },
   "Coherent": {
    "ticker": "COHR",
@@ -194,8 +194,8 @@
    "ticker": "2303.TW",
    "currency": "TWD",
    "date": "2026-11-17",
-   "close": 91.7,
-   "change": -0.03676
+   "close": 92.4,
+   "change": -0.02941
   },
   "Astera Labs": {
    "ticker": "ALAB",
@@ -208,8 +208,8 @@
    "ticker": "6723.T",
    "currency": "JPY",
    "date": "2026-11-17",
-   "close": 2622.0,
-   "change": -0.0305
+   "close": 2641.0,
+   "change": -0.02348
   }
  }
 }
