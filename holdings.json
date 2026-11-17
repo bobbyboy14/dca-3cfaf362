@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-17T05:50+00:00",
+ "generated_utc": "2026-11-17T06:56+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -40,8 +40,8 @@
    "ticker": "000660.KS",
    "currency": "KRW",
    "date": "2026-11-17",
-   "close": 1110000.0,
-   "change": -0.00893
+   "close": 1098000.0,
+   "change": -0.01964
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -117,22 +117,22 @@
    "ticker": "6857.T",
    "currency": "JPY",
    "date": "2026-11-17",
-   "close": 25950.0,
-   "change": -0.04613
+   "close": 26010.0,
+   "change": -0.04393
   },
   "Tokyo Electron": {
    "ticker": "8035.T",
    "currency": "JPY",
    "date": "2026-11-17",
-   "close": 8744.0,
-   "change": -0.00569
+   "close": 8657.0,
+   "change": -0.01558
   },
   "Kioxia": {
    "ticker": "285A.T",
    "currency": "JPY",
    "date": "2026-11-17",
-   "close": 7976.0,
-   "change": -0.04957
+   "close": 7966.0,
+   "change": -0.05076
   },
   "Infineon": {
    "ticker": "IFX.DE",
@@ -173,8 +173,8 @@
    "ticker": "009150.KS",
    "currency": "KRW",
    "date": "2026-11-17",
-   "close": 756000.0,
-   "change": -0.03694
+   "close": 754000.0,
+   "change": -0.03949
   },
   "Coherent": {
    "ticker": "COHR",
@@ -208,8 +208,8 @@
    "ticker": "6723.T",
    "currency": "JPY",
    "date": "2026-11-17",
-   "close": 2641.0,
-   "change": -0.02348
+   "close": 2618.5,
+   "change": -0.0318
   }
  }
 }
