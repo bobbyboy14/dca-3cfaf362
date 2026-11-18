@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-18T04:50+00:00",
+ "generated_utc": "2026-11-18T05:52+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -19,8 +19,8 @@
    "ticker": "2330.TW",
    "currency": "TWD",
    "date": "2026-11-18",
-   "close": 2195.0,
-   "change": 0.01152
+   "close": 2175.0,
+   "change": 0.0023
   },
   "AMD": {
    "ticker": "AMD",
@@ -40,8 +40,8 @@
    "ticker": "000660.KS",
    "currency": "KRW",
    "date": "2026-11-18",
-   "close": 1155500.0,
-   "change": 0.05237
+   "close": 1153000.0,
+   "change": 0.05009
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -110,29 +110,29 @@
    "ticker": "2454.TW",
    "currency": "TWD",
    "date": "2026-11-18",
-   "close": 4060.0,
-   "change": 0.05729
+   "close": 3940.0,
+   "change": 0.02604
   },
   "Advantest": {
    "ticker": "6857.T",
    "currency": "JPY",
    "date": "2026-11-18",
-   "close": 27140.0,
-   "change": 0.04344
+   "close": 27115.0,
+   "change": 0.04248
   },
   "Tokyo Electron": {
    "ticker": "8035.T",
    "currency": "JPY",
    "date": "2026-11-18",
-   "close": 8686.0,
-   "change": 0.00335
+   "close": 8668.0,
+   "change": 0.00127
   },
   "Kioxia": {
    "ticker": "285A.T",
    "currency": "JPY",
    "date": "2026-11-18",
-   "close": 8072.0,
-   "change": 0.01331
+   "close": 7984.0,
+   "change": 0.00226
   },
   "Infineon": {
    "ticker": "IFX.DE",
@@ -145,8 +145,8 @@
    "ticker": "3711.TW",
    "currency": "TWD",
    "date": "2026-11-18",
-   "close": 565.0,
-   "change": 0.08654
+   "close": 548.0,
+   "change": 0.05385
   },
   "NXP": {
    "ticker": "NXPI",
@@ -173,8 +173,8 @@
    "ticker": "009150.KS",
    "currency": "KRW",
    "date": "2026-11-18",
-   "close": 790000.0,
-   "change": 0.04775
+   "close": 795000.0,
+   "change": 0.05438
   },
   "Coherent": {
    "ticker": "COHR",
@@ -194,8 +194,8 @@
    "ticker": "2303.TW",
    "currency": "TWD",
    "date": "2026-11-18",
-   "close": 93.8,
-   "change": 0.01515
+   "close": 93.0,
+   "change": 0.00649
   },
   "Astera Labs": {
    "ticker": "ALAB",
@@ -208,8 +208,8 @@
    "ticker": "6723.T",
    "currency": "JPY",
    "date": "2026-11-18",
-   "close": 2631.5,
-   "change": 0.00496
+   "close": 2615.0,
+   "change": -0.00134
   }
  }
 }
