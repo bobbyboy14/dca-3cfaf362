@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-23T21:40+00:00",
+ "generated_utc": "2026-11-23T22:41+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -18,9 +18,9 @@
   "TSMC": {
    "ticker": "2330.TW",
    "currency": "TWD",
-   "date": "2026-11-20",
-   "close": 2000.0,
-   "change": -0.04762
+   "date": "2026-11-23",
+   "close": 2030.0,
+   "change": 0.015
   },
   "AMD": {
    "ticker": "AMD",
@@ -39,9 +39,9 @@
   "SK hynix": {
    "ticker": "000660.KS",
    "currency": "KRW",
-   "date": "2026-11-20",
-   "close": 1113000.0,
-   "change": -0.05917
+   "date": "2026-11-23",
+   "close": 1085000.0,
+   "change": -0.02516
   },
   "ASML": {
    "ticker": "ASML.AS",
@@ -109,9 +109,9 @@
   "MediaTek": {
    "ticker": "2454.TW",
    "currency": "TWD",
-   "date": "2026-11-20",
-   "close": 3350.0,
-   "change": -0.09946
+   "date": "2026-11-23",
+   "close": 3685.0,
+   "change": 0.1
   },
   "Advantest": {
    "ticker": "6857.T",
@@ -144,9 +144,9 @@
   "ASE Technology": {
    "ticker": "3711.TW",
    "currency": "TWD",
-   "date": "2026-11-20",
-   "close": 457.0,
-   "change": -0.09325
+   "date": "2026-11-23",
+   "close": 482.0,
+   "change": 0.0547
   },
   "NXP": {
    "ticker": "NXPI",
@@ -172,9 +172,9 @@
   "Samsung Electro-Mechanics": {
    "ticker": "009150.KS",
    "currency": "KRW",
-   "date": "2026-11-20",
-   "close": 774000.0,
-   "change": -0.12542
+   "date": "2026-11-23",
+   "close": 778000.0,
+   "change": 0.00517
   },
   "Coherent": {
    "ticker": "COHR",
@@ -193,9 +193,9 @@
   "UMC": {
    "ticker": "2303.TW",
    "currency": "TWD",
-   "date": "2026-11-20",
-   "close": 80.3,
-   "change": -0.08957
+   "date": "2026-11-23",
+   "close": 88.3,
+   "change": 0.09963
   },
   "Astera Labs": {
    "ticker": "ALAB",
