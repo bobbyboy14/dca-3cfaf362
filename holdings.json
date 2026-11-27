@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-27T04:16+00:00",
+ "generated_utc": "2026-11-27T09:52+00:00",
  "holdings": {
   "NVIDIA": {
    "ticker": "NVDA",
@@ -19,8 +19,8 @@
    "ticker": "2330.TW",
    "currency": "TWD",
    "date": "2026-11-27",
-   "close": 2175.0,
-   "change": 0.01399
+   "close": 2180.0,
+   "change": 0.01632
   },
   "AMD": {
    "ticker": "AMD",
@@ -40,15 +40,15 @@
    "ticker": "000660.KS",
    "currency": "KRW",
    "date": "2026-11-27",
-   "close": 1098000.0,
-   "change": 0.04274
+   "close": 1110000.0,
+   "change": 0.05413
   },
   "ASML": {
    "ticker": "ASML.AS",
    "currency": "EUR",
-   "date": "2026-11-25",
-   "close": 1131.6,
-   "change": -0.05794
+   "date": "2026-11-27",
+   "close": 1231.4,
+   "change": 0.0541
   },
   "Intel": {
    "ticker": "INTC",
@@ -110,43 +110,43 @@
    "ticker": "2454.TW",
    "currency": "TWD",
    "date": "2026-11-27",
-   "close": 3675.0,
-   "change": -0.0081
+   "close": 3680.0,
+   "change": -0.00675
   },
   "Advantest": {
    "ticker": "6857.T",
    "currency": "JPY",
    "date": "2026-11-27",
-   "close": 25975.0,
-   "change": 0.04611
+   "close": 26585.0,
+   "change": 0.07068
   },
   "Tokyo Electron": {
    "ticker": "8035.T",
    "currency": "JPY",
    "date": "2026-11-27",
-   "close": 8105.0,
-   "change": 0.02973
+   "close": 8220.0,
+   "change": 0.04434
   },
   "Kioxia": {
    "ticker": "285A.T",
    "currency": "JPY",
    "date": "2026-11-27",
-   "close": 8338.0,
-   "change": 0.07421
+   "close": 8450.0,
+   "change": 0.08864
   },
   "Infineon": {
    "ticker": "IFX.DE",
    "currency": "EUR",
-   "date": "2026-11-25",
-   "close": 40.9,
-   "change": -0.06494
+   "date": "2026-11-27",
+   "close": 44.6,
+   "change": 0.05289
   },
   "ASE Technology": {
    "ticker": "3711.TW",
    "currency": "TWD",
    "date": "2026-11-27",
-   "close": 521.0,
-   "change": 0.01957
+   "close": 514.0,
+   "change": 0.00587
   },
   "NXP": {
    "ticker": "NXPI",
@@ -173,8 +173,8 @@
    "ticker": "009150.KS",
    "currency": "KRW",
    "date": "2026-11-27",
-   "close": 803000.0,
-   "change": 0.02423
+   "close": 821000.0,
+   "change": 0.04719
   },
   "Coherent": {
    "ticker": "COHR",
@@ -194,8 +194,8 @@
    "ticker": "2303.TW",
    "currency": "TWD",
    "date": "2026-11-27",
-   "close": 88.3,
-   "change": -0.00563
+   "close": 87.5,
+   "change": -0.01464
   },
   "Astera Labs": {
    "ticker": "ALAB",
@@ -208,8 +208,8 @@
    "ticker": "6723.T",
    "currency": "JPY",
    "date": "2026-11-27",
-   "close": 2570.5,
-   "change": 0.05651
+   "close": 2600.5,
+   "change": 0.06885
   }
  }
 }
